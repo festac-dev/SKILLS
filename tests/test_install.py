@@ -26,6 +26,12 @@ class InstallTests(unittest.TestCase):
         (self.source / "reference.md").write_text("# Supporting file\n")
         self.dest = self.root / "skills"
 
+    def add_mcp_fixture(self):
+        package = self.source / "skills-library"
+        (package / "scripts").mkdir(parents=True)
+        (package / "SKILL.md").write_text("---\nname: skills-library\ndescription: Search external guidance\n---\n")
+        (package / "scripts/mcp-server.mjs").write_text("// Fixture server\n")
+
     def test_links_preserve_supporting_files_and_repeated_install(self):
         skills = {"example": self.source}
         self.assertEqual(installer.install_links(skills, [self.dest]), 1)
@@ -83,6 +89,7 @@ class InstallTests(unittest.TestCase):
 
     def test_piped_bootstrap_downloads_once_and_reuses_checkout(self):
         # A small local Git remote exercises the real pipe/download flow.
+        self.add_mcp_fixture()
         (self.source / "scripts").mkdir()
         shutil.copy2(ROOT / "scripts/install-native.sh", self.source / "scripts/install-native.sh")
         (self.source / "SKILL.md").write_text("---\nname: professional-product-creation\ndescription: Example\n---\n")
@@ -98,13 +105,15 @@ class InstallTests(unittest.TestCase):
         command = ["sh", "-s", "--", "codex", "--dest", str(self.dest)]
         result = subprocess.run(command, input=(ROOT / "install.sh").read_text(), text=True, capture_output=True, cwd=self.root, env=env)
         self.assertEqual(result.returncode, 0, result.stderr)
-        installed = self.dest / "professional-product-creation"
-        self.assertEqual((installed / "SKILL.md").resolve(), self.root / "user data/SKILLS/SKILL.md")
-        self.assertTrue((installed / "references/source.md").is_file())
+        installed = self.dest / "skills-library"
+        self.assertFalse((installed / "SKILL.md").is_symlink())
+        self.assertEqual((installed / ".library-source").read_text().strip(), str(self.root / "user data/SKILLS"))
+        self.assertFalse((installed / "references").exists())
+        self.assertTrue((self.root / "user data/SKILLS/references/source.md").is_file())
         shutil.rmtree(self.source)
         result = subprocess.run(command, input=(ROOT / "install.sh").read_text(), text=True, capture_output=True, cwd=self.root, env=env)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("Installed all 1 native skills", result.stdout)
+        self.assertIn("Installed one MCP entrypoint", result.stdout)
         self.assertEqual(list((self.root / "user data").glob("*.download.*")), [])
 
     def test_failed_download_leaves_no_partial_checkout(self):
@@ -116,7 +125,8 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(list((self.root / "user-data").glob("*.download.*")), [])
         self.assertFalse(self.dest.exists())
 
-    def test_default_installs_all_skills_without_python_on_path(self):
+    def test_default_installs_one_entrypoint_without_python_on_path(self):
+        self.add_mcp_fixture()
         (self.source / "scripts").mkdir()
         shutil.copy2(ROOT / "scripts/install-native.sh", self.source / "scripts/install-native.sh")
         (self.source / "SKILL.md").write_text("---\nname: professional-product-creation\ndescription: Core\n---\n")
@@ -133,22 +143,23 @@ class InstallTests(unittest.TestCase):
             "imported-example\tcollection/example/SKILL.md\tcollection\n")
         tools = self.root / "tools"
         tools.mkdir()
-        for name in ["bash", "cat", "dirname", "grep", "ln", "mkdir", "readlink"]:
+        for name in ["bash", "cat", "dirname", "mkdir", "mktemp", "cp", "mv", "rm"]:
             (tools / name).symlink_to(shutil.which(name))
         env = {**os.environ, "PATH": str(tools), "SKILLS_SOURCE": str(self.source)}
         command = [shutil.which("sh"), str(ROOT / "install.sh"), "codex", "--dest", str(self.dest)]
         result = subprocess.run(command, env=env, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("Installed all 3 native skills", result.stdout)
-        self.assertTrue((self.dest / "professional-product-creation/SKILL.md").is_file())
-        self.assertTrue((self.dest / "motion-studio/SKILL.md").is_file())
-        self.assertEqual((self.dest / "imported-example/assets/example.txt").read_text(),
-                         "Complete supporting asset\n")
+        self.assertIn("Installed one MCP entrypoint", result.stdout)
+        self.assertTrue((self.dest / "skills-library/SKILL.md").is_file())
+        self.assertFalse((self.dest / "motion-studio").exists())
+        self.assertFalse((self.dest / "imported-example").exists())
+        self.assertTrue((imported / "assets/example.txt").is_file())
         self.assertFalse((tools / "python3").exists())
         repeat = subprocess.run(command, env=env, capture_output=True, text=True)
         self.assertEqual(repeat.returncode, 0, repeat.stderr)
 
     def test_native_dry_run_and_conflicts_do_not_write_skills(self):
+        self.add_mcp_fixture()
         (self.source / "scripts").mkdir()
         shutil.copy2(ROOT / "scripts/install-native.sh", self.source / "scripts/install-native.sh")
         (self.source / "SKILL.md").write_text("---\nname: professional-product-creation\ndescription: Core\n---\n")
@@ -161,12 +172,12 @@ class InstallTests(unittest.TestCase):
         preview = subprocess.run(command + ["--dry-run"], capture_output=True, text=True)
         self.assertEqual(preview.returncode, 0, preview.stderr)
         self.assertFalse(self.dest.exists())
-        (self.dest / "other").mkdir(parents=True)
-        (self.dest / "other/keep.txt").write_text("User skill\n")
+        (self.dest / "skills-library").mkdir(parents=True)
+        (self.dest / "skills-library/keep.txt").write_text("User skill\n")
         conflict = subprocess.run(command, capture_output=True, text=True)
         self.assertNotEqual(conflict.returncode, 0)
-        self.assertFalse((self.dest / "professional-product-creation").exists())
-        self.assertEqual((self.dest / "other/keep.txt").read_text(), "User skill\n")
+        self.assertFalse((self.dest / "skills-library/.library-source").exists())
+        self.assertEqual((self.dest / "skills-library/keep.txt").read_text(), "User skill\n")
 
 
 if __name__ == "__main__":

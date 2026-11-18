@@ -91,3 +91,29 @@ Additional skill identifiers, headers and host configuration were adapted for th
 | [SamuelAsherRivello/ai-skills-blender](https://github.com/SamuelAsherRivello/ai-skills-blender) | MIT |
 
 Additional skill identifiers, headers and host configuration were adapted for this compilation. Original license and notice files remain in each collection, including required attribution and any separate asset or dependency terms.
+
+## Skills.sh additions
+
+Original licences and notices remain in each imported collection. Packaging changes do not relicense upstream material.
+
+| Collection | Source revision |
+|---|---|
+| [skills-sh-emilkowalski-skills](skills-sh-emilkowalski-skills/README.md) | `64eb3deb9a5fbfa041faf783e0bc3fd635872e9c` |
+| [skills-sh-leonxlnx-taste-skill](skills-sh-leonxlnx-taste-skill/README.md) | `f6b76575f949707b4e3c37cd86cb44b0b98643e8` |
+| [skills-sh-mattpocock-skills](skills-sh-mattpocock-skills/README.md) | `5863806dd4e15c63174bee4e7515a4256792ecfa` |
+| [skills-sh-neondatabase-agent-skills](skills-sh-neondatabase-agent-skills/README.md) | `23aa24ec7c44e72ed606cf46825c7b0a85760f9c` |
+| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill/README.md) | `ed766d3bf62f32c8d27762ad49abdc3a4744c84f` |
+| [skills-sh-vercel-labs-skills](skills-sh-vercel-labs-skills/README.md) | `57217cf86ba38148a57af9e90d14a4c049558330` |
+| [skills-sh-heygen-com-hyperframes](skills-sh-heygen-com-hyperframes/README.md) | `284b28bfcee50440a412f66aa8b66df5ab966eaa` |
+| [skills-sh-emilkowalski-skills-684888c](skills-sh-emilkowalski-skills-684888c/README.md) | `64eb3deb9a5fbfa041faf783e0bc3fd635872e9c` |
+| [skills-sh-heygen-com-hyperframes-684888c](skills-sh-heygen-com-hyperframes-684888c/README.md) | `284b28bfcee50440a412f66aa8b66df5ab966eaa` |
+| [skills-sh-mattpocock-skills-684888c](skills-sh-mattpocock-skills-684888c/README.md) | `5863806dd4e15c63174bee4e7515a4256792ecfa` |
+| [skills-sh-neondatabase-agent-skills-684888c](skills-sh-neondatabase-agent-skills-684888c/README.md) | `23aa24ec7c44e72ed606cf46825c7b0a85760f9c` |
+| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c/README.md) | `ed766d3bf62f32c8d27762ad49abdc3a4744c84f` |
+| [skills-sh-vercel-labs-skills-684888c](skills-sh-vercel-labs-skills-684888c/README.md) | `57217cf86ba38148a57af9e90d14a4c049558330` |
+| [skills-sh-expo-skills](skills-sh-expo-skills/README.md) | `dfdebcc6c4c1bf7a9471cefd6b6f39c7ba6c884d` |
+| [skills-sh-google-agents-cli](skills-sh-google-agents-cli/README.md) | `2fa159a803aceec3b4df808901e53a08a6f1fb2a` |
+| [skills-sh-higgsfield-ai-skills](skills-sh-higgsfield-ai-skills/README.md) | `27000402070db19d958789d05b3b52b6f4718d7c` |
+| [skills-sh-microsoft-azure-skills](skills-sh-microsoft-azure-skills/README.md) | `0e26cd9c153ca37a04ad7b01f0dc8766a9e14038` |
+| [skills-sh-microsoft-playwright-cli](skills-sh-microsoft-playwright-cli/README.md) | `c872a33cec77fa03c28fa7c6d1ad99d15d04ce42` |
+| [skills-sh-shadcn-ui](skills-sh-shadcn-ui/README.md) | `968d8cb9dc42ae5d52e8fd356cf84596ec832a26` |

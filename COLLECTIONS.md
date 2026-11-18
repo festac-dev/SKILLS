@@ -1,8 +1,8 @@
 # Imported Skill Collections
 
-The collections below are stored directly under SKILLS. Each retains its skills and supporting source files, scripts, assets and license notices. Skills have collection-prefixed names so similarly named skills can coexist. No owner mapping or merged capability layer is used.
+82 collections contain 15766 namespaced guides. Datasets stay outside AI skill folders. Use MCP find/read to load selected guides and supporting files.
 
-| Local collection | Upstream repository | Skills |
+| Collection | Source | Guides |
 |---|---|---|
 | [openai-plugins](openai-plugins/README.md) | [openai/plugins](https://github.com/openai/plugins) | 541 |
 | [anthropic-skills](anthropic-skills/README.md) | [anthropics/skills](https://github.com/anthropics/skills) | 20 |
@@ -67,18 +67,26 @@ The collections below are stored directly under SKILLS. Each retains its skills 
 | [agent-browser-skills](agent-browser-skills/README.md) | [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) | 12 |
 | [agentic-awesome-skills](agentic-awesome-skills/README.md) | [sickn33/agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills) | 9634 |
 | [blender-skills](blender-skills/README.md) | [SamuelAsherRivello/ai-skills-blender](https://github.com/SamuelAsherRivello/ai-skills-blender) | 45 |
+| [skills-sh-emilkowalski-skills](skills-sh-emilkowalski-skills/README.md) | [emilkowalski/skills](https://github.com/emilkowalski/skills) | 4 |
+| [skills-sh-leonxlnx-taste-skill](skills-sh-leonxlnx-taste-skill/README.md) | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | 1 |
+| [skills-sh-mattpocock-skills](skills-sh-mattpocock-skills/README.md) | [mattpocock/skills](https://github.com/mattpocock/skills) | 4 |
+| [skills-sh-neondatabase-agent-skills](skills-sh-neondatabase-agent-skills/README.md) | [neondatabase/agent-skills](https://github.com/neondatabase/agent-skills) | 1 |
+| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill/README.md) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 1 |
+| [skills-sh-vercel-labs-skills](skills-sh-vercel-labs-skills/README.md) | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 1 |
+| [skills-sh-heygen-com-hyperframes](skills-sh-heygen-com-hyperframes/README.md) | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 4 |
+| [skills-sh-emilkowalski-skills-684888c](skills-sh-emilkowalski-skills-684888c/README.md) | [emilkowalski/skills](https://github.com/emilkowalski/skills) | 16 |
+| [skills-sh-heygen-com-hyperframes-684888c](skills-sh-heygen-com-hyperframes-684888c/README.md) | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 3 |
+| [skills-sh-mattpocock-skills-684888c](skills-sh-mattpocock-skills-684888c/README.md) | [mattpocock/skills](https://github.com/mattpocock/skills) | 35 |
+| [skills-sh-neondatabase-agent-skills-684888c](skills-sh-neondatabase-agent-skills-684888c/README.md) | [neondatabase/agent-skills](https://github.com/neondatabase/agent-skills) | 6 |
+| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c/README.md) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 6 |
+| [skills-sh-vercel-labs-skills-684888c](skills-sh-vercel-labs-skills-684888c/README.md) | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 2 |
+| [skills-sh-expo-skills](skills-sh-expo-skills/README.md) | [expo/skills](https://github.com/expo/skills) | 25 |
+| [skills-sh-google-agents-cli](skills-sh-google-agents-cli/README.md) | [google/agents-cli](https://github.com/google/agents-cli) | 9 |
+| [skills-sh-higgsfield-ai-skills](skills-sh-higgsfield-ai-skills/README.md) | [higgsfield-ai/skills](https://github.com/higgsfield-ai/skills) | 9 |
+| [skills-sh-microsoft-azure-skills](skills-sh-microsoft-azure-skills/README.md) | [microsoft/azure-skills](https://github.com/microsoft/azure-skills) | 58 |
+| [skills-sh-microsoft-playwright-cli](skills-sh-microsoft-playwright-cli/README.md) | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) | 2 |
+| [skills-sh-shadcn-ui](skills-sh-shadcn-ui/README.md) | [shadcn/ui](https://github.com/shadcn/ui) | 2 |
 
-## Find a skill
+## Find and read
 
-```sh
-python3 scripts/skill_collections.py list
-python3 scripts/skill_collections.py search 'PDF editing'
-python3 scripts/skill_collections.py search 'React performance'
-python3 scripts/skill_collections.py validate
-```
-
-Search returns the skill's direct local path. Read that `SKILL.md` and the relevant bundled references for the task. Apply [collection rules](COLLECTION_RULES.md), including the user's current scope, authorization, documentation and publication preferences.
-
-Upstream host instruction/configuration files are retained with `UPSTREAM_` names rather than activated. Directory aliases are recorded in the [source inventory](COLLECTIONS.json); their real target content is retained. Connector manifests and installer scripts are source material and have not been executed by this import. Check dependencies and tool access before using a tool-specific skill.
-
-The source inventory records pinned revisions and source/installed digests. License and notice files remain in their collections. Upstream claims and examples remain attributed source content; static import validation does not establish live provider behavior.
+Use MCP `find` and `read` for bounded discovery and selected guide pages. Maintainers can use `python3 scripts/skill_collections.py search "topic"`. Follow [collection rules](COLLECTION_RULES.md). [Source inventory](COLLECTIONS.json) records pinned revisions and file digests.

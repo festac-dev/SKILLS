@@ -6,15 +6,15 @@ if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
     cat <<'EOF'
 Usage: install.sh [auto|codex|claude-code|opencode|all] [options]
 
-Installs every skill, with all supporting files, by default.
-  --skill NAME   Install a named skill (repeat to select several)
-  --all          Explicitly request the default complete installation
-  --project      Install in the current project instead of your user profile
+Installs one small MCP entrypoint by default; dataset and index stay outside skill folders.
+  --skill skills-library  Select the entrypoint explicitly
+  --all          Install the entrypoint for all three supported agents
+  --project      Install in the current project
   --dest PATH    Use a custom skill directory
-  --dry-run      Show the links without changing files
+  --dry-run      Preview without changing files
 
-Requires Bash and an installed agent. Downloading a checkout requires Git.
-Codex uses its native complete-skills bundle; no Python or npm is required.
+Downloading requires Git. Node.js 22.20+ runs MCP.
+After installation: node <checkout>/scripts/setup-mcp.mjs --all
 EOF
     exit 0
 fi

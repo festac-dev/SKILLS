@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "snapshot_utc": "2026-11-18T19:23:28.123136+00:00",
+  "enumerated_listings": 20179,
+  "catalogue_source": "skills.sh public sitemap and leaderboard",
+  "batch": 2,
+  "added_collections": 19,
+  "added_skills": 189,
+  "scope": "Continuing licensed imports from the public skills.sh snapshot in resumable batches; this report covers completed batches and does not claim the entire catalogue is imported.",
+  "total_imported_guides": 15766,
+  "layout": "Dataset and index stay in the external checkout or cache. Agent folders receive one entrypoint; MCP provides bounded find/read.",
+  "decisions": [
+    {
+      "repository": "better-auth/skills",
+      "revision": "20c9e88a5c007461a703f1c213572b073196113e",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "licence-review",
+      "reason": "No explicit redistribution licence found in the source archive."
+    },
+    {
+      "repository": "emilkowalski/skills",
+      "revision": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "already-imported"
+    },
+    {
+      "repository": "expo/skills",
+      "revision": "dfdebcc6c4c1bf7a9471cefd6b6f39c7ba6c884d",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "imported",
+      "skills": [
+        "skills-sh-expo-skills-expo-ui",
+        "skills-sh-expo-skills-expo-dom",
+        "skills-sh-expo-skills-expo-skill-eval",
+        "skills-sh-expo-skills-eas-update",
+        "skills-sh-expo-skills-eas-hosting",
+        "skills-sh-expo-skills-eas-observe",
+        "skills-sh-expo-skills-expo-module",
+        "skills-sh-expo-skills-expo-router",
+        "skills-sh-expo-skills-expo-upgrade",
+        "skills-sh-expo-skills-eas-simulator",
+        "skills-sh-expo-skills-eas-workflows",
+        "skills-sh-expo-skills-expo-app-clip",
+        "skills-sh-expo-skills-expo-examples",
+        "skills-sh-expo-skills-expo-overview",
+        "skills-sh-expo-skills-eas-app-stores",
+        "skills-sh-expo-skills-expo-animation",
+        "skills-sh-expo-skills-expo-native-ui",
+        "skills-sh-expo-skills-expo-brownfield",
+        "skills-sh-expo-skills-expo-dev-client",
+        "skills-sh-expo-skills-expo-data-fetching",
+        "skills-sh-expo-skills-expo-design-system",
+        "skills-sh-expo-skills-expo-web-to-native",
+        "skills-sh-expo-skills-eas-update-insights",
+        "skills-sh-expo-skills-expo-project-structure",
+        "skills-sh-expo-skills-expo-migrate-module"
+      ],
+      "licences": [
+        "LICENSE",
+        "plugins/expo/LICENSE",
+        "plugins/expo/skills/expo-animation/LICENSE"
+      ]
+    },
+    {
+      "repository": "google/agents-cli",
+      "revision": "2fa159a803aceec3b4df808901e53a08a6f1fb2a",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "imported",
+      "skills": [
+        "skills-sh-google-agents-cli-google-agents-cli-eval",
+        "skills-sh-google-agents-cli-google-agents-cli-deploy",
+        "skills-sh-google-agents-cli-google-agents-cli-publish",
+        "skills-sh-google-agents-cli-google-agents-cli-adk-code",
+        "skills-sh-google-agents-cli-google-agents-cli-scaffold",
+        "skills-sh-google-agents-cli-google-agents-cli-workflow",
+        "skills-sh-google-agents-cli-google-agents-cli-observability",
+        "skills-sh-google-agents-cli-agents-cli-claude",
+        "skills-sh-google-agents-cli-agents-cli-langchain"
+      ],
+      "licences": [
+        "LICENSE"
+      ]
+    },
+    {
+      "repository": "heygen-com/hyperframes",
+      "revision": "284b28bfcee50440a412f66aa8b66df5ab966eaa",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "already-imported"
+    },
+    {
+      "repository": "higgsfield-ai/skills",
+      "revision": "27000402070db19d958789d05b3b52b6f4718d7c",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "imported",
+      "skills": [
+        "skills-sh-higgsfield-ai-skills-higgsfield-soul-id",
+        "skills-sh-higgsfield-ai-skills-higgsfield-brandkit",
+        "skills-sh-higgsfield-ai-skills-higgsfield-generate",
+        "skills-sh-higgsfield-ai-skills-higgsfield-websites",
+        "skills-sh-higgsfield-ai-skills-higgsfield-faceless-video",
+        "skills-sh-higgsfield-ai-skills-higgsfield-video-explainer",
+        "skills-sh-higgsfield-ai-skills-higgsfield-marketplace-cards",
+        "skills-sh-higgsfield-ai-skills-higgsfield-youtube-thumbnail",
+        "skills-sh-higgsfield-ai-skills-higgsfield-product-photoshoot"
+      ],
+      "licences": [
+        "LICENSE"
+      ]
+    },
+    {
+      "repository": "leonxlnx/taste-skill",
+      "revision": "f6b76575f949707b4e3c37cd86cb44b0b98643e8",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "not-found",
+      "reason": "Requested names are absent from this pinned revision."
+    },
+    {
+      "repository": "mattpocock/skills",
+      "revision": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "already-imported"
+    },
+    {
+      "repository": "microsoft/azure-skills",
+      "revision": "0e26cd9c153ca37a04ad7b01f0dc8766a9e14038",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "imported",
+      "skills": [
+        "skills-sh-microsoft-azure-skills-azure-ai",
+        "skills-sh-microsoft-azure-skills-azure-kusto",
+        "skills-sh-microsoft-azure-skills-azure-deploy",
+        "skills-sh-microsoft-azure-skills-azure-quotas",
+        "skills-sh-microsoft-azure-skills-azure-compute",
+        "skills-sh-microsoft-azure-skills-azure-prepare",
+        "skills-sh-microsoft-azure-skills-azure-storage",
+        "skills-sh-microsoft-azure-skills-azure-upgrade",
+        "skills-sh-microsoft-azure-skills-azure-validate",
+        "skills-sh-microsoft-azure-skills-entra-agent-id",
+        "skills-sh-microsoft-azure-skills-azure-aigateway",
+        "skills-sh-microsoft-azure-skills-azure-messaging",
+        "skills-sh-microsoft-azure-skills-azure-compliance",
+        "skills-sh-microsoft-azure-skills-azure-kubernetes",
+        "skills-sh-microsoft-azure-skills-azure-app-onboard",
+        "skills-sh-microsoft-azure-skills-azure-diagnostics",
+        "skills-sh-microsoft-azure-skills-azure-reliability",
+        "skills-sh-microsoft-azure-skills-microsoft-foundry",
+        "skills-sh-microsoft-azure-skills-airunway-aks-setup",
+        "skills-sh-microsoft-azure-skills-azure-cloud-migrate",
+        "skills-sh-microsoft-azure-skills-azure-resource-lookup",
+        "skills-sh-microsoft-azure-skills-discover-azure-skills",
+        "skills-sh-microsoft-azure-skills-entra-app-registration",
+        "skills-sh-microsoft-azure-skills-azure-app-onboard-prereq",
+        "skills-sh-microsoft-azure-skills-python-appservice-deploy",
+        "skills-sh-microsoft-azure-skills-azure-resource-visualizer",
+        "skills-sh-microsoft-azure-skills-appinsights-instrumentation",
+        "skills-sh-microsoft-azure-skills-finetuning",
+        "skills-sh-microsoft-azure-skills-azure-enterprise-infra-planner",
+        "skills-sh-microsoft-azure-skills-deploy-model",
+        "skills-sh-microsoft-azure-skills-cost-analysis",
+        "skills-sh-microsoft-azure-skills-cost-estimation",
+        "skills-sh-microsoft-azure-skills-cost-governance",
+        "skills-sh-microsoft-azure-skills-aks-known-issues",
+        "skills-sh-microsoft-azure-skills-azure-search-nav",
+        "skills-sh-microsoft-azure-skills-azure-advisor",
+        "skills-sh-microsoft-azure-skills-aks-gpu-inference",
+        "skills-sh-microsoft-azure-skills-cost-optimization",
+        "skills-sh-microsoft-azure-skills-foundry-iq",
+        "skills-sh-microsoft-azure-skills-azure-kubernetes-app-deploy",
+        "skills-sh-microsoft-azure-skills-preset",
+        "skills-sh-microsoft-azure-skills-aks-network-capture",
+        "skills-sh-microsoft-azure-skills-aks-troubleshooting",
+        "skills-sh-microsoft-azure-skills-azure-local",
+        "skills-sh-microsoft-azure-skills-capacity",
+        "skills-sh-microsoft-azure-skills-customize",
+        "skills-sh-microsoft-azure-skills-aks-cost-optimization",
+        "skills-sh-microsoft-azure-skills-azure-kubernetes-autom-e23066d8",
+        "skills-sh-microsoft-azure-skills-azure-advisor-actionability",
+        "skills-sh-microsoft-azure-skills-azure-kusto-irql",
+        "skills-sh-microsoft-azure-skills-azure-local-multi-rack",
+        "skills-sh-microsoft-azure-skills-connect-observability",
+        "skills-sh-microsoft-azure-skills-azure-kusto-graph",
+        "skills-sh-microsoft-azure-skills-verify-observability-fix",
+        "skills-sh-microsoft-azure-skills-azure-advisor-cost-optimization",
+        "skills-sh-microsoft-azure-skills-troubleshoot-observability",
+        "skills-sh-microsoft-azure-skills-azure-kusto-irql-graph",
+        "skills-sh-microsoft-azure-skills-assess-observability-health"
+      ],
+      "licences": [
+        ".github/plugins/aks-skills/LICENSE",
+        ".github/plugins/azure-advisor/LICENSE",
+        ".github/plugins/azure-cost/LICENSE",
+        ".github/plugins/azure-kusto-graph-skills/LICENSE",
+        ".github/plugins/azure-local-skills/LICENSE",
+        ".github/plugins/azure-observability/LICENSE",
+        ".github/plugins/azure-skills/LICENSE",
+        ".github/plugins/azure-skills/skills/appinsights-instrumentation/LICENSE.txt",
+        ".github/plugins/foundry-iq-skills/LICENSE",
+        "LICENSE",
+        "skills/appinsights-instrumentation/LICENSE.txt"
+      ]
+    },
+    {
+      "repository": "microsoft/playwright-cli",
+      "revision": "c872a33cec77fa03c28fa7c6d1ad99d15d04ce42",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "imported",
+      "skills": [
+        "skills-sh-microsoft-playwright-cli-dev",
+        "skills-sh-microsoft-playwright-cli-playwright-cli"
+      ],
+      "licences": [
+        "LICENSE"
+      ]
+    },
+    {
+      "repository": "neondatabase/agent-skills",
+      "revision": "23aa24ec7c44e72ed606cf46825c7b0a85760f9c",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "already-imported"
+    },
+    {
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "revision": "ed766d3bf62f32c8d27762ad49abdc3a4744c84f",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "already-imported"
+    },
+    {
+      "repository": "obra/superpowers",
+      "revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "not-found",
+      "reason": "Requested names are absent from this pinned revision."
+    },
+    {
+      "repository": "remotion-dev/skills",
+      "revision": "6f55706d1069e512430582ad86e4e57dc07afe1b",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "licence-review",
+      "reason": "No explicit redistribution licence found in the source archive."
+    },
+    {
+      "repository": "sentry/dev",
+      "revision": null,
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "source-unavailable",
+      "reason": "Source HEAD unavailable: fatal: could not read Username for 'https://github.com': terminal prompts disabled\n"
+    },
+    {
+      "repository": "shadcn/ui",
+      "revision": "968d8cb9dc42ae5d52e8fd356cf84596ec832a26",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "imported",
+      "skills": [
+        "skills-sh-shadcn-ui-shadcn",
+        "skills-sh-shadcn-ui-migrate-radix-to-base"
+      ],
+      "licences": [
+        "LICENSE.md",
+        "packages/registry/test/fixtures/frameworks/remix-indie-stack/LICENSE.md"
+      ]
+    },
+    {
+      "repository": "supabase/agent-skills",
+      "revision": "c9be0e931b7930f7d02126d04774d904c381e7d7",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "licence_review_skills": [],
+      "status": "not-found",
+      "reason": "Requested names are absent from this pinned revision."
+    },
+    {
+      "repository": "vercel-labs/skills",
+      "revision": "57217cf86ba38148a57af9e90d14a4c049558330",
+      "requested": [
+        "*"
+      ],
+      "already_present": [],
+      "status": "already-imported"
+    }
+  ]
+}

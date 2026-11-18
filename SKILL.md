@@ -15,7 +15,7 @@ For a substantial build, use [the orchestrator](orchestrator/MASTER_ORCHESTRATOR
 
 ## Imported collections
 
-The user-requested GitHub collections are installed as native skills alongside this toolkit. Select the relevant named skill from the agent's available skills, or read its installed `SKILL.md` directly. The repository's [collection catalogue](https://github.com/festac-dev/SKILLS/blob/main/COLLECTIONS.md) records the sources. Do not route these collections through core capability owners. Follow [collection rules](COLLECTION_RULES.md) to reconcile source workflow preferences with current user scope and authorization.
+The user-requested GitHub collections remain in the external dataset. Use the SKILLS MCP `find` and `read` tools to select a relevant guide and load only its needed resources. The repository's [collection catalogue](https://github.com/festac-dev/SKILLS/blob/main/COLLECTIONS.md) records the sources. Do not route these collections through core capability owners. Follow [collection rules](COLLECTION_RULES.md) to reconcile source workflow preferences with current user scope and authorization.
 
 ## Apply the right guidance
 

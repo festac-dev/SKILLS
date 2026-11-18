@@ -14,7 +14,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORIES = {"orchestrator", "specialists", "references", "templates", "quality-gates", "playbooks", "scripts", "tests", "reports", "evals", "examples", "motion-studio", ".codex-plugin", ".agents"}
 ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md", ".gitattributes", "install.sh", "native-skills.tsv"}
-SKIP = {".git", "__pycache__", ".pytest_cache", "dist", "node_modules", ".native"}
+SKIP = {".git", "__pycache__", ".pytest_cache", "dist", "node_modules", ".native", "skills-library", "runtime"}
 DRY_RUNS = [
     ("Build a keyboard-driven TUI on Termux with no mouse.", "cli"),
     ("Fix duplicate webhook processing in the backend API.", "backend"),
@@ -44,7 +44,7 @@ def source_files(root):
             raise ValueError(f"Unexpected root file: {rel}")
         allowed = {".md", ".json", ".py", ".gitignore"}
         if rel.parts[0] in {"scripts", "tests"} or str(rel) in {"install.sh", "native-skills.tsv"}:
-            allowed |= {".sh", ".tsv"}
+            allowed |= {".sh", ".tsv", ".mjs"}
         if rel.parts[0] == "motion-studio":
             allowed |= {".sh", ".ts", ".tsx", ".css", ".html", ".js", ".yaml"}
         if rel.parts[0] == "examples":
@@ -240,30 +240,17 @@ def machine_manifest(root, files):
 
 def index(root):
     routes = registry(root)
-    native_rows = [("professional-product-creation", "SKILL.md", "core"),
-                   ("motion-studio", "motion-studio/SKILL.md", "core")]
-    if (root / "COLLECTIONS.json").exists():
-        native_rows.extend((row["name"], row["path"], row["collection"])
-                           for row in json.loads((root / "COLLECTIONS.json").read_text())["skills"])
-    (root / "native-skills.tsv").write_text(
-        "# name\tSKILL.md path\tcollection\n" +
-        "".join("\t".join(row) + "\n" for row in native_rows), encoding="utf-8")
-    core_path = root / ".native/professional-product-creation/SKILL.md"
-    core_path.parent.mkdir(parents=True, exist_ok=True)
-    core_text = (root / "SKILL.md").read_text(encoding="utf-8")
-    def package_link(match):
-        target = match[2]
-        if urlsplit(target).scheme or target.startswith("#"):
-            return match[0]
-        return match[1] + "../../" + target + match[3]
-    core_path.write_text(re.sub(r"(\]\()([^\n)]+)(\))", package_link, core_text), encoding="utf-8")
+    builder_spec = importlib.util.spec_from_file_location("build_library", root / "scripts/build_library.py")
+    builder = importlib.util.module_from_spec(builder_spec)
+    builder_spec.loader.exec_module(builder)
+    builder.build(root)
+    (root / "native-skills.tsv").write_text("# name\tSKILL.md path\tcollection\nskills-library\tskills-library/SKILL.md\tmcp-entrypoint\n", encoding="utf-8")
     plugin_path = root / ".codex-plugin/plugin.json"
     plugin_path.parent.mkdir(parents=True, exist_ok=True)
     plugin = {
-        "name": "complete-skills", "version": "1.0.0",
-        "description": "Complete native SKILLS library, with every guide and supporting resource.",
-        "skills": ["./.native/professional-product-creation"] +
-                  ["./" + str(PurePosixPath(path).parent) for _, path, _ in native_rows[1:]],
+        "name": "complete-skills", "version": "1.2.0",
+        "description": "Search and read the external SKILLS dataset through bounded MCP tools.",
+        "skills": ["./skills-library"],
     }
     plugin_path.write_text(json.dumps(plugin, indent=2) + "\n", encoding="utf-8")
     marketplace_path = root / ".agents/plugins/marketplace.json"

@@ -2,63 +2,47 @@
 
 A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs.
 
-## Install all skills
+## Install the entrypoint and MCP tools
 
-On Linux or macOS, install the complete library with one command:
+Install one small skill globally for Codex, Claude Code and OpenCode:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh
+npx skills add festac-dev/SKILLS --full-depth --skill skills-library --agent codex claude-code opencode -g -y --copy
 ```
 
-Or clone the full repository and install it directly:
+The dataset and search index stay outside agent skill folders. The MCP server exposes **find** (a few IDs and short descriptions) and **read** (a selected guide or supporting file, with bounded pages and continuation positions). First search downloads the pinned index into `~/.cache/festac-skills/`; reads download selected files there on demand. No guide catalogue is added to the AI context automatically.
+
+For a complete local dataset and offline MCP use:
 
 ```sh
 git clone https://github.com/festac-dev/SKILLS.git
 cd SKILLS
-sh install.sh codex
+sh install.sh all
+node scripts/setup-mcp.mjs --all
 ```
 
-The default installs **all 15,579 skills**, including the main toolkit,
-Motion Studio and every imported collection, with their supporting files.
-**Python and npm are not required for installation or skill discovery.**
-There is no selection or Python search-helper step.
+The checkout holds the dataset and `runtime/index.json`. Installation copies only [the entrypoint](https://github.com/festac-dev/SKILLS/tree/main/skills-library) into global agent skill directories. MCP registration preserves other servers and backs up changed configuration files. Node.js 22.20+ runs the server; Python is only needed to maintain the repository.
 
-Codex CLI uses the native `complete-skills@festac-skills` bundle. Its manifest
-registers each skill directory explicitly, so the complete library is
-available despite limits on scanning one large directory. Skill names include
-`$complete-skills:anthropic-pdf` and `$complete-skills:motion-studio`.
-The same native setup can be run without the shell bootstrap:
+The shell bootstrap also downloads a complete checkout outside the agent folders:
 
 ```sh
-codex plugin marketplace add .
-codex plugin add complete-skills@festac-skills
+curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh -s -- all
 ```
 
-Choose another agent by appending `claude-code` or `opencode`. Native skill
-directories link to the complete checkout, retaining references, scripts,
-assets, relative paths and license notices. Keep the checkout in place.
-Existing unrelated skills are preserved, and repeat installations are safe.
+Register MCP from that checkout using `node ~/.local/share/SKILLS/scripts/setup-mcp.mjs --all`. Choose `--codex`, `--claude-code` or `--opencode` for one agent. Existing unrelated skills are preserved. Open a fresh agent session after installation and MCP registration.
+
+For an entrypoint installed through npx, add the following MCP command to your agent's global configuration: `node ~/.agents/skills/skills-library/scripts/mcp-server.mjs`. Claude's copied entrypoint is at `~/.claude/skills/skills-library/`. Codex uses `[mcp_servers.skills-library]` in `~/.codex/config.toml`, Claude uses `mcpServers` in `~/.claude.json`, and OpenCode uses a local server in the `mcp` object in `~/.config/opencode/opencode.json`. The setup script above registers these automatically from a checkout.
+
+The same bounded engine is available from the CLI:
 
 ```sh
-sh install.sh opencode
-sh install.sh claude-code
-sh install.sh codex --dry-run
-sh install.sh --list
+node skills-library/scripts/skills.mjs find "motion video" --limit 3
+node skills-library/scripts/skills.mjs read motion-studio --limit 80
 ```
 
-Open a fresh agent session after installation. To update, run `git pull` in the
-checkout and repeat the install command. Dependencies used by a particular
-skill's scripts belong to that task, rather than to installing the library.
+Use `section` / `--section` for a heading, `file` / `--file` for a relative resource, and `offset` and `column` from the returned `next` position to continue. Read returns at most 10,000 UTF-8 content bytes and 160 lines; default is 80 lines. Supporting scripts may need neighbouring files fetched before execution. `SKILLS_LIBRARY_SOURCE` selects a complete checkout for offline use.
 
-### Using the standard skills CLI
-
-If you use [skills.sh](https://skills.sh), Node.js 22.20+ and Git, select individual skills with its normal installer:
-
-```sh
-npx skills add festac-dev/SKILLS --full-depth
-```
-
-Choose skills and agents in the prompts. Add `-g` for a user-wide installation or `-y -a opencode --skill motion-studio` for a specific agent and skill. `--full-depth` discovers the nested imported collections. Use the native installer above for the complete toolkit with a shared checkout. The standard CLI manages its own copies with `npx skills update` and `npx skills remove`.
+Update the source checkout and reinstall the entrypoint after imports. Maintainers run [the index builder](scripts/build_library.py) through `python3 scripts/toolkit.py index`; [the MCP adapter](scripts/mcp-server.mjs), [reader](scripts/skills.mjs) and [registration helper](scripts/setup-mcp.mjs) implement the runtime. The Codex plugin also registers only the single entrypoint.
 
 ## Working with the library
 
@@ -112,8 +96,16 @@ Imported resources have provenance and static checks; importing them does not es
 
 ## Imported GitHub collections
 
-The requested collections live directly under this directory; see [COLLECTIONS.md](COLLECTIONS.md). Their skill names are prefixed by collection, supporting files and notices are retained, and [COLLECTION_RULES.md](COLLECTION_RULES.md) reconciles their workflow conventions with current user instructions. Browse the native skill list, [the collection catalogue](COLLECTIONS.md), or `sh install.sh --list`. No Python discovery command is required. Run `python3 scripts/skill_collections.py validate` for supporting-file digests, namespaces and compatibility checks. Importing source code does not install or activate its external tools.
+The requested collections live directly under this directory; see [COLLECTIONS.md](COLLECTIONS.md). Their skill names are prefixed by collection, supporting files and notices are retained, and [COLLECTION_RULES.md](COLLECTION_RULES.md) reconciles their workflow conventions with current user instructions. Find relevant guides through MCP, or inspect [the collection catalogue](COLLECTIONS.md) while maintaining the dataset. Run `python3 scripts/skill_collections.py validate` for supporting-file digests, namespaces and compatibility checks. Importing source code does not install or activate its external tools.
 
 ## License
 
 Project-authored toolkit material and integration changes use [Apache-2.0](LICENSE). Imported material retains its upstream licenses and terms; see [NOTICE.md](NOTICE.md) and the license files within each collection.
+
+## Skills.sh imports
+
+Missing, licensed source skills are added in batches from the skills.sh catalogue. See [collections](COLLECTIONS.md) for the direct skill folders and [the import record](reports/SKILLS_SH_IMPORT.json) for the enumerated snapshot and current batch. Upstream licences remain applicable.
+
+The completed batches add **189 missing guides**. [Snapshot inventory](reports/SKILLS_SH_CATALOGUE.json) records present and pending listings for continuation. Licence-review and unavailable sources remain in the import record.
+
+Maintainers can continue in batches using [the source fetcher](scripts/fetch_skills_sh.py) and [the importer](scripts/import_skills_sh.py). Set `SKILLS_IMPORT_WORK` to an external work directory holding `curation.json` (`sources`: repository-to-skill-name lists; `*` selects every missing guide). The fetcher records pinned revisions and archive digests; the importer skips duplicates and requires an applicable redistribution licence for each guide. Import maintenance needs PyYAML, while the runtime MCP tools have no package dependencies. Run the index builder and collection validation after each batch. Archives, staging files and fetch logs remain in the external work directory.
