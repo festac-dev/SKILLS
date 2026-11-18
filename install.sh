@@ -6,35 +6,27 @@ if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
     cat <<'EOF'
 Usage: install.sh [auto|codex|claude-code|opencode|all] [options]
 
-Installs the main toolkit for detected agents by default.
+Installs every skill, with all supporting files, by default.
   --skill NAME   Install a named skill (repeat to select several)
-  --all          Install every registered skill
+  --all          Explicitly request the default complete installation
   --project      Install in the current project instead of your user profile
   --dest PATH    Use a custom skill directory
   --dry-run      Show the links without changing files
 
-Requires Python 3.10+. Downloading a checkout also requires Git.
+Requires Bash and an installed agent. Downloading a checkout requires Git.
+Codex uses its native complete-skills bundle; no Python or npm is required.
 EOF
     exit 0
 fi
 
-command -v python3 >/dev/null 2>&1 || {
-    echo 'Python 3.10+ is required. Install Python and run this command again.' >&2
-    exit 1
-}
-python3 -c 'import sys; raise SystemExit(sys.version_info < (3, 10))' || {
-    echo 'Python 3.10+ is required. Update Python and run this command again.' >&2
-    exit 1
-}
-
 skills_source=${SKILLS_SOURCE:-}
 if [ -z "$skills_source" ] && [ -f "$0" ]; then
     skills_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-    if [ -f "$skills_script_dir/scripts/install.py" ]; then
+    if [ -f "$skills_script_dir/scripts/install-native.sh" ]; then
         skills_source=$skills_script_dir
     fi
 fi
-if [ -z "$skills_source" ] && [ -f ./scripts/install.py ] && [ -f ./SKILL.md ]; then
+if [ -z "$skills_source" ] && [ -f ./scripts/install-native.sh ] && [ -f ./SKILL.md ]; then
     skills_source=$(pwd)
 fi
 if [ -z "$skills_source" ]; then
@@ -54,9 +46,9 @@ if [ -z "$skills_source" ]; then
     fi
 fi
 
-if [ ! -f "$skills_source/scripts/install.py" ] || [ ! -f "$skills_source/SKILL.md" ]; then
+if [ ! -f "$skills_source/scripts/install-native.sh" ] || [ ! -f "$skills_source/SKILL.md" ]; then
     echo "Not a SKILLS checkout: $skills_source" >&2
     exit 1
 fi
 
-exec python3 "$skills_source/scripts/install.py" "$@"
+exec bash "$skills_source/scripts/install-native.sh" "$@"

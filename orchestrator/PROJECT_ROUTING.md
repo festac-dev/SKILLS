@@ -6,9 +6,9 @@ Generated from [ROUTES.json](ROUTES.json) by `python scripts/toolkit.py index`.
 
 Interpret the actual task and current project evidence. Choose one primary route and add supporting resources only for dependencies the work needs. A compound request may need brand, graphics and frontend guidance together; it does not require loading the whole library or spawning agents.
 
-`python scripts/toolkit.py route 'your task'` reports a deterministic keyword suggestion, candidate routes and exclusions. It is a discovery helper, not a semantic classifier or permission grant. Environment constraints supplement the actual task and cannot replace it. Negation and unfamiliar wording require judgment.
+Use the table below to choose a route and read its linked resources directly. Environment constraints supplement the actual task and cannot replace it. Negation and unfamiliar wording require judgment. The optional maintainer command `python scripts/toolkit.py route 'your task'` reports a deterministic keyword suggestion; it is not required to use these skills.
 
-For subjects outside the routes, use `python scripts/toolkit.py search 'subject'` and [the catalogue](../CATALOG.md). Search results are relevance hints. Read the chosen resource before applying it. Existing user authorization persists; route selection adds no external-action permission.
+For subjects outside the routes, browse [the catalogue](../CATALOG.md) or select an installed native skill. Read the chosen resource before applying it. Existing user authorization persists; route selection adds no external-action permission.
 
 ## Routes and ownership
 

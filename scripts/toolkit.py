@@ -12,9 +12,9 @@ import sys
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORIES = {"orchestrator", "specialists", "references", "templates", "quality-gates", "playbooks", "scripts", "tests", "reports", "evals", "examples", "motion-studio"}
-ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md", ".gitattributes", "install.sh"}
-SKIP = {".git", "__pycache__", ".pytest_cache", "dist", "node_modules"}
+DIRECTORIES = {"orchestrator", "specialists", "references", "templates", "quality-gates", "playbooks", "scripts", "tests", "reports", "evals", "examples", "motion-studio", ".codex-plugin", ".agents"}
+ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md", ".gitattributes", "install.sh", "native-skills.tsv"}
+SKIP = {".git", "__pycache__", ".pytest_cache", "dist", "node_modules", ".native"}
 DRY_RUNS = [
     ("Build a keyboard-driven TUI on Termux with no mouse.", "cli"),
     ("Fix duplicate webhook processing in the backend API.", "backend"),
@@ -43,11 +43,13 @@ def source_files(root):
         if rel.parts[0] not in DIRECTORIES and str(rel) not in ROOT_FILES:
             raise ValueError(f"Unexpected root file: {rel}")
         allowed = {".md", ".json", ".py", ".gitignore"}
+        if rel.parts[0] in {"scripts", "tests"} or str(rel) in {"install.sh", "native-skills.tsv"}:
+            allowed |= {".sh", ".tsv"}
         if rel.parts[0] == "motion-studio":
             allowed |= {".sh", ".ts", ".tsx", ".css", ".html", ".js", ".yaml"}
         if rel.parts[0] == "examples":
             allowed |= {".html", ".js", ".css", ".svg"}
-        if path.suffix not in allowed and path.name not in {".gitignore", "LICENSE", ".gitattributes"} and rel.as_posix() != "install.sh":
+        if path.suffix not in allowed and path.name not in {".gitignore", "LICENSE", ".gitattributes"}:
             raise ValueError(f"Unexpected source type: {rel}")
         files.append(rel.as_posix())
     return files
@@ -238,6 +240,37 @@ def machine_manifest(root, files):
 
 def index(root):
     routes = registry(root)
+    native_rows = [("professional-product-creation", "SKILL.md", "core"),
+                   ("motion-studio", "motion-studio/SKILL.md", "core")]
+    if (root / "COLLECTIONS.json").exists():
+        native_rows.extend((row["name"], row["path"], row["collection"])
+                           for row in json.loads((root / "COLLECTIONS.json").read_text())["skills"])
+    (root / "native-skills.tsv").write_text(
+        "# name\tSKILL.md path\tcollection\n" +
+        "".join("\t".join(row) + "\n" for row in native_rows), encoding="utf-8")
+    core_path = root / ".native/professional-product-creation/SKILL.md"
+    core_path.parent.mkdir(parents=True, exist_ok=True)
+    core_text = (root / "SKILL.md").read_text(encoding="utf-8")
+    def package_link(match):
+        target = match[2]
+        if urlsplit(target).scheme or target.startswith("#"):
+            return match[0]
+        return match[1] + "../../" + target + match[3]
+    core_path.write_text(re.sub(r"(\]\()([^\n)]+)(\))", package_link, core_text), encoding="utf-8")
+    plugin_path = root / ".codex-plugin/plugin.json"
+    plugin_path.parent.mkdir(parents=True, exist_ok=True)
+    plugin = {
+        "name": "complete-skills", "version": "1.0.0",
+        "description": "Complete native SKILLS library, with every guide and supporting resource.",
+        "skills": ["./.native/professional-product-creation"] +
+                  ["./" + str(PurePosixPath(path).parent) for _, path, _ in native_rows[1:]],
+    }
+    plugin_path.write_text(json.dumps(plugin, indent=2) + "\n", encoding="utf-8")
+    marketplace_path = root / ".agents/plugins/marketplace.json"
+    marketplace_path.parent.mkdir(parents=True, exist_ok=True)
+    marketplace_path.write_text(json.dumps({
+        "name": "festac-skills", "plugins": [{"name": "complete-skills", "source": "./"}],
+    }, indent=2) + "\n", encoding="utf-8")
     (root / "orchestrator/PROJECT_ROUTING.md").write_text(routing_guide(routes), encoding="utf-8")
     files = sorted(set(source_files(root)) | {"CATALOG.md", "manifest.json"})
     (root / "CATALOG.md").write_text(catalogue(root, files, routes), encoding="utf-8")
@@ -254,9 +287,9 @@ Generated from [ROUTES.json](ROUTES.json) by `python scripts/toolkit.py index`.
 
 Interpret the actual task and current project evidence. Choose one primary route and add supporting resources only for dependencies the work needs. A compound request may need brand, graphics and frontend guidance together; it does not require loading the whole library or spawning agents.
 
-`python scripts/toolkit.py route 'your task'` reports a deterministic keyword suggestion, candidate routes and exclusions. It is a discovery helper, not a semantic classifier or permission grant. Environment constraints supplement the actual task and cannot replace it. Negation and unfamiliar wording require judgment.
+Use the table below to choose a route and read its linked resources directly. Environment constraints supplement the actual task and cannot replace it. Negation and unfamiliar wording require judgment. The optional maintainer command `python scripts/toolkit.py route 'your task'` reports a deterministic keyword suggestion; it is not required to use these skills.
 
-For subjects outside the routes, use `python scripts/toolkit.py search 'subject'` and [the catalogue](../CATALOG.md). Search results are relevance hints. Read the chosen resource before applying it. Existing user authorization persists; route selection adds no external-action permission.
+For subjects outside the routes, browse [the catalogue](../CATALOG.md) or select an installed native skill. Read the chosen resource before applying it. Existing user authorization persists; route selection adds no external-action permission.
 
 ## Routes and ownership
 

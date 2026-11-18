@@ -4,6 +4,16 @@
   "generated_by": "python scripts/toolkit.py index",
   "files": [
     {
+      "path": ".agents/plugins/marketplace.json",
+      "bytes": 116,
+      "sha256": "e466db18dfedb068099bc67c16b5fb9694285b73ef0c662cf1a88c72a7761127"
+    },
+    {
+      "path": ".codex-plugin/plugin.json",
+      "bytes": 1188807,
+      "sha256": "7f1ba69803faca1fd71346b43036800cca449aed38196087cc2383e5773ba5a3"
+    },
+    {
       "path": ".gitattributes",
       "bytes": 113,
       "sha256": "ce3b278307b81c0db24f2ed29b0e548bafcdaec3571868cc1c9f51ca5393071e"
@@ -20,8 +30,8 @@
     },
     {
       "path": "CATALOG.md",
-      "bytes": 69974,
-      "sha256": "dfa779f829fb099b9de1f8f5e1d28a47ee3ab67c12839a2d08a7a4026fac4bcc"
+      "bytes": 70717,
+      "sha256": "f0e067adb1afd141c3e2cc2936c5bbfb84be7a2f1861b4d82a9d5738d64871b6"
     },
     {
       "path": "CLAUDE.md",
@@ -55,13 +65,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 8095,
-      "sha256": "8bed688fb96e3db4ac75cd7954947c4894d3960b5b0e952b9ea338d36e169d20"
+      "bytes": 8323,
+      "sha256": "d3587dcdd7c96fbdde4498effc6821eae33428441bc971929d645d46c2d7d0b7"
     },
     {
       "path": "SKILL.md",
-      "bytes": 5918,
-      "sha256": "5c820953d35c36db7946ed0961c085c1daf1ad304f9b4a0bcc60a7475997daec"
+      "bytes": 6035,
+      "sha256": "71a75cd179479e661da914868beced6e20dca23b899856fda4e07af4c96a0178"
     },
     {
       "path": "evals/ROUTING_EVALS.json",
@@ -145,8 +155,8 @@
     },
     {
       "path": "install.sh",
-      "bytes": 2276,
-      "sha256": "02e947f83bbf2a56bd8bb40f026ccbd2d31b5fd30edc1899dfdfb7675c4cb14f"
+      "bytes": 2103,
+      "sha256": "67e0509ab3a4ac525c64c3b5ad74b1bf351a72df294304732f434cb6f4f7a049"
     },
     {
       "path": "motion-studio/SKILL.md",
@@ -259,6 +269,11 @@
       "sha256": "689fed677fe0eddc28cba6d67f94351263852e566bcebc466fe1c0dd31d3cc21"
     },
     {
+      "path": "native-skills.tsv",
+      "bytes": 2107640,
+      "sha256": "b0766bdb4c30c7c96082df7389146d9022f4ef644f35ea949d5f5c05f1060201"
+    },
+    {
       "path": "orchestrator/ENGINEERING_JUDGMENT_AND_EVIDENCE.md",
       "bytes": 8298,
       "sha256": "0d52d0c12504a2bbb1bb5e5bc7de48e01652a69817f5b209e2941747303ab574"
@@ -285,8 +300,8 @@
     },
     {
       "path": "orchestrator/PROJECT_ROUTING.md",
-      "bytes": 35696,
-      "sha256": "700081b1443b181253488e68613f58c8bea10b9d66623b7ccc98ab9a4197ebee"
+      "bytes": 35694,
+      "sha256": "64f15e4bc61eed5b8f3d0c650cd1169e57cc8759fc637114983fdbb7acf446f5"
     },
     {
       "path": "orchestrator/ROUTES.json",
@@ -924,6 +939,11 @@
       "sha256": "7d53e057b42087020739808d6d9c5454a611b6e2e21db5bf166b76f68c589483"
     },
     {
+      "path": "scripts/install-native.sh",
+      "bytes": 9989,
+      "sha256": "8f4ffeffa412b5c65f371e4c57d0854d7d8ed4af33f185bab1653987c8bd550a"
+    },
+    {
       "path": "scripts/install.py",
       "bytes": 5712,
       "sha256": "7ad5042a097bd5c3d1681e9870fed19b4bfe7b8a3f835f5267a49b629f986a6c"
@@ -940,8 +960,8 @@
     },
     {
       "path": "scripts/toolkit.py",
-      "bytes": 26805,
-      "sha256": "d265723b1becb02bbac7075f860c50c3ae34a97d56ce26fbc0c00d81e452e02b"
+      "bytes": 28832,
+      "sha256": "b4316828ffcd4ef9bcf036e2d58d9594fbfa143126c25d5ef51fb9db4d81af8e"
     },
     {
       "path": "specialists/3d-spatial-and-immersive-experiences.md",
@@ -1855,8 +1875,8 @@
     },
     {
       "path": "tests/test_install.py",
-      "bytes": 6431,
-      "sha256": "b81130302439c4e3c4fec9d338c9643c3b83c1a35a36d01e69987e4f5eef6749"
+      "bytes": 10330,
+      "sha256": "da800546111605146f2e97016163d7b4be7e0c71b25ad468adb778bf00a3f6f7"
     },
     {
       "path": "tests/test_media_audit.py",
@@ -1865,8 +1885,8 @@
     },
     {
       "path": "tests/test_toolkit.py",
-      "bytes": 11282,
-      "sha256": "7ce5cfaa4922c3a5b82245478ecbef93d0a005c9d004e94119cf41ad32b2fba2"
+      "bytes": 11599,
+      "sha256": "b6d24d9268379b4db18111316906e4b8ca78cd644243b9a6deada7e75a09c5f6"
     }
   ]
 }

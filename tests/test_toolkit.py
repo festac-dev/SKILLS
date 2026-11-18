@@ -16,7 +16,12 @@ SPEC.loader.exec_module(toolkit)
 
 class ToolkitTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(dir=ROOT.parent)
+        # Keep fixtures outside installed plugin version directories, on the
+        # same filesystem so read-only imported snapshots can use hard links.
+        fixture_parent = Path(tempfile.gettempdir())
+        if fixture_parent.stat().st_dev != ROOT.stat().st_dev:
+            fixture_parent = ROOT / ".git"
+        self.temp = tempfile.TemporaryDirectory(dir=fixture_parent)
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / "toolkit"
         collection_dirs = {c["directory"] for c in json.loads((ROOT / "COLLECTIONS.json").read_text())["collections"]}

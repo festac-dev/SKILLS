@@ -1,0 +1,9 @@
+{
+  "name": "festac-skills",
+  "plugins": [
+    {
+      "name": "complete-skills",
+      "source": "./"
+    }
+  ]
+}

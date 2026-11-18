@@ -11,11 +11,11 @@ Deliver the user’s requested product behavior in the existing project, with ev
 
 Inspect the project’s instructions, runtime, working changes, assets and relevant implementation. Preserve the original objective and incorporate the latest user corrections. If recovering interrupted work, reconcile [checkpoint evidence](references/agent-context-and-handoffs.md) with current files and processes before retrying operations.
 
-For a substantial build, use [the orchestrator](orchestrator/MASTER_ORCHESTRATOR_PROMPT.md). For a focused change, select [a route](orchestrator/PROJECT_ROUTING.md) and read only its needed resources. The [catalogue](CATALOG.md) and `python scripts/toolkit.py search 'subject'` cover less common domains.
+For a substantial build, use [the orchestrator](orchestrator/MASTER_ORCHESTRATOR_PROMPT.md). For a focused change, select [a route](orchestrator/PROJECT_ROUTING.md) and read only its needed resources. Browse the [catalogue](CATALOG.md) for less common domains. These are Markdown instructions; no Python discovery command is required.
 
 ## Imported collections
 
-The user-requested [GitHub collections](COLLECTIONS.md) are stored directly under this SKILLS directory in separate folders. Find their skills with `python3 scripts/skill_collections.py search 'task'`, then read the returned path directly. Do not route these collections through core capability owners. Follow [collection rules](COLLECTION_RULES.md) to reconcile source workflow preferences with current user scope and authorization.
+The user-requested GitHub collections are installed as native skills alongside this toolkit. Select the relevant named skill from the agent's available skills, or read its installed `SKILL.md` directly. The repository's [collection catalogue](https://github.com/festac-dev/SKILLS/blob/main/COLLECTIONS.md) records the sources. Do not route these collections through core capability owners. Follow [collection rules](COLLECTION_RULES.md) to reconcile source workflow preferences with current user scope and authorization.
 
 ## Apply the right guidance
 

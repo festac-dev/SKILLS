@@ -2,33 +2,53 @@
 
 A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs.
 
-## Install
+## Install all skills
 
-On Linux or macOS, install the main toolkit with one command:
+On Linux or macOS, install the complete library with one command:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh
 ```
 
-Requires Git and Python 3.10+. The installer detects Codex, Claude Code and OpenCode, keeps one checkout, and creates links in their skill directories. The default installs the main entrypoint; use `--all` to register individual skills. Start a new agent session after installation.
-
-To choose an agent, append its name:
+Or clone the full repository and install it directly:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh -s -- opencode
+git clone https://github.com/festac-dev/SKILLS.git
+cd SKILLS
+sh install.sh codex
 ```
 
-Use `codex`, `claude-code`, `opencode`, or `all`. If you already have this checkout, run `sh /path/to/SKILLS/install.sh opencode`; it reuses that copy. Repeat runs keep working links and stop before overwriting an existing skill. Keep the checkout in place while its skills are installed.
+The default installs **all 15,579 skills**, including the main toolkit,
+Motion Studio and every imported collection, with their supporting files.
+**Python and npm are not required for installation or skill discovery.**
+There is no selection or Python search-helper step.
 
-For project installation, selected skills, or a preview, run from a checkout:
+Codex CLI uses the native `complete-skills@festac-skills` bundle. Its manifest
+registers each skill directory explicitly, so the complete library is
+available despite limits on scanning one large directory. Skill names include
+`$complete-skills:anthropic-pdf` and `$complete-skills:motion-studio`.
+The same native setup can be run without the shell bootstrap:
 
 ```sh
-sh /path/to/SKILLS/install.sh codex --project
-sh /path/to/SKILLS/install.sh opencode --skill motion-studio
-sh /path/to/SKILLS/install.sh all --all --dry-run
+codex plugin marketplace add .
+codex plugin add complete-skills@festac-skills
 ```
 
-`--all` registers the main toolkit, Motion Studio and every imported skill. Find imported names in [COLLECTIONS.md](COLLECTIONS.md) or with `python3 scripts/skill_collections.py search 'topic'`. See [the installer](scripts/install.py) or `sh install.sh --help` for options. To update a managed checkout, run `git -C "${XDG_DATA_HOME:-$HOME/.local/share}/SKILLS" pull --ff-only` and rerun the install command if you selected all skills. To uninstall, remove only the skill links created by the installer.
+Choose another agent by appending `claude-code` or `opencode`. Native skill
+directories link to the complete checkout, retaining references, scripts,
+assets, relative paths and license notices. Keep the checkout in place.
+Existing unrelated skills are preserved, and repeat installations are safe.
+
+```sh
+sh install.sh opencode
+sh install.sh claude-code
+sh install.sh codex --dry-run
+sh install.sh --list
+```
+
+Open a fresh agent session after installation. To update, run `git pull` in the
+checkout and repeat the install command. Dependencies used by a particular
+skill's scripts belong to that task, rather than to installing the library.
 
 ### Using the standard skills CLI
 
@@ -46,9 +66,9 @@ For substantial projects, use [the master workflow](orchestrator/MASTER_ORCHESTR
 
 The specialist guides include concrete domain checks. References explain reusable decisions, templates capture useful evidence, playbooks connect the work, and quality gates assess the result. Apply only relevant sections and remove unused template fields.
 
-## Maintenance commands
+## Optional repository maintenance
 
-Run from this directory with Python 3.10+; the helper uses the standard library:
+These commands are for maintainers changing the repository, rather than for installing or using skills. Run from this directory with Python 3.10+; the helper uses the standard library:
 
 ```sh
 python scripts/toolkit.py route 'Make distinct logos and visual identities'
@@ -92,7 +112,7 @@ Imported resources have provenance and static checks; importing them does not es
 
 ## Imported GitHub collections
 
-The requested collections live directly under this directory; see [COLLECTIONS.md](COLLECTIONS.md). Their skill names are prefixed by collection, supporting files and notices are retained, and [COLLECTION_RULES.md](COLLECTION_RULES.md) reconciles their workflow conventions with current user instructions. Search direct skills with `python3 scripts/skill_collections.py search 'topic'`. Run `python3 scripts/skill_collections.py validate` for supporting-file digests, namespaces and compatibility checks. Importing source code does not install or activate its external tools.
+The requested collections live directly under this directory; see [COLLECTIONS.md](COLLECTIONS.md). Their skill names are prefixed by collection, supporting files and notices are retained, and [COLLECTION_RULES.md](COLLECTION_RULES.md) reconciles their workflow conventions with current user instructions. Browse the native skill list, [the collection catalogue](COLLECTIONS.md), or `sh install.sh --list`. No Python discovery command is required. Run `python3 scripts/skill_collections.py validate` for supporting-file digests, namespaces and compatibility checks. Importing source code does not install or activate its external tools.
 
 ## License
 
