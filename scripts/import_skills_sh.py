@@ -1,6 +1,8 @@
 from pathlib import Path, PurePosixPath
 from urllib.parse import urlsplit,unquote
-import hashlib,json,os,posixpath,re,tarfile,yaml
+import gzip,hashlib,json,os,posixpath,re,tarfile,tempfile,yaml
+from datetime import date
+from contextlib import contextmanager
 WORK=Path(os.environ.get('SKILLS_IMPORT_WORK',Path.home()/'.cache/festac-skills-import')).resolve();WORK.mkdir(parents=True,exist_ok=True)
 ROOT=Path(__file__).resolve().parents[1]
 RENAMES={'AGENTS.md':'UPSTREAM_AGENTS.md','CLAUDE.md':'UPSTREAM_CLAUDE.md','.mcp.json':'UPSTREAM_MCP.json','.app.json':'UPSTREAM_APP.json','hooks.json':'UPSTREAM_HOOKS.json','.gitattributes':'UPSTREAM_GITATTRIBUTES'}
@@ -32,10 +34,32 @@ def front(text):
     return fields,text[match.end():]
 def slug(value):return re.sub(r'[^a-z0-9]+','-',str(value).lower()).strip('-') or 'skill'
 def digest(data):return hashlib.sha256(data).hexdigest()
+@contextmanager
+def expanded_tar(archive):
+    # A gzip stream makes backward archive seeks decompress the same data
+    # repeatedly. Expand once into an external temporary file for random reads.
+    with tempfile.TemporaryFile(dir=WORK) as expanded:
+        with gzip.open(archive,'rb') as compressed:
+            size=0
+            while True:
+                block=compressed.read(1024*1024)
+                if not block:break
+                size+=len(block)
+                if size>768*1024*1024:raise ValueError('Expanded source archive exceeds 768 MiB; use a selective checkout')
+                expanded.write(block)
+        expanded.seek(0)
+        with tarfile.open(fileobj=expanded,mode='r:') as tar:yield tar
+def skill_name(upstream,repo,used):
+    plain='skills-'+slug(upstream)
+    candidates=[plain,'skills-'+slug(repo.split('/')[0])+'-'+slug(upstream),'skills-'+slug(repo)+'-'+slug(upstream)]
+    for candidate in candidates:
+        if len(candidate)<=64 and candidate not in used:return candidate
+    return candidates[-1][:55].rstrip('-')+'-'+digest((repo+'/'+str(upstream)).encode())[:8]
 def has_permission(text):
     return any(s in text.lower() for s in ('permission is hereby granted','apache license','redistribution and use','creative commons attribution','gnu general public license','mozilla public license','this is free and unencumbered software'))
 def run():
     data=json.loads((ROOT/'COLLECTIONS.json').read_text());names={r['name'] for r in data['skills']}
+    source_digests={r.get('source_sha256') for r in data['skills'] if r.get('source_sha256')}
     existing={(c['repository'].lower(),slug(r['upstream_name'])) for c in data['collections'] for r in data['skills'] if r['collection']==c['directory']}
     decisions=[];added=[]
     sources=json.loads((WORK/'fetched-sources.json').read_text())
@@ -47,13 +71,14 @@ def run():
         if source.get('error'):decision.update(status='source-unavailable',reason=source['error']);decisions.append(decision);continue
         archive_path=WORK/'archives'/(repo.lower().replace('/','--')+'.tar.gz')
         if digest(archive_path.read_bytes())!=source['archive_sha256']:raise ValueError('Archive digest mismatch')
-        key='skills-sh-'+slug(repo)
+        key=slug(repo)
         if any(c['directory']==key for c in data['collections']):
             key=key+'-'+digest(','.join(sorted(missing)).encode())[:7]
         dest=ROOT/key
         if any(c['directory']==key for c in data['collections']):
             decision['status']='already-imported';decisions.append(decision);continue
-        with tarfile.open(archive_path) as tar:
+        print('CHECKING',repo,flush=True)
+        with expanded_tar(archive_path) as tar:
             all_members=tar.getmembers();prefix=all_members[0].name.split('/')[0]+'/'
             index={}
             for member in all_members:
@@ -62,12 +87,19 @@ def run():
                 if name in index:raise ValueError('Duplicate archive member: '+name)
                 if not (member.isfile() or member.isdir() or member.issym() or member.islnk()):raise ValueError('Special archive member')
                 index[name]=member
+            raw_cache={};cache_bytes=0
             def get(name):
+                nonlocal cache_bytes
                 seen=set()
                 while name in index:
                     if name in seen:raise ValueError('Archive link cycle')
                     seen.add(name);member=index[name]
-                    if member.isfile():return tar.extractfile(member).read()
+                    if member.isfile():
+                        if name in raw_cache:return raw_cache[name]
+                        raw=tar.extractfile(member).read()
+                        if cache_bytes+len(raw)<=64*1024*1024:
+                            raw_cache[name]=raw;cache_bytes+=len(raw)
+                        return raw
                     if member.isdir():return None
                     target=member.linkname.removeprefix(prefix) if member.islnk() else posixpath.join(posixpath.dirname(name),member.linkname)
                     name=safe(posixpath.normpath(target))
@@ -76,16 +108,19 @@ def run():
             usable=[n for n in license_paths if has_permission(get(n).decode(errors='replace'))]
             if not usable:
                 decision.update(status='licence-review',reason='No explicit redistribution licence found in the source archive.');decisions.append(decision);continue
-            candidates=[]
+            candidates=[];duplicates=[]
             for name,member in index.items():
                 if name.rsplit('/',1)[-1]!='SKILL.md' or member.isdir():continue
                 raw=get(name)
                 if raw is None:continue
                 fields,body=front(raw.decode())
                 upstream=fields.get('name',PurePosixPath(name).parent.name)
+                if digest(raw) in source_digests:
+                    duplicates.append(str(upstream));continue
                 aliases={slug(upstream),slug(PurePosixPath(name).parent.name)}
                 if (aliases.intersection(map(slug,missing)) or '*' in missing) and fields.get('name') and fields.get('description') and (repo.lower(),slug(upstream)) not in existing and not any(part in ('tests','test','fixtures','node_modules','.git') for part in PurePosixPath(name).parts):
                     candidates.append((name,fields,body,raw,upstream))
+            decision['duplicate_source_skills']=sorted(set(duplicates))
             candidates.sort(key=lambda c:('cli/assets/' in c[0],len(c[0]),c[0]))
             licensed=[];licence_reviews=[]
             for candidate in candidates:
@@ -142,8 +177,7 @@ def run():
                 provenance.append({'source_path':name,'installed_path':key+'/'+mapped(name),'source_sha256':digest(raw)})
             rows=[]
             for name,fields,body,raw,upstream in selected:
-                path=destination/mapped(name);newname=key+'-'+slug(upstream)
-                if len(newname)>64 or newname in names:newname=newname[:55].rstrip('-')+'-'+digest(name.encode())[:8]
+                path=destination/mapped(name);newname=skill_name(upstream,repo,names)
                 if newname in names:raise ValueError('Skill-name collision')
                 names.add(newname)
                 allowed={k:v for k,v in fields.items() if k in ('name','description','license','compatibility','metadata')}
@@ -191,14 +225,15 @@ def run():
                 shutil.rmtree(destination)
             else:destination.rename(dest)
             inventory=[{'path':p.relative_to(ROOT).as_posix(),'sha256':digest(p.read_bytes()),'bytes':p.stat().st_size} for p in sorted(dest.rglob('*')) if p.is_file()]
-            record={'directory':key,'repository':repo,'revision':source['revision'],'source_archive_sha256':source['archive_sha256'],'skill_count':len(rows),'file_count':len(inventory),'files':inventory,'aliases':[],'source_files':provenance,'renamed_host_files':RENAMES,'skill_changes':'Selected source skills; namespaced common headers and compatibility guidance. Original technical content and support files retained.'}
+            record={'directory':key,'repository':repo,'revision':source['revision'],'source_archive_sha256':source['archive_sha256'],'import_source':'skills.sh','skill_count':len(rows),'file_count':len(inventory),'files':inventory,'aliases':[],'source_files':provenance,'renamed_host_files':RENAMES,'skill_changes':'Selected source skills with short skills-prefixed names and common headers. Original technical content and support files retained.'}
             data['collections'].append(record);data['skills'].extend(rows);added.extend(rows)
             out=ROOT/'COLLECTIONS.json';temp=out.with_suffix('.tmp');temp.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n');temp.replace(out)
             existing.update((repo.lower(),slug(r['upstream_name'])) for r in rows)
+            source_digests.update(r['source_sha256'] for r in rows)
             decision.update(status='imported',skills=[r['name'] for r in rows],licences=usable)
             decisions.append(decision)
             print('IMPORTED',repo,len(rows),'skills',len(inventory),'files',flush=True)
-    data['recorded_at']='2026-11-18';data['layout']='Curated and requested collections stored directly under SKILLS.'
+    data['recorded_at']=date.today().isoformat();data['layout']='Curated and requested collections stored directly under SKILLS.'
     output=ROOT/'COLLECTIONS.json';temp=output.with_suffix('.tmp');temp.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n');temp.replace(output)
     (WORK/'import-result.json').write_text(json.dumps({'added':added,'decisions':decisions},indent=2)+'\n')
     print('TOTAL_ADDED',len(added),flush=True)

@@ -94,26 +94,44 @@ Additional skill identifiers, headers and host configuration were adapted for th
 
 ## Skills.sh additions
 
-Original licences and notices remain in each imported collection. Packaging changes do not relicense upstream material.
+Original licences and attribution remain with each imported collection. Packaging does not relicense upstream material.
 
 | Collection | Source revision |
 |---|---|
-| [skills-sh-emilkowalski-skills](skills-sh-emilkowalski-skills/README.md) | `64eb3deb9a5fbfa041faf783e0bc3fd635872e9c` |
-| [skills-sh-leonxlnx-taste-skill](skills-sh-leonxlnx-taste-skill/README.md) | `f6b76575f949707b4e3c37cd86cb44b0b98643e8` |
-| [skills-sh-mattpocock-skills](skills-sh-mattpocock-skills/README.md) | `5863806dd4e15c63174bee4e7515a4256792ecfa` |
-| [skills-sh-neondatabase-agent-skills](skills-sh-neondatabase-agent-skills/README.md) | `23aa24ec7c44e72ed606cf46825c7b0a85760f9c` |
-| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill/README.md) | `ed766d3bf62f32c8d27762ad49abdc3a4744c84f` |
-| [skills-sh-vercel-labs-skills](skills-sh-vercel-labs-skills/README.md) | `57217cf86ba38148a57af9e90d14a4c049558330` |
-| [skills-sh-heygen-com-hyperframes](skills-sh-heygen-com-hyperframes/README.md) | `284b28bfcee50440a412f66aa8b66df5ab966eaa` |
-| [skills-sh-emilkowalski-skills-684888c](skills-sh-emilkowalski-skills-684888c/README.md) | `64eb3deb9a5fbfa041faf783e0bc3fd635872e9c` |
-| [skills-sh-heygen-com-hyperframes-684888c](skills-sh-heygen-com-hyperframes-684888c/README.md) | `284b28bfcee50440a412f66aa8b66df5ab966eaa` |
-| [skills-sh-mattpocock-skills-684888c](skills-sh-mattpocock-skills-684888c/README.md) | `5863806dd4e15c63174bee4e7515a4256792ecfa` |
-| [skills-sh-neondatabase-agent-skills-684888c](skills-sh-neondatabase-agent-skills-684888c/README.md) | `23aa24ec7c44e72ed606cf46825c7b0a85760f9c` |
-| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c/README.md) | `ed766d3bf62f32c8d27762ad49abdc3a4744c84f` |
-| [skills-sh-vercel-labs-skills-684888c](skills-sh-vercel-labs-skills-684888c/README.md) | `57217cf86ba38148a57af9e90d14a4c049558330` |
-| [skills-sh-expo-skills](skills-sh-expo-skills/README.md) | `dfdebcc6c4c1bf7a9471cefd6b6f39c7ba6c884d` |
-| [skills-sh-google-agents-cli](skills-sh-google-agents-cli/README.md) | `2fa159a803aceec3b4df808901e53a08a6f1fb2a` |
-| [skills-sh-higgsfield-ai-skills](skills-sh-higgsfield-ai-skills/README.md) | `27000402070db19d958789d05b3b52b6f4718d7c` |
-| [skills-sh-microsoft-azure-skills](skills-sh-microsoft-azure-skills/README.md) | `0e26cd9c153ca37a04ad7b01f0dc8766a9e14038` |
-| [skills-sh-microsoft-playwright-cli](skills-sh-microsoft-playwright-cli/README.md) | `c872a33cec77fa03c28fa7c6d1ad99d15d04ce42` |
-| [skills-sh-shadcn-ui](skills-sh-shadcn-ui/README.md) | `968d8cb9dc42ae5d52e8fd356cf84596ec832a26` |
+| [emilkowalski-skills](emilkowalski-skills/README.md) | `64eb3deb9a5fbfa041faf783e0bc3fd635872e9c` |
+| [leonxlnx-taste-skill](leonxlnx-taste-skill/README.md) | `f6b76575f949707b4e3c37cd86cb44b0b98643e8` |
+| [mattpocock-skills](mattpocock-skills/README.md) | `5863806dd4e15c63174bee4e7515a4256792ecfa` |
+| [neondatabase-agent-skills](neondatabase-agent-skills/README.md) | `23aa24ec7c44e72ed606cf46825c7b0a85760f9c` |
+| [nextlevelbuilder-ui-ux-pro-max-skill](nextlevelbuilder-ui-ux-pro-max-skill/README.md) | `ed766d3bf62f32c8d27762ad49abdc3a4744c84f` |
+| [vercel-labs-skills](vercel-labs-skills/README.md) | `57217cf86ba38148a57af9e90d14a4c049558330` |
+| [heygen-com-hyperframes](heygen-com-hyperframes/README.md) | `284b28bfcee50440a412f66aa8b66df5ab966eaa` |
+| [emilkowalski-skills-additional](emilkowalski-skills-additional/README.md) | `64eb3deb9a5fbfa041faf783e0bc3fd635872e9c` |
+| [heygen-com-hyperframes-additional](heygen-com-hyperframes-additional/README.md) | `284b28bfcee50440a412f66aa8b66df5ab966eaa` |
+| [mattpocock-skills-additional](mattpocock-skills-additional/README.md) | `5863806dd4e15c63174bee4e7515a4256792ecfa` |
+| [neondatabase-agent-skills-additional](neondatabase-agent-skills-additional/README.md) | `23aa24ec7c44e72ed606cf46825c7b0a85760f9c` |
+| [nextlevelbuilder-ui-ux-pro-max-skill-additional](nextlevelbuilder-ui-ux-pro-max-skill-additional/README.md) | `ed766d3bf62f32c8d27762ad49abdc3a4744c84f` |
+| [vercel-labs-skills-additional](vercel-labs-skills-additional/README.md) | `57217cf86ba38148a57af9e90d14a4c049558330` |
+| [expo-skills](expo-skills/README.md) | `dfdebcc6c4c1bf7a9471cefd6b6f39c7ba6c884d` |
+| [google-agents-cli](google-agents-cli/README.md) | `2fa159a803aceec3b4df808901e53a08a6f1fb2a` |
+| [higgsfield-ai-skills](higgsfield-ai-skills/README.md) | `27000402070db19d958789d05b3b52b6f4718d7c` |
+| [microsoft-azure-skills](microsoft-azure-skills/README.md) | `0e26cd9c153ca37a04ad7b01f0dc8766a9e14038` |
+| [microsoft-playwright-cli](microsoft-playwright-cli/README.md) | `c872a33cec77fa03c28fa7c6d1ad99d15d04ce42` |
+| [shadcn-ui](shadcn-ui/README.md) | `968d8cb9dc42ae5d52e8fd356cf84596ec832a26` |
+| [affaan-m-ecc](affaan-m-ecc/README.md) | `3f14a103a8694e51c1df9a806217a6d0b5f7a6f7` |
+| [aj-geddes-useful-ai-prompts](aj-geddes-useful-ai-prompts/README.md) | `3f5182cfd739fc113f4af5244a1cf342ad7f7911` |
+| [anthropics-knowledge-work-plugins](anthropics-knowledge-work-plugins/README.md) | `b4c9a4e1de4b42868b74a6fe30ac766f64e43a3e` |
+| [aws-agent-toolkit-for-aws](aws-agent-toolkit-for-aws/README.md) | `33d114ec032ff51bb42c96b18380623abef4ad90` |
+| [cloudflare-security-audit-skill](cloudflare-security-audit-skill/README.md) | `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8` |
+| [convex-agent-skills](convex-agent-skills/README.md) | `b32286cad1672916953ece2692535f72013f55d2` |
+| [dotnet-skills](dotnet-skills/README.md) | `2877c712edc20643b72f64e2983b168e6661d607` |
+| [dylantarre-animation-principles](dylantarre-animation-principles/README.md) | `83597134ba8ff59838270f94d7ac7282ffa3b54d` |
+| [firebase-agent-skills](firebase-agent-skills/README.md) | `99954a30898bb5ddc8152ee10e124dc3b4106bf7` |
+| [forcedotcom-sf-skills](forcedotcom-sf-skills/README.md) | `788b83fb9f5effb4f1548e3090df415704d3ec64` |
+| [giuseppe-trisciuoglio-developer-kit](giuseppe-trisciuoglio-developer-kit/README.md) | `fe73fb33a09ee6562eeec7415a3f9a3bcf795177` |
+| [googlechrome-modern-web-guidance](googlechrome-modern-web-guidance/README.md) | `64a6d708f5a43f2cd3fde5d4d7db3905ba1bdf65` |
+| [greensock-gsap-skills](greensock-gsap-skills/README.md) | `aed9cfd3277740755f6bfc1155c7aa645403b760` |
+| [kostja94-marketing-skills](kostja94-marketing-skills/README.md) | `ac823a127782355339f21aef6c87f1ccff751c84` |
+| [mindrally-skills](mindrally-skills/README.md) | `7682ca77710e0971eab4e0ae5dddfa281aea0ba5` |
+| [nrwl-nx-ai-agents-config](nrwl-nx-ai-agents-config/README.md) | `500922aeca344d02e01fbbf1a14e69582c2c3510` |
+| [obsidianmd-obsidian-skills](obsidianmd-obsidian-skills/README.md) | `1c3f6df5683588e39b12462a75d1d0fcf550f955` |
+| [orchestra-research-ai-research-skills](orchestra-research-ai-research-skills/README.md) | `773a52944ba4747a18bd4ae9ade53fff041adcbc` |

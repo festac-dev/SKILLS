@@ -22,7 +22,7 @@ class LibraryMCPTests(unittest.TestCase):
         (self.dataset / 'runtime/index.json').write_text(json.dumps({'skills': [{'id': 'example', 'description': 'Accessible keyboard interface and motion', 'path': 'example/SKILL.md'}]}))
         self.entry = self.root / 'agent/skills/skills-library'
         (self.entry / 'scripts').mkdir(parents=True)
-        for script in ('skills.mjs', 'mcp-server.mjs'):
+        for script in ('skills.mjs', 'mcp-server.mjs', 'setup-mcp.mjs'):
             shutil.copy2(ROOT / 'scripts' / script, self.entry / 'scripts' / script)
         (self.entry / 'library.json').write_text(json.dumps({'repository': 'test/fixture', 'ref': 'fixture', 'sourceVariable': 'TEST_LIBRARY_SOURCE', 'checkoutDepth': 1, 'registry': 'COLLECTIONS.json', 'indexPath': 'runtime/index.json'}))
         (self.entry / '.library-source').write_text(str(self.dataset))
@@ -69,6 +69,43 @@ class LibraryMCPTests(unittest.TestCase):
         self.guide.write_text('# Real\n```sh\n# Fake\n```\n## Actual\nText\n')
         page = self.run_reader('read', 'example')
         self.assertEqual([h['title'] for h in page['outline']], ['Real', 'Actual'])
+
+    def test_old_ids_resolve_without_changing_search_names(self):
+        index = self.dataset / 'runtime/index.json'
+        data = json.loads(index.read_text())
+        data['skills'][0]['aliases'] = ['old-example']
+        index.write_text(json.dumps(data))
+        self.assertEqual(self.run_reader('read', 'old-example')['id'], 'example')
+        self.assertEqual(self.run_reader('find', 'keyboard')['matches'][0]['id'], 'example')
+
+    def test_standalone_npx_mcp_setup_is_portable_and_preserves_other_servers(self):
+        import tomllib
+        (self.entry / '.library-source').unlink()
+        profile = self.root / 'another person profile'
+        (profile / '.config/opencode').mkdir(parents=True)
+        (profile / '.codex').mkdir()
+        (profile / '.claude.json').write_text(json.dumps({'mcpServers': {'other': {'command': 'other-command'}}}))
+        (profile / '.config/opencode/opencode.json').write_text(json.dumps({'mcp': {'other': {'type': 'local', 'command': ['other-command']}}}))
+        (profile / '.codex/config.toml').write_text('[mcp_servers.other]\ncommand = "other-command"\nargs = []\n')
+        env = {**self.env, 'FESTAC_MCP_CONFIG_ROOT': str(profile)}
+        def register(entry):
+            result = subprocess.run(['node', str(entry / 'scripts/setup-mcp.mjs'), '--all'], capture_output=True, text=True, env=env, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        register(self.entry)
+        claude = json.loads((profile / '.claude.json').read_text())
+        opencode = json.loads((profile / '.config/opencode/opencode.json').read_text())
+        codex = tomllib.loads((profile / '.codex/config.toml').read_text())
+        self.assertIn('other', claude['mcpServers'])
+        self.assertIn('other', opencode['mcp'])
+        self.assertIn('other', codex['mcp_servers'])
+        self.assertEqual(claude['mcpServers']['skills-library']['env'], {})
+        self.assertNotIn('env', codex['mcp_servers']['skills-library'])
+        moved = self.root / 'new install/skills-library'
+        moved.parent.mkdir()
+        shutil.move(self.entry, moved)
+        register(moved)
+        codex = tomllib.loads((profile / '.codex/config.toml').read_text())
+        self.assertEqual(codex['mcp_servers']['skills-library']['args'], [str(moved / 'scripts/mcp-server.mjs')])
 
     def test_real_stdio_mcp_initialize_list_find_read_and_invalid_arguments(self):
         requests = [

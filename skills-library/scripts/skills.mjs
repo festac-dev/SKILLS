@@ -139,7 +139,7 @@ try {
     output({query, matches});
   } else if (command === 'read') {
     if (values.length !== 1) throw new Error('read requires one skill ID');
-    const entry = entries.find(entry => entry.id === values[0]);
+    const entry = entries.find(entry => entry.id === values[0] || entry.aliases?.includes(values[0]));
     if (!entry) throw new Error('Unknown skill ID. Use find to select an ID.');
     const limit = integer(options.limit, 80, 1, 160);
     const location = await locate(config, entry, options.file);

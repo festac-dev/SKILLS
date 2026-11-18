@@ -7,17 +7,17 @@ import re
 import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
-RELEASE = 'skills-library-v1.2.0'
+RELEASE = 'skills-library-v1.3.0'
 
 def build(root=ROOT):
     package = root / 'skills-library'
     (package / 'scripts').mkdir(parents=True, exist_ok=True)
-    for script in ('skills.mjs', 'mcp-server.mjs'):
+    for script in ('skills.mjs', 'mcp-server.mjs', 'setup-mcp.mjs'):
         shutil.copy2(root / 'scripts' / script, package / 'scripts' / script)
     records = []
     for record in json.loads((root / 'COLLECTIONS.json').read_text())['skills']:
         guide = root / record['path']
-        records.append({'id': record['name'], 'name': record['upstream_name'], 'description': str(record['description'])[:600], 'path': record['path'], 'sha256': hashlib.sha256(guide.read_bytes()).hexdigest()})
+        records.append({'id': record['name'], 'name': record['upstream_name'], 'description': str(record['description'])[:600], 'path': record['path'], 'sha256': hashlib.sha256(guide.read_bytes()).hexdigest(), 'aliases': record.get('aliases', [])})
     core = [root / 'SKILL.md', root / 'motion-studio/SKILL.md']
     for folder in ('orchestrator', 'specialists', 'references', 'playbooks', 'quality-gates'):
         core.extend(sorted((root / folder).glob('*.md')))

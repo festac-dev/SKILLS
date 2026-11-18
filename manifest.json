@@ -11,7 +11,7 @@
     {
       "path": ".codex-plugin/plugin.json",
       "bytes": 187,
-      "sha256": "d3f25eb604dfcd4d0611ced0e26ea157060f97b2fb4167386ee2d1b003bed408"
+      "sha256": "efddfab7b079c4df795b00f9d666f2d95884b36d3d8ee8f0acad13702f2c1d84"
     },
     {
       "path": ".gitattributes",
@@ -30,8 +30,8 @@
     },
     {
       "path": "CATALOG.md",
-      "bytes": 71960,
-      "sha256": "0163dd6a93126e4d00bb4832c5c669abc810322913cb1383c21c6592e36d64a5"
+      "bytes": 72108,
+      "sha256": "4a56fae3a2d08433f6a43516ecf63a14bf440b99a538003474aea793cbe89919"
     },
     {
       "path": "CLAUDE.md",
@@ -40,13 +40,13 @@
     },
     {
       "path": "COLLECTIONS.json",
-      "bytes": 62799186,
-      "sha256": "d5c232f2eb6a9ea1085e9edf09a9731637d30701613ad6973a3f78d0ae323270"
+      "bytes": 79160057,
+      "sha256": "70958cc8ae8253658f86b59ff7f66355cdb9332bf696f104ae65fc87e075bb07"
     },
     {
       "path": "COLLECTIONS.md",
-      "bytes": 11585,
-      "sha256": "7a7ccdad9235717c83d913d0a9584719fac89bd9e701118432735f0972b7d3f2"
+      "bytes": 13960,
+      "sha256": "903c1f6a162a0ef396b3d1c51d880e062144d3ba2494da2982bd2fbd17572617"
     },
     {
       "path": "COLLECTION_RULES.md",
@@ -60,13 +60,13 @@
     },
     {
       "path": "NOTICE.md",
-      "bytes": 10385,
-      "sha256": "f2234c9d8c217e92a9abacb24dd6bd217e9354f01d094cd68279c8a23077e5ea"
+      "bytes": 12091,
+      "sha256": "e83fb7d43aa4aa2d91f1165b771addc2367548d1bb02f3ef2a2724281aefd5e9"
     },
     {
       "path": "README.md",
-      "bytes": 10370,
-      "sha256": "53d8758fc365c626059741172d84efb9ab973948b6218f84fa7f29c43d5f1d82"
+      "bytes": 9753,
+      "sha256": "febf38f7f0ca3e3605bdc5769651d807e35233af9fd98a7329afe1178db811f4"
     },
     {
       "path": "SKILL.md",
@@ -926,12 +926,12 @@
     {
       "path": "reports/SKILLS_SH_CATALOGUE.json",
       "bytes": 2056428,
-      "sha256": "ebdc20985dee4340fb5ad4d95b468113898f1b564a05bf92e0ceb0b7fa8ad09b"
+      "sha256": "c4ccbfdc67d9784d2ae109055ab08ab4d0913939c8965921ef5714a89a5809a9"
     },
     {
       "path": "reports/SKILLS_SH_IMPORT.json",
-      "bytes": 12755,
-      "sha256": "7bc619d38500af0cf134b3c011018ddfb2bfc4dd9c8a3b2cfb8bf81868d38edc"
+      "bytes": 121172,
+      "sha256": "7ae0f48fc3b4a5a16eb21b393baa90337ca192369b20bcce2195e2b4cf8be7e8"
     },
     {
       "path": "reports/UPGRADE_VERIFICATION.md",
@@ -945,8 +945,8 @@
     },
     {
       "path": "scripts/build_library.py",
-      "bytes": 4108,
-      "sha256": "ad0a32c933040f60e1c5edaba3cf862135127e5025c43760300517edfc7876a8"
+      "bytes": 4163,
+      "sha256": "afca95fa24e876d14559749bd94a6091cc4bddcea32cbeaf31cb9c8fa5d88841"
     },
     {
       "path": "scripts/cache_cleanup.py",
@@ -955,13 +955,13 @@
     },
     {
       "path": "scripts/fetch_skills_sh.py",
-      "bytes": 2888,
-      "sha256": "f3263194c1e245950cf175b7b72b3a6b9af75159818df143669db3291a014db3"
+      "bytes": 3106,
+      "sha256": "1bd515c864ffa69e0f8b20dcee38a37d1c9577bd843b943d2e0731c8b3151f6f"
     },
     {
       "path": "scripts/import_skills_sh.py",
-      "bytes": 15613,
-      "sha256": "8e9f91634e327cf4124ba067f10969ec77f8ef25814579579ea034c3145be0d8"
+      "bytes": 17452,
+      "sha256": "b7a94568f8de4282cbf03b968fa1c5022a15bbf87925271f31a48729cad28349"
     },
     {
       "path": "scripts/install-native.sh",
@@ -985,8 +985,8 @@
     },
     {
       "path": "scripts/setup-mcp.mjs",
-      "bytes": 4793,
-      "sha256": "0623124ed619cbcbe66c833dd7085222466db2d14acfa9c2f402a8b7f3d07280"
+      "bytes": 5871,
+      "sha256": "92db23e2f396c97bc68729645e154aaa66f78d4a96c11aef9fb44d0194fec7d6"
     },
     {
       "path": "scripts/skill_collections.py",
@@ -995,13 +995,13 @@
     },
     {
       "path": "scripts/skills.mjs",
-      "bytes": 10763,
-      "sha256": "035b8184e631e48d94b9e99f3c5e935cfecfb76c4df0de38b95a9c6a16524e25"
+      "bytes": 10801,
+      "sha256": "bd3bd655a529a991af9522070a33e6bf10bd23ee066fac8dc8b95d12f3c54af8"
     },
     {
       "path": "scripts/toolkit.py",
       "bytes": 28114,
-      "sha256": "fea5df22506cc030b236fad870eb2234435d16e6eac0268b84293128b1e8af6f"
+      "sha256": "09146168e008dd858490386a8f34de957808a6a01d580b536d801eb35a9888ad"
     },
     {
       "path": "specialists/3d-spatial-and-immersive-experiences.md",
@@ -1920,13 +1920,18 @@
     },
     {
       "path": "tests/test_library_mcp.py",
-      "bytes": 5692,
-      "sha256": "31fc56d49f54f42fb9de11a192bf7a95c689d364b25425391c5e18be2b1ea32a"
+      "bytes": 8041,
+      "sha256": "08ab0677ac080aa4f7ba613ac2d8df123b01a86a48dee5d6f3aa852a695c2e48"
     },
     {
       "path": "tests/test_media_audit.py",
       "bytes": 4987,
       "sha256": "a89a415cb0413536abd1045f4caea92ef22ad2c0046d6d5ac6c8fcf873827c38"
+    },
+    {
+      "path": "tests/test_skills_import.py",
+      "bytes": 3664,
+      "sha256": "0480750007ec104a76d87edb8d147f2f10464be842f8e82dad79225da97a6754"
     },
     {
       "path": "tests/test_toolkit.py",

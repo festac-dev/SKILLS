@@ -2,47 +2,57 @@
 
 A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs.
 
-## Install the entrypoint and MCP tools
+## Install for your AI app
 
-Install one small skill globally for Codex, Claude Code and OpenCode:
+These public commands work for anyone. Choose the app you use. `-g` makes the entrypoint available across projects; the second command registers the MCP server in that app's user configuration. Node.js 22.20+ and Git are required.
+
+### Codex
+
+```sh
+npx skills add festac-dev/SKILLS --full-depth --skill skills-library --agent codex -g -y --copy
+node "$HOME/.agents/skills/skills-library/scripts/setup-mcp.mjs" --codex
+```
+
+### Claude Code
+
+```sh
+npx skills add festac-dev/SKILLS --full-depth --skill skills-library --agent claude-code -g -y --copy
+node "$HOME/.claude/skills/skills-library/scripts/setup-mcp.mjs" --claude-code
+```
+
+### OpenCode
+
+```sh
+npx skills add festac-dev/SKILLS --full-depth --skill skills-library --agent opencode -g -y --copy
+node "$HOME/.agents/skills/skills-library/scripts/setup-mcp.mjs" --opencode
+```
+
+### All three apps
 
 ```sh
 npx skills add festac-dev/SKILLS --full-depth --skill skills-library --agent codex claude-code opencode -g -y --copy
+node "$HOME/.agents/skills/skills-library/scripts/setup-mcp.mjs" --all
 ```
 
-The dataset and search index stay outside agent skill folders. The MCP server exposes **find** (a few IDs and short descriptions) and **read** (a selected guide or supporting file, with bounded pages and continuation positions). First search downloads the pinned index into `~/.cache/festac-skills/`; reads download selected files there on demand. No guide catalogue is added to the AI context automatically.
+The installer uses each person's home directory. MCP registration preserves other servers and backs up changed configuration files. Open a fresh agent session after setup.
 
-For a complete local dataset and offline MCP use:
+## Read skills through MCP
+
+The AI's skill folders contain only a small entrypoint and its runtime scripts. The dataset and index stay outside those folders. MCP `find` returns a few IDs and short descriptions; `read` loads a selected skill, section, or supporting file in bounded pages. Default: 80 lines, with at most 10,000 UTF-8 content bytes; maximum: 160 lines. Follow the returned `next.offset` and `next.column` to continue.
+
+On first search, the index is cached under `~/.cache/festac-skills/` (or `XDG_CACHE_HOME`). Selected skills and files are cached there on demand. The full catalogue is never inserted into AI context automatically.
+
+For offline use, clone the repository outside your agent's skills folder. Register MCP from the checkout:
 
 ```sh
 git clone https://github.com/festac-dev/SKILLS.git
 cd SKILLS
-sh install.sh all
 node scripts/setup-mcp.mjs --all
 ```
 
-The checkout holds the dataset and `runtime/index.json`. Installation copies only [the entrypoint](https://github.com/festac-dev/SKILLS/tree/main/skills-library) into global agent skill directories. MCP registration preserves other servers and backs up changed configuration files. Node.js 22.20+ runs the server; Python is only needed to maintain the repository.
+The setup script finds the checkout on the current machine. `SKILLS_LIBRARY_SOURCE` can also select a complete local dataset. Supporting scripts may require neighbouring resources before execution.
 
-The shell bootstrap also downloads a complete checkout outside the agent folders:
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh -s -- all
-```
-
-Register MCP from that checkout using `node ~/.local/share/SKILLS/scripts/setup-mcp.mjs --all`. Choose `--codex`, `--claude-code` or `--opencode` for one agent. Existing unrelated skills are preserved. Open a fresh agent session after installation and MCP registration.
-
-For an entrypoint installed through npx, add the following MCP command to your agent's global configuration: `node ~/.agents/skills/skills-library/scripts/mcp-server.mjs`. Claude's copied entrypoint is at `~/.claude/skills/skills-library/`. Codex uses `[mcp_servers.skills-library]` in `~/.codex/config.toml`, Claude uses `mcpServers` in `~/.claude.json`, and OpenCode uses a local server in the `mcp` object in `~/.config/opencode/opencode.json`. The setup script above registers these automatically from a checkout.
-
-The same bounded engine is available from the CLI:
-
-```sh
-node skills-library/scripts/skills.mjs find "motion video" --limit 3
-node skills-library/scripts/skills.mjs read motion-studio --limit 80
-```
-
-Use `section` / `--section` for a heading, `file` / `--file` for a relative resource, and `offset` and `column` from the returned `next` position to continue. Read returns at most 10,000 UTF-8 content bytes and 160 lines; default is 80 lines. Supporting scripts may need neighbouring files fetched before execution. `SKILLS_LIBRARY_SOURCE` selects a complete checkout for offline use.
-
-Update the source checkout and reinstall the entrypoint after imports. Maintainers run [the index builder](scripts/build_library.py) through `python3 scripts/toolkit.py index`; [the MCP adapter](scripts/mcp-server.mjs), [reader](scripts/skills.mjs) and [registration helper](scripts/setup-mcp.mjs) implement the runtime. The Codex plugin also registers only the single entrypoint.
+The shell installer also installs one entrypoint from a complete checkout. Maintainers use [the index builder](scripts/build_library.py), [MCP server](scripts/mcp-server.mjs), [reader](scripts/skills.mjs), and [setup helper](scripts/setup-mcp.mjs). The Codex plugin exposes the same single entrypoint.
 
 ## Working with the library
 
@@ -104,8 +114,8 @@ Project-authored toolkit material and integration changes use [Apache-2.0](LICEN
 
 ## Skills.sh imports
 
-Missing, licensed source skills are added in batches from the skills.sh catalogue. See [collections](COLLECTIONS.md) for the direct skill folders and [the import record](reports/SKILLS_SH_IMPORT.json) for the enumerated snapshot and current batch. Upstream licences remain applicable.
+SKILLS contains **18029 skills**: 18027 imported skills and two core skills. The catalogue imports have added **2450 skills** in completed batches, including **2261 in the latest batch. Skills use names such as `skills-azure-deploy`, `skills-playwright-cli`, and `skills-apple-design`.
 
-The completed batches add **189 missing guides**. [Snapshot inventory](reports/SKILLS_SH_CATALOGUE.json) records present and pending listings for continuation. Licence-review and unavailable sources remain in the import record.
+See [collections](COLLECTIONS.md), [the batch record](reports/SKILLS_SH_IMPORT.json), and [the snapshot inventory](reports/SKILLS_SH_CATALOGUE.json) for source revisions, results and pending listings. Licences and required supporting resources are preserved. Repeated source bytes are skipped instead of counted as additions.
 
-Maintainers can continue in batches using [the source fetcher](scripts/fetch_skills_sh.py) and [the importer](scripts/import_skills_sh.py). Set `SKILLS_IMPORT_WORK` to an external work directory holding `curation.json` (`sources`: repository-to-skill-name lists; `*` selects every missing guide). The fetcher records pinned revisions and archive digests; the importer skips duplicates and requires an applicable redistribution licence for each guide. Import maintenance needs PyYAML, while the runtime MCP tools have no package dependencies. Run the index builder and collection validation after each batch. Archives, staging files and fetch logs remain in the external work directory.
+Maintainers continue batches with [the source fetcher](scripts/fetch_skills_sh.py) and [the importer](scripts/import_skills_sh.py). Set `SKILLS_IMPORT_WORK` to an external work directory holding `curation.json` (`sources`: repository-to-skill-name lists; `*` selects every missing skill). Import maintenance uses PyYAML; MCP has no package dependencies. After a batch, regenerate the index and run collection validation. Archives, staging files and logs stay in the external work directory.

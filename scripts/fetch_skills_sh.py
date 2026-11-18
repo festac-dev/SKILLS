@@ -1,15 +1,17 @@
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor,as_completed
 from urllib.request import Request,urlopen
-import hashlib,json,os,subprocess,tarfile,time
+import hashlib,json,os,shutil,subprocess,tarfile,time
 WORK=Path(os.environ.get('SKILLS_IMPORT_WORK',Path.home()/'.cache/festac-skills-import')).resolve();WORK.mkdir(parents=True,exist_ok=True)
 ARCHIVES=WORK/'archives';ARCHIVES.mkdir(exist_ok=True)
 SOURCES=json.loads((WORK/'curation.json').read_text())['sources']
 def fetch(repo):
     key=repo.lower().replace('/','--');meta=ARCHIVES/(key+'.json');archive=ARCHIVES/(key+'.tar.gz')
-    if meta.exists() and archive.exists():return json.loads(meta.read_text())
+    if meta.exists() and archive.exists():
+        cached=json.loads(meta.read_text());cached['requested']=SOURCES[repo];return cached
     result={'repository':repo,'requested':SOURCES[repo]}
     try:
+        if shutil.disk_usage(WORK).free < 450*1024*1024:raise RuntimeError('External import storage reserve reached; resume after clearing archive caches')
         env=dict(os.environ,GIT_TERMINAL_PROMPT='0')
         r=subprocess.run(['git','ls-remote','https://github.com/'+repo+'.git','HEAD'],capture_output=True,text=True,timeout=40,env=env)
         if r.returncode or not r.stdout:raise RuntimeError('Source HEAD unavailable: '+r.stderr[:200])
@@ -21,7 +23,7 @@ def fetch(repo):
                 block=response.read(128*1024)
                 if not block:break
                 size+=len(block)
-                if size>100*1024*1024:raise RuntimeError('Archive exceeds 100 MiB; needs selective checkout')
+                if size>50*1024*1024:raise RuntimeError('Archive exceeds 50 MiB; needs selective checkout')
                 output.write(block)
         result['archive_sha256']=hashlib.sha256(archive.read_bytes()).hexdigest();result['archive_bytes']=archive.stat().st_size
         with tarfile.open(archive) as tar:

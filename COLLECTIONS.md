@@ -1,8 +1,8 @@
 # Imported Skill Collections
 
-82 collections contain 15766 namespaced guides. Datasets stay outside AI skill folders. Use MCP find/read to load selected guides and supporting files.
+100 collections contain 18027 imported skills. The dataset stays outside AI skill folders. Use MCP find/read for selected skills and supporting files.
 
-| Collection | Source | Guides |
+| Collection | Source | Skills |
 |---|---|---|
 | [openai-plugins](openai-plugins/README.md) | [openai/plugins](https://github.com/openai/plugins) | 541 |
 | [anthropic-skills](anthropic-skills/README.md) | [anthropics/skills](https://github.com/anthropics/skills) | 20 |
@@ -67,26 +67,44 @@
 | [agent-browser-skills](agent-browser-skills/README.md) | [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) | 12 |
 | [agentic-awesome-skills](agentic-awesome-skills/README.md) | [sickn33/agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills) | 9634 |
 | [blender-skills](blender-skills/README.md) | [SamuelAsherRivello/ai-skills-blender](https://github.com/SamuelAsherRivello/ai-skills-blender) | 45 |
-| [skills-sh-emilkowalski-skills](skills-sh-emilkowalski-skills/README.md) | [emilkowalski/skills](https://github.com/emilkowalski/skills) | 4 |
-| [skills-sh-leonxlnx-taste-skill](skills-sh-leonxlnx-taste-skill/README.md) | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | 1 |
-| [skills-sh-mattpocock-skills](skills-sh-mattpocock-skills/README.md) | [mattpocock/skills](https://github.com/mattpocock/skills) | 4 |
-| [skills-sh-neondatabase-agent-skills](skills-sh-neondatabase-agent-skills/README.md) | [neondatabase/agent-skills](https://github.com/neondatabase/agent-skills) | 1 |
-| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill/README.md) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 1 |
-| [skills-sh-vercel-labs-skills](skills-sh-vercel-labs-skills/README.md) | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 1 |
-| [skills-sh-heygen-com-hyperframes](skills-sh-heygen-com-hyperframes/README.md) | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 4 |
-| [skills-sh-emilkowalski-skills-684888c](skills-sh-emilkowalski-skills-684888c/README.md) | [emilkowalski/skills](https://github.com/emilkowalski/skills) | 16 |
-| [skills-sh-heygen-com-hyperframes-684888c](skills-sh-heygen-com-hyperframes-684888c/README.md) | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 3 |
-| [skills-sh-mattpocock-skills-684888c](skills-sh-mattpocock-skills-684888c/README.md) | [mattpocock/skills](https://github.com/mattpocock/skills) | 35 |
-| [skills-sh-neondatabase-agent-skills-684888c](skills-sh-neondatabase-agent-skills-684888c/README.md) | [neondatabase/agent-skills](https://github.com/neondatabase/agent-skills) | 6 |
-| [skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c](skills-sh-nextlevelbuilder-ui-ux-pro-max-skill-684888c/README.md) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 6 |
-| [skills-sh-vercel-labs-skills-684888c](skills-sh-vercel-labs-skills-684888c/README.md) | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 2 |
-| [skills-sh-expo-skills](skills-sh-expo-skills/README.md) | [expo/skills](https://github.com/expo/skills) | 25 |
-| [skills-sh-google-agents-cli](skills-sh-google-agents-cli/README.md) | [google/agents-cli](https://github.com/google/agents-cli) | 9 |
-| [skills-sh-higgsfield-ai-skills](skills-sh-higgsfield-ai-skills/README.md) | [higgsfield-ai/skills](https://github.com/higgsfield-ai/skills) | 9 |
-| [skills-sh-microsoft-azure-skills](skills-sh-microsoft-azure-skills/README.md) | [microsoft/azure-skills](https://github.com/microsoft/azure-skills) | 58 |
-| [skills-sh-microsoft-playwright-cli](skills-sh-microsoft-playwright-cli/README.md) | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) | 2 |
-| [skills-sh-shadcn-ui](skills-sh-shadcn-ui/README.md) | [shadcn/ui](https://github.com/shadcn/ui) | 2 |
+| [emilkowalski-skills](emilkowalski-skills/README.md) | [emilkowalski/skills](https://github.com/emilkowalski/skills) | 4 |
+| [leonxlnx-taste-skill](leonxlnx-taste-skill/README.md) | [leonxlnx/taste-skill](https://github.com/leonxlnx/taste-skill) | 1 |
+| [mattpocock-skills](mattpocock-skills/README.md) | [mattpocock/skills](https://github.com/mattpocock/skills) | 4 |
+| [neondatabase-agent-skills](neondatabase-agent-skills/README.md) | [neondatabase/agent-skills](https://github.com/neondatabase/agent-skills) | 1 |
+| [nextlevelbuilder-ui-ux-pro-max-skill](nextlevelbuilder-ui-ux-pro-max-skill/README.md) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 1 |
+| [vercel-labs-skills](vercel-labs-skills/README.md) | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 1 |
+| [heygen-com-hyperframes](heygen-com-hyperframes/README.md) | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 4 |
+| [emilkowalski-skills-additional](emilkowalski-skills-additional/README.md) | [emilkowalski/skills](https://github.com/emilkowalski/skills) | 16 |
+| [heygen-com-hyperframes-additional](heygen-com-hyperframes-additional/README.md) | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | 3 |
+| [mattpocock-skills-additional](mattpocock-skills-additional/README.md) | [mattpocock/skills](https://github.com/mattpocock/skills) | 35 |
+| [neondatabase-agent-skills-additional](neondatabase-agent-skills-additional/README.md) | [neondatabase/agent-skills](https://github.com/neondatabase/agent-skills) | 6 |
+| [nextlevelbuilder-ui-ux-pro-max-skill-additional](nextlevelbuilder-ui-ux-pro-max-skill-additional/README.md) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 6 |
+| [vercel-labs-skills-additional](vercel-labs-skills-additional/README.md) | [vercel-labs/skills](https://github.com/vercel-labs/skills) | 2 |
+| [expo-skills](expo-skills/README.md) | [expo/skills](https://github.com/expo/skills) | 25 |
+| [google-agents-cli](google-agents-cli/README.md) | [google/agents-cli](https://github.com/google/agents-cli) | 9 |
+| [higgsfield-ai-skills](higgsfield-ai-skills/README.md) | [higgsfield-ai/skills](https://github.com/higgsfield-ai/skills) | 9 |
+| [microsoft-azure-skills](microsoft-azure-skills/README.md) | [microsoft/azure-skills](https://github.com/microsoft/azure-skills) | 58 |
+| [microsoft-playwright-cli](microsoft-playwright-cli/README.md) | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) | 2 |
+| [shadcn-ui](shadcn-ui/README.md) | [shadcn/ui](https://github.com/shadcn/ui) | 2 |
+| [affaan-m-ecc](affaan-m-ecc/README.md) | [affaan-m/ecc](https://github.com/affaan-m/ecc) | 330 |
+| [aj-geddes-useful-ai-prompts](aj-geddes-useful-ai-prompts/README.md) | [aj-geddes/useful-ai-prompts](https://github.com/aj-geddes/useful-ai-prompts) | 259 |
+| [anthropics-knowledge-work-plugins](anthropics-knowledge-work-plugins/README.md) | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins) | 245 |
+| [aws-agent-toolkit-for-aws](aws-agent-toolkit-for-aws/README.md) | [aws/agent-toolkit-for-aws](https://github.com/aws/agent-toolkit-for-aws) | 167 |
+| [cloudflare-security-audit-skill](cloudflare-security-audit-skill/README.md) | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) | 1 |
+| [convex-agent-skills](convex-agent-skills/README.md) | [convex/agent-skills](https://github.com/convex/agent-skills) | 33 |
+| [dotnet-skills](dotnet-skills/README.md) | [dotnet/skills](https://github.com/dotnet/skills) | 114 |
+| [dylantarre-animation-principles](dylantarre-animation-principles/README.md) | [dylantarre/animation-principles](https://github.com/dylantarre/animation-principles) | 144 |
+| [firebase-agent-skills](firebase-agent-skills/README.md) | [firebase/agent-skills](https://github.com/firebase/agent-skills) | 14 |
+| [forcedotcom-sf-skills](forcedotcom-sf-skills/README.md) | [forcedotcom/sf-skills](https://github.com/forcedotcom/sf-skills) | 271 |
+| [giuseppe-trisciuoglio-developer-kit](giuseppe-trisciuoglio-developer-kit/README.md) | [giuseppe-trisciuoglio/developer-kit](https://github.com/giuseppe-trisciuoglio/developer-kit) | 116 |
+| [googlechrome-modern-web-guidance](googlechrome-modern-web-guidance/README.md) | [googlechrome/modern-web-guidance](https://github.com/googlechrome/modern-web-guidance) | 2 |
+| [greensock-gsap-skills](greensock-gsap-skills/README.md) | [greensock/gsap-skills](https://github.com/greensock/gsap-skills) | 8 |
+| [kostja94-marketing-skills](kostja94-marketing-skills/README.md) | [kostja94/marketing-skills](https://github.com/kostja94/marketing-skills) | 177 |
+| [mindrally-skills](mindrally-skills/README.md) | [mindrally/skills](https://github.com/mindrally/skills) | 265 |
+| [nrwl-nx-ai-agents-config](nrwl-nx-ai-agents-config/README.md) | [nrwl/nx-ai-agents-config](https://github.com/nrwl/nx-ai-agents-config) | 10 |
+| [obsidianmd-obsidian-skills](obsidianmd-obsidian-skills/README.md) | [obsidianmd/obsidian-skills](https://github.com/obsidianmd/obsidian-skills) | 7 |
+| [orchestra-research-ai-research-skills](orchestra-research-ai-research-skills/README.md) | [orchestra-research/ai-research-skills](https://github.com/orchestra-research/ai-research-skills) | 98 |
 
 ## Find and read
 
-Use MCP `find` and `read` for bounded discovery and selected guide pages. Maintainers can use `python3 scripts/skill_collections.py search "topic"`. Follow [collection rules](COLLECTION_RULES.md). [Source inventory](COLLECTIONS.json) records pinned revisions and file digests.
+Use MCP `find` for a few matches and `read` for bounded pages and supporting files. Maintainers can search with `python3 scripts/skill_collections.py search "topic"`. Follow [collection rules](COLLECTION_RULES.md). [Source inventory](COLLECTIONS.json) records pinned revisions and file digests.
