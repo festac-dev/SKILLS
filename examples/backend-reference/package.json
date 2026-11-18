@@ -1,0 +1,12 @@
+{
+  "name": "backend-reference-patterns",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zero-dependency reference for production backend patterns. Patterns to adapt, not a framework to adopt.",
+  "type": "commonjs",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  }
+}

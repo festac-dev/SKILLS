@@ -1,0 +1,48 @@
+# Optional patterns: review each against the receiving project.
+# Preserve intentional AGENTS.md, CLAUDE.md, skills, docs, tests, workflows,
+# lockfiles, LICENSE/NOTICE files, and required attribution.
+# Do not ignore an entire tool configuration directory without inspecting it.
+
+# Local sessions and scratch work: use only directories your project reserves.
+/.local-agent-sessions/
+/.local-agent-cache/
+/.local-agent-logs/
+/.local-prompt-drafts/
+/.local-chat-transcripts/
+/.local-scratch/
+
+# Development prompt/recording dumps, when these exact files are local inputs.
+# Keep product runtime prompts and intentional toolkit source versioned.
+/PROMPT.md
+/DEMO_SCRIPT.md
+/uiux.md
+/uiux.txt
+
+# Dedicated local media-production workspaces, when separate from app source.
+/video/
+/videos/
+/creative-production-toolkit/
+
+# Local credentials/configuration; allow reviewed examples.
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+
+# Runtime and build products: adapt to the actual stack.
+/dist/
+/build/
+/node_modules/
+__pycache__/
+*.py[cod]
+*.log
+*.tmp
+*.tsbuildinfo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Ignore rules do not remove already tracked files or revoke leaked secrets.
+# Check for intentionally versioned .pem/.key fixtures and exempt them if needed.

@@ -1,0 +1,388 @@
+{
+  "schema_version": 1,
+  "kind": "deterministic route checks; no model execution",
+  "cases": [
+    {
+      "id": "R01",
+      "prompt": "Build a keyboard-driven TUI on Termux with no mouse.",
+      "primary": "cli",
+      "includes": [
+        "references/termux-and-constrained-environments.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R02",
+      "prompt": "Fix duplicate webhook processing in the backend API.",
+      "primary": "backend",
+      "includes": [],
+      "excludes": [
+        "specialists/brand-and-art-direction.md"
+      ]
+    },
+    {
+      "id": "R03",
+      "prompt": "Review Foundry proxy storage and Solidity reentrancy before a testnet release.",
+      "primary": "solidity",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R04",
+      "prompt": "Repair a responsive form and frontend focus at high zoom.",
+      "primary": "frontend",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R05",
+      "prompt": "Migrate a shared package through a monorepo codemod.",
+      "primary": "monorepo",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R06",
+      "prompt": "Build a TUI on a Termux Android host with a low-RAM offline build.",
+      "primary": "cli",
+      "includes": [
+        "references/termux-and-constrained-environments.md",
+        "specialists/cli-and-tui-engineering.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R07",
+      "prompt": "Prepare a picnic near the river.",
+      "primary": "catalogue",
+      "includes": [],
+      "excludes": [
+        "specialists/near-and-cross-chain-engineering.md"
+      ]
+    },
+    {
+      "id": "R08",
+      "prompt": "Make a professional logo and distinct visual identity for each product.",
+      "primary": "brand",
+      "includes": [
+        "specialists/brand-and-art-direction.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R09",
+      "prompt": "Make the 3D graphics rotate with autoplay and flowing connections.",
+      "primary": "graphics",
+      "includes": [
+        "specialists/motion-3d-and-immersive.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R10",
+      "prompt": "Update and upgrade everything in my SKILLS directory.",
+      "primary": "skill-maintenance",
+      "includes": [
+        "references/skill-lifecycle-and-improvement.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R11",
+      "prompt": "Fix screen reader announcements and keyboard focus.",
+      "primary": "accessibility",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R12",
+      "prompt": "Improve workspace navigation and information architecture.",
+      "primary": "ux",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R13",
+      "prompt": "Rewrite microcopy and button labels.",
+      "primary": "content",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R14",
+      "prompt": "Investigate a memory leak using profiling.",
+      "primary": "performance",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R15",
+      "prompt": "Build an app for the specified primary journey.",
+      "primary": "product-build",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R16",
+      "prompt": "Repair billing and payment entitlements.",
+      "primary": "payments",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R17",
+      "prompt": "Recover an uncertain commit in a third-party integration.",
+      "primary": "integration",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R18",
+      "prompt": "Plan a usability study for the roadmap.",
+      "primary": "research",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R19",
+      "prompt": "Launch locally so I can use the local preview.",
+      "primary": "preview",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R20",
+      "prompt": "Continue from where the interrupted session stopped.",
+      "primary": "context",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R21",
+      "prompt": "Upgrade unrelated spelling.",
+      "primary": "catalogue",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R22",
+      "prompt": "Check a NEAR protocol cross-chain receipt.",
+      "primary": "cross-chain",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R23",
+      "prompt": "Write a shader animation for an existing product.",
+      "primary": "graphics",
+      "includes": [],
+      "excludes": []
+    },
+    {
+      "id": "R24",
+      "prompt": "Repair an API on a Termux Android host with a low-RAM offline build.",
+      "primary": "backend",
+      "includes": [
+        "references/termux-and-constrained-environments.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R25",
+      "prompt": "Upgrade demo video creation in this skill library using the sample as guidance.",
+      "primary": "skill-maintenance",
+      "includes": [
+        "references/skill-lifecycle-and-improvement.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R26",
+      "prompt": "Create a launch video with voice-over.",
+      "primary": "video",
+      "includes": [
+        "specialists/product-demo-video-production.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R27",
+      "prompt": "Make a product film in Remotion.",
+      "primary": "video",
+      "includes": [
+        "specialists/product-demo-video-production.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R28",
+      "prompt": "Review our OpenAPI contract and API versioning for existing consumers.",
+      "primary": "api-contract",
+      "includes": [
+        "specialists/api-and-developer-experience.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R29",
+      "prompt": "Investigate a slow query and its query plan with the existing database schema.",
+      "primary": "database",
+      "includes": [
+        "specialists/database-engineering.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R30",
+      "prompt": "Recover a job queue after worker lease expiry and dead-letter replay.",
+      "primary": "queues",
+      "includes": [
+        "specialists/queues-and-background-jobs.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R31",
+      "prompt": "Diagnose TLS and the reverse proxy on our VPS without changing the firewall.",
+      "primary": "server-operations",
+      "includes": [
+        "specialists/network-and-server-operations.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R32",
+      "prompt": "Fix WebSocket reconnect and slow consumer behavior after membership revocation.",
+      "primary": "realtime",
+      "includes": [
+        "specialists/realtime-and-collaboration.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R33",
+      "prompt": "Study this TikTok carousel as a design reference.",
+      "primary": "visual-reference",
+      "includes": [
+        "references/visual-reference-analysis.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R34",
+      "prompt": "Give sibling products distinct templates based on their jobs.",
+      "primary": "brand",
+      "includes": [
+        "specialists/design-systems-and-ui.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R35",
+      "prompt": "Upgrade this skill library using a sample demo video.",
+      "primary": "skill-maintenance",
+      "includes": [
+        "references/skill-lifecycle-and-improvement.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R36",
+      "prompt": "Clear build caches while retaining runtime data and final videos.",
+      "primary": "hygiene",
+      "includes": [
+        "scripts/cache_cleanup.py",
+        "references/repository-hygiene-and-ai-artifact-policy.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R37",
+      "prompt": "Prepare for git and keep development prompt files out of the repository.",
+      "primary": "hygiene",
+      "includes": [
+        "templates/REPOSITORY_HYGIENE.gitignore"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R38",
+      "prompt": "Are provider data collection and the account setting enabled?",
+      "primary": "integration",
+      "includes": [
+        "orchestrator/ENGINEERING_JUDGMENT_AND_EVIDENCE.md"
+      ],
+      "excludes": [
+        "scripts/cache_cleanup.py"
+      ]
+    },
+    {
+      "id": "R39",
+      "prompt": "Write our hackathon submission form using implemented features.",
+      "primary": "hackathon",
+      "includes": [
+        "playbooks/HACKATHON_DELIVERY_PLAYBOOK.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R40",
+      "prompt": "Explain cache invalidation for an API response.",
+      "primary": "backend",
+      "includes": [],
+      "excludes": [
+        "scripts/cache_cleanup.py"
+      ]
+    },
+    {
+      "id": "R41",
+      "prompt": "Add a system prompt to the product agent runtime.",
+      "primary": "agent",
+      "includes": [],
+      "excludes": [
+        "scripts/cache_cleanup.py"
+      ]
+    },
+    {
+      "id": "R-DOCS-README",
+      "prompt": "Tighten the README so public users can follow the core workflow.",
+      "primary": "documentation",
+      "includes": [
+        "specialists/technical-documentation.md"
+      ],
+      "excludes": [
+        "motion-studio/SKILL.md"
+      ]
+    },
+    {
+      "id": "R-DOCS-EVIDENCE",
+      "prompt": "Rewrite the verification summary to distinguish documented setup from observed live results.",
+      "primary": "documentation",
+      "includes": [
+        "orchestrator/ENGINEERING_JUDGMENT_AND_EVIDENCE.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R-DOCS-HACKATHON",
+      "prompt": "Prepare the hackathon submission checklist.",
+      "primary": "hackathon",
+      "includes": [
+        "specialists/technical-documentation.md",
+        "playbooks/HACKATHON_DELIVERY_PLAYBOOK.md"
+      ],
+      "excludes": []
+    },
+    {
+      "id": "R-DOCS-REUSABLE",
+      "prompt": "Write an installation guide and operator guide for an existing image processor.",
+      "primary": "documentation",
+      "includes": [
+        "specialists/technical-documentation.md"
+      ],
+      "excludes": [
+        "playbooks/HACKATHON_DELIVERY_PLAYBOOK.md"
+      ]
+    }
+  ]
+}

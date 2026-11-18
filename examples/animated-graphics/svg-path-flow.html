@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVG connectors that flow and follow draggable nodes</title>
+<style>
+  :root { --bg:#10141b; --fg:#e8ecf3; --line:#41506a; --flow:#6ea8fe; --node:#1b2433; --ring:#7ed6a5; color-scheme: dark light; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f6f8fb; --fg:#14171c; --line:#b5c0d0; --flow:#2f6fdd; --node:#fff; --ring:#1f8a5b; } }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui,sans-serif; }
+  .board { position:relative; height:100%; min-height:420px; overflow:hidden; touch-action:none; }
+  svg.links { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .link { fill:none; stroke:var(--line); stroke-width:2; }
+  .flow { fill:none; stroke:var(--flow); stroke-width:3; stroke-linecap:round; stroke-dasharray:2 14; animation:dash 1.2s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset:-16; } }
+  .node { position:absolute; width:120px; padding:.6rem .5rem; text-align:center; background:var(--node); border:2px solid var(--ring); border-radius:.7rem; cursor:grab; user-select:none; transform:translate(-50%,-50%); }
+  .node:focus-visible { outline:3px solid var(--flow); outline-offset:3px; }
+  .node small { display:block; color:color-mix(in srgb, var(--fg) 60%, transparent); }
+  circle.packet { fill:var(--flow); }
+  @media (prefers-reduced-motion: reduce) { .flow { animation:none; stroke-dasharray:none; } circle.packet { display:none; } }
+</style>
+</head>
+<body>
+<div class="board" id="board">
+  <svg class="links" id="links" aria-hidden="true"></svg>
+</div>
+<script>
+(() => {
+  const board = document.getElementById('board'), svg = document.getElementById('links'), NS = 'http://www.w3.org/2000/svg';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const data = [
+    { id: 'src', label: 'Source', sub: 'events in', x: .15, y: .5 },
+    { id: 'tr',  label: 'Transform', sub: 'validate + enrich', x: .45, y: .3 },
+    { id: 'st',  label: 'Store', sub: 'durable', x: .45, y: .7 },
+    { id: 'out', label: 'Output', sub: 'API + alerts', x: .8, y: .5 },
+  ];
+  const links = [['src','tr'],['src','st'],['tr','out'],['st','out']];
+  const els = {};
+  data.forEach((n) => {
+    const el = document.createElement('div'); el.className = 'node'; el.tabIndex = 0; el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', `${n.label} node. Use arrow keys to move.`); el.innerHTML = `${n.label}<small>${n.sub}</small>`; board.appendChild(el); els[n.id] = { el, n };
+  });
+  const paths = links.map(([a, b]) => {
+    const g = document.createElementNS(NS, 'g'), base = document.createElementNS(NS, 'path'), flow = document.createElementNS(NS, 'path'), dot = document.createElementNS(NS, 'circle');
+    base.setAttribute('class', 'link'); flow.setAttribute('class', 'flow'); dot.setAttribute('class', 'packet'); dot.setAttribute('r', '4');
+    g.append(base, flow, dot); svg.appendChild(g); return { a, b, base, flow, dot, phase: Math.random() };
+  });
+
+  function place() {
+    const r = board.getBoundingClientRect();
+    for (const { el, n } of Object.values(els)) { el.style.left = n.x * r.width + 'px'; el.style.top = n.y * r.height + 'px'; }
+    for (const p of paths) {
+      const A = els[p.a].n, B = els[p.b].n, ax = A.x * r.width, ay = A.y * r.height, bx = B.x * r.width, by = B.y * r.height, dx = Math.max(60, Math.abs(bx - ax) * .5);
+      const d = `M${ax},${ay} C${ax + dx},${ay} ${bx - dx},${by} ${bx},${by}`;    // connectors recompute from node positions
+      p.base.setAttribute('d', d); p.flow.setAttribute('d', d);
+    }
+  }
+  let raf = 0, visible = true, last = performance.now();
+  function tick(now) {
+    raf = 0; const dt = Math.min(.05, (now - last) / 1000); last = now;
+    for (const p of paths) { p.phase = (p.phase + dt * .22) % 1; const len = p.base.getTotalLength(), pt = p.base.getPointAtLength(len * p.phase); p.dot.setAttribute('cx', pt.x); p.dot.setAttribute('cy', pt.y); }
+    if (visible && !document.hidden && !reduced.matches) raf = requestAnimationFrame(tick);
+  }
+  const start = () => { if (!raf && visible && !document.hidden && !reduced.matches) { last = performance.now(); raf = requestAnimationFrame(tick); } };
+  const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+  let drag = null;
+  board.addEventListener('pointerdown', (e) => { const t = e.target.closest('.node'); if (!t) return; drag = Object.values(els).find((o) => o.el === t); board.setPointerCapture(e.pointerId); });
+  board.addEventListener('pointermove', (e) => { if (!drag) return; const r = board.getBoundingClientRect(); drag.n.x = Math.min(.95, Math.max(.05, (e.clientX - r.left) / r.width)); drag.n.y = Math.min(.95, Math.max(.05, (e.clientY - r.top) / r.height)); place(); });
+  const up = () => drag = null; board.addEventListener('pointerup', up); board.addEventListener('pointercancel', up);
+  board.addEventListener('keydown', (e) => {                       // keyboard alternative to dragging
+    const o = Object.values(els).find((x) => x.el === document.activeElement); if (!o) return; const s = .03;
+    const m = { ArrowLeft: [-s, 0], ArrowRight: [s, 0], ArrowUp: [0, -s], ArrowDown: [0, s] }[e.key]; if (!m) return; e.preventDefault();
+    o.n.x = Math.min(.95, Math.max(.05, o.n.x + m[0])); o.n.y = Math.min(.95, Math.max(.05, o.n.y + m[1])); place();
+  });
+  new ResizeObserver(place).observe(board);
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; visible ? start() : stop(); }).observe(board);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  place(); start();
+  window.__demo = { paths: () => paths.map((p) => p.base.getAttribute('d')), running: () => !!raf };      // test hook only
+})();
+</script>
+</body>
+</html>

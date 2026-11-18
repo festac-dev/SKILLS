@@ -1,0 +1,1779 @@
+{
+  "sourceArchive": "CLAUDE.zip",
+  "sharedPaths": 151,
+  "existingAlreadyCovered": [
+    "orchestrator/FEATURE_DECISION_FRAMEWORK.md",
+    "orchestrator/PROJECT_DISCOVERY_PROTOCOL.md",
+    "playbooks/AI_AGENT_IMPLEMENTATION_PLAYBOOK.md",
+    "playbooks/DATA_MIGRATION_PLAYBOOK.md",
+    "playbooks/DESIGN_SYSTEM_IMPLEMENTATION_PLAYBOOK.md",
+    "playbooks/END_TO_END_PRODUCT_BUILD_PLAYBOOK.md",
+    "playbooks/EXISTING_REPOSITORY_AUDIT_PLAYBOOK.md",
+    "playbooks/INCIDENT_RESPONSE_PLAYBOOK.md",
+    "playbooks/PRODUCTION_READINESS_PLAYBOOK.md",
+    "quality-gates/AI_AND_AUTOMATION_RELEASE_GATE.md",
+    "quality-gates/ANTI-BLOAT-AND-ANTI-GENERIC-AI.md",
+    "quality-gates/COMMERCIAL_AND_OPERATIONS_GATE.md",
+    "quality-gates/DEFINITION_OF_DONE.md",
+    "quality-gates/DOMAIN_AND_INTEGRATION_GATE.md",
+    "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+    "quality-gates/PROJECT_DISCOVERY_AND_SCOPE_GATE.md",
+    "references/architecture-decision-records.md",
+    "references/architecture-pattern-selection-guide.md",
+    "references/capability-catalogue.md",
+    "references/complete-product-capability-map.md",
+    "references/content-design-and-voice-guide.md",
+    "references/data-modeling-and-integrity-guide.md",
+    "references/design-and-content-principles.md",
+    "references/design-system-governance.md",
+    "references/full-stack-product-patterns.md",
+    "references/integration-patterns-and-failure-modes.md",
+    "references/interaction-and-state-pattern-library.md",
+    "references/metrics-and-experimentation-guide.md",
+    "references/operational-excellence-guide.md",
+    "references/platform-and-operational-capabilities.md",
+    "references/platform-compatibility-matrix.md",
+    "references/product-domain-patterns.md",
+    "references/release-and-change-management.md",
+    "references/reliability-engineering-patterns.md",
+    "references/research-and-validation-methods.md",
+    "references/security-control-catalogue.md",
+    "references/technical-decision-records.md",
+    "specialists/3d-spatial-and-immersive-experiences.md",
+    "specialists/accessibility-and-inclusive-research.md",
+    "specialists/ai-evaluation-and-governance.md",
+    "specialists/api-and-developer-experience.md",
+    "specialists/architecture-and-systems-design.md",
+    "specialists/backup-and-disaster-recovery.md",
+    "specialists/commerce-and-checkout.md",
+    "specialists/content-platform-and-cms.md",
+    "specialists/cost-and-capacity-engineering.md",
+    "specialists/customer-support-and-success.md",
+    "specialists/edge-and-distributed-systems.md",
+    "specialists/education-and-learning-products.md",
+    "specialists/experimentation-and-growth.md",
+    "specialists/financial-planning-and-unit-economics.md",
+    "specialists/finops-and-cloud-economics.md",
+    "specialists/fintech-and-ledger-systems.md",
+    "specialists/full-stack-application-architecture.md",
+    "specialists/healthcare-product-safety.md",
+    "specialists/human-content-and-ux-writing.md",
+    "specialists/identity-and-access-management.md",
+    "specialists/legal-policy-and-regulatory-coordination.md",
+    "specialists/marketplace-and-reputation.md",
+    "specialists/migration-and-compatibility.md",
+    "specialists/portfolio-and-program-management.md",
+    "specialists/privacy-engineering.md",
+    "specialists/quality-engineering-and-test-strategy.md",
+    "specialists/real-time-media-and-streaming.md",
+    "specialists/realtime-and-collaboration.md",
+    "specialists/robotics-and-autonomous-systems.md",
+    "specialists/search-and-information-retrieval.md",
+    "specialists/search-relevance-and-recommendations.md",
+    "specialists/security-architecture-and-red-teaming.md",
+    "specialists/seo-and-discoverability.md",
+    "specialists/supply-chain-and-build-security.md",
+    "specialists/technical-debt-and-modernization.md",
+    "specialists/technical-writing-and-knowledge-management.md",
+    "specialists/visualization-and-information-design.md",
+    "specialists/voice-and-conversational-experiences.md",
+    "templates/ACCESSIBILITY_AND_LOCALIZATION_REVIEW.md",
+    "templates/ACCESSIBILITY_CONFORMANCE_REPORT.md",
+    "templates/ACCESSIBILITY_TEST_PLAN.md",
+    "templates/AI_EVALUATION_PLAN.md",
+    "templates/AI_FEATURE_SAFETY_REVIEW.md",
+    "templates/AI_TOOL_PERMISSION_MATRIX.md",
+    "templates/ANALYTICS_METRIC_SPEC.md",
+    "templates/API_CONTRACT_REVIEW.md",
+    "templates/COST_MODEL_AND_CAPACITY_PLAN.md",
+    "templates/DATA_LIFECYCLE_AND_RETENTION.md",
+    "templates/DEPRECATION_AND_END_OF_LIFE_PLAN.md",
+    "templates/DOMAIN_MODEL_AND_STATE_MACHINE.md",
+    "templates/FEATURE_DECISION_REGISTER.md",
+    "templates/FULL_STACK_APPLICATION_BLUEPRINT.md",
+    "templates/INCIDENT_POSTMORTEM.md",
+    "templates/INTEGRATION_REGISTER.md",
+    "templates/LOCALIZATION_READINESS.md",
+    "templates/MIGRATION_RUNBOOK.md",
+    "templates/OBSERVABILITY_SPEC.md",
+    "templates/OPERATIONAL_READINESS_REVIEW.md",
+    "templates/PERFORMANCE_BUDGET.md",
+    "templates/POST_LAUNCH_REVIEW.md",
+    "templates/PRODUCT_RISK_REGISTER.md",
+    "templates/PROJECT_BRIEF.md",
+    "templates/PROJECT_CHARTER_AND_OUTCOME_MAP.md",
+    "templates/RELEASE_AND_EVIDENCE_REPORT.md",
+    "templates/RELEASE_PLAN_AND_ROLLBACK.md",
+    "templates/RESEARCH_PLAN_AND_FINDINGS.md",
+    "templates/SCREEN_AND_STATE_INVENTORY.md",
+    "templates/SECURITY_THREAT_REGISTER.md",
+    "templates/THIRD_PARTY_DUE_DILIGENCE.md",
+    "templates/THREAT_MODEL_WORKSHEET.md",
+    "templates/USER_FEEDBACK_AND_SUPPORT_TAXONOMY.md",
+    "templates/USER_JOURNEY_AND_FAILURE_MAP.md",
+    "templates/USER_STORY_AND_ACCEPTANCE_CRITERIA.md",
+    "templates/VENDOR_AND_EXIT_PLAN.md"
+  ],
+  "mergedIntoExisting": [
+    "playbooks/BACKEND_DELIVERY_PLAYBOOK.md",
+    "playbooks/DATA_MIGRATION_PLAYBOOK.md",
+    "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md",
+    "specialists/accessibility-and-internationalization.md",
+    "specialists/api-and-developer-experience.md",
+    "specialists/backend-and-data-engineering.md",
+    "specialists/backup-and-disaster-recovery.md",
+    "specialists/billing-and-entitlements.md",
+    "specialists/brand-and-art-direction.md",
+    "specialists/cli-and-tui-engineering.md",
+    "specialists/cost-and-capacity-engineering.md",
+    "specialists/data-platform-and-pipelines.md",
+    "specialists/database-engineering.md",
+    "specialists/design-systems-and-ui.md",
+    "specialists/desktop-and-cross-platform.md",
+    "specialists/devops-and-release.md",
+    "specialists/frontend-engineering.md",
+    "specialists/game-and-interactive-systems.md",
+    "specialists/hardware-and-iot-systems.md",
+    "specialists/identity-and-access-management.md",
+    "specialists/import-export-and-data-portability.md",
+    "specialists/mobile-and-device-experiences.md",
+    "specialists/motion-3d-and-immersive.md",
+    "specialists/multi-tenancy-and-enterprise-governance.md",
+    "specialists/network-and-server-operations.md",
+    "specialists/observability-and-incident-response.md",
+    "specialists/offline-and-resilient-experiences.md",
+    "specialists/queues-and-background-jobs.md",
+    "specialists/realtime-and-collaboration.md",
+    "specialists/search-and-information-retrieval.md",
+    "specialists/security-and-privacy.md",
+    "specialists/technical-documentation.md",
+    "specialists/trust-safety-and-moderation.md"
+  ],
+  "retiredAliases": {
+    "specialists/backend-architecture-and-service-design.md": "specialists/backend-and-data-engineering.md",
+    "specialists/api-design-and-protocols.md": "specialists/api-and-developer-experience.md",
+    "specialists/authentication-and-authorization-engineering.md": "specialists/identity-and-access-management.md",
+    "specialists/database-engineering-and-data-modeling.md": "specialists/database-engineering.md",
+    "specialists/database-operations-and-migrations.md": "specialists/database-engineering.md",
+    "specialists/backup-restore-and-disaster-recovery-engineering.md": "specialists/backup-and-disaster-recovery.md",
+    "specialists/queues-jobs-and-event-driven-systems.md": "specialists/queues-and-background-jobs.md",
+    "specialists/realtime-backend-systems.md": "specialists/realtime-and-collaboration.md",
+    "specialists/ci-cd-and-release-automation.md": "specialists/devops-and-release.md",
+    "specialists/observability-sre-and-operations.md": "specialists/observability-and-incident-response.md",
+    "specialists/terminal-cli-and-interactive-tui.md": "specialists/cli-and-tui-engineering.md",
+    "specialists/networking-dns-tls-and-edge.md": "specialists/network-and-server-operations.md",
+    "specialists/vps-and-linux-server-administration.md": "specialists/network-and-server-operations.md",
+    "specialists/scaling-and-capacity-engineering.md": "specialists/cost-and-capacity-engineering.md",
+    "specialists/search-and-indexing-infrastructure.md": "specialists/search-and-information-retrieval.md",
+    "specialists/animated-graphics-and-interactive-motion.md": "specialists/motion-3d-and-immersive.md",
+    "specialists/creative-direction-and-distinctiveness.md": "specialists/distinctive-product-craft-and-differentiation.md",
+    "playbooks/BUILD-BACKEND-AND-API-FROM-SCRATCH.md": "playbooks/BACKEND_DELIVERY_PLAYBOOK.md",
+    "playbooks/SCALING-AND-PERFORMANCE-INVESTIGATION-PLAYBOOK.md": "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md",
+    "playbooks/ZERO-DOWNTIME-MIGRATION-PLAYBOOK.md": "playbooks/DATA_MIGRATION_PLAYBOOK.md",
+    "orchestrator/CAPABILITY_ROUTER.md": "orchestrator/PROJECT_ROUTING.md",
+    "orchestrator/RECOMMENDATION_PROTOCOL.md": "orchestrator/TECHNOLOGY_SELECTION.md",
+    "references/project-type-routing-table.md": "orchestrator/PROJECT_ROUTING.md",
+    "INDEX.md": "README.md",
+    "tools/build_manifest.py": "scripts/toolkit.py",
+    "tools/validate_package.py": "scripts/toolkit.py",
+    "examples/motion-lab.html": "examples/animated-graphics/index.html"
+  },
+  "omittedGenerator": {
+    "tools/_deepen.py": "One-off generator containing source text already represented by the merged guides; not a maintained runtime tool."
+  },
+  "notes": [
+    "Existing scope, authorization, motion and evidence rules retained.",
+    "No imported generic default stack or additional approval requirement supersedes current instructions.",
+    "Catalogue and manifest are generated projections of one source inventory.",
+    "The earlier combined motion demo is covered by the five maintained graphics examples; its callers now use their gallery."
+  ],
+  "sourceArchiveSha256": "6f4b1829533b6a12116fcabcf6d785554a9d95a8db36b4be40c0de35d726874d",
+  "importedResources": [
+    {
+      "source": "AGENTS.md",
+      "target": "AGENTS.md",
+      "sourceSha256": "152a9ae3e1fea9cc7ea6a110bdfac46c0f1d6b6d9c9dfcde38577a3551f436ec"
+    },
+    {
+      "source": "CATALOG.md",
+      "target": "CATALOG.md",
+      "sourceSha256": "578ab14096933eccd0c44111b8e94f5407af491bfe5c5182171f3433d85b2f6c"
+    },
+    {
+      "source": "CHANGELOG.md",
+      "target": "reports/CLAUDE_IMPORT_HISTORY.md",
+      "sourceSha256": "3d2abe4ed24ba9ac6403bac955974da83e95be4ca8e0fe5e3b781bed6e0d291a"
+    },
+    {
+      "source": "CLAUDE.md",
+      "target": "CLAUDE.md",
+      "sourceSha256": "e48af3d1faf09280818b7076a64b4f99d7fddaf389b8adcfe38dcedd5857a3bd"
+    },
+    {
+      "source": "INDEX.md",
+      "target": "README.md",
+      "sourceSha256": "6c9390e9352c7213e6c77c26fef408c0a44fa63eda360d8e87822c63f3153fa7"
+    },
+    {
+      "source": "README.md",
+      "target": "README.md",
+      "sourceSha256": "ff00ea1d65268050ae89bf9487f13816bd61bdd8f5b55f18e7b911749bb0faaf"
+    },
+    {
+      "source": "examples/README.md",
+      "target": "examples/README.md",
+      "sourceSha256": "663ee0993e48b8061482ff54099541c027778365b3c868c3c0dad27ee7ff32ce"
+    },
+    {
+      "source": "examples/animated-graphics/flow-network.html",
+      "target": "examples/animated-graphics/flow-network.html",
+      "sourceSha256": "53e9cd240796ba77e470e7706cc542647df354f24cafc6cb641075e9d11bd9f4"
+    },
+    {
+      "source": "examples/animated-graphics/index.html",
+      "target": "examples/animated-graphics/index.html",
+      "sourceSha256": "c94cdedcf60b52234f56e8e36b59d9927972544ecb856f7ab1a79e3975f28a51"
+    },
+    {
+      "source": "examples/animated-graphics/orbital-rotation.html",
+      "target": "examples/animated-graphics/orbital-rotation.html",
+      "sourceSha256": "240f75382cf5e8805639b446b5b40b8ffda9078232df1f32498355a2513788aa"
+    },
+    {
+      "source": "examples/animated-graphics/parallax-layers.html",
+      "target": "examples/animated-graphics/parallax-layers.html",
+      "sourceSha256": "d6abb9b6d9dfba73339bea34335be4462a0fd1f5f26a3544b452a19a0f536947"
+    },
+    {
+      "source": "examples/animated-graphics/shader-field.html",
+      "target": "examples/animated-graphics/shader-field.html",
+      "sourceSha256": "b72158310624adc4612063d7dbed147fb52ec1fb66d56062140b251cab4d3f6b"
+    },
+    {
+      "source": "examples/animated-graphics/svg-path-flow.html",
+      "target": "examples/animated-graphics/svg-path-flow.html",
+      "sourceSha256": "85c0c841d4ae8313adf7d9f5baa484980584ea1b6e341cc97bd19df704a7adf1"
+    },
+    {
+      "source": "examples/animated-graphics/test_examples.py",
+      "target": "examples/animated-graphics/test_examples.py",
+      "sourceSha256": "89121fb6e4995e34143fdbf9f417262b6cbb9d7a69ccc52a9d826cfcd10ab95b"
+    },
+    {
+      "source": "examples/backend-reference/README.md",
+      "target": "examples/backend-reference/README.md",
+      "sourceSha256": "4a324fb4078ad91ecb4b51870529af9d65373ece1a4dc61d5848a765b4b06a2c"
+    },
+    {
+      "source": "examples/backend-reference/package.json",
+      "target": "examples/backend-reference/package.json",
+      "sourceSha256": "9d18cc183fcca8844fb9094d5f1ca8b020945c35b636f60d44a74cb71b808a09"
+    },
+    {
+      "source": "examples/backend-reference/src/app.js",
+      "target": "examples/backend-reference/src/app.js",
+      "sourceSha256": "87f1e6fdd3b2a38676f782b152a89ac992157dbc355a91cc5f0e9bee0348ea03"
+    },
+    {
+      "source": "examples/backend-reference/src/lib.js",
+      "target": "examples/backend-reference/src/lib.js",
+      "sourceSha256": "22ec9321696bf30719ba774a5981b85b62bc435e4ae452f3688d576520aca082"
+    },
+    {
+      "source": "examples/backend-reference/src/server.js",
+      "target": "examples/backend-reference/src/server.js",
+      "sourceSha256": "9a418ecba75245e4dc9fb53d686abf6c47596b8c7e5f14e6a0a64a59029cad46"
+    },
+    {
+      "source": "examples/backend-reference/test/app.test.js",
+      "target": "examples/backend-reference/test/app.test.js",
+      "sourceSha256": "a19be5d2133cce9fdb066b7ac3417cb6449647b2aed0a31358a81a847f272a37"
+    },
+    {
+      "source": "examples/motion-lab.html",
+      "target": "examples/animated-graphics/index.html",
+      "sourceSha256": "032e64c126aac42bc8f0e98910e904ae1d0fd3628bd702832e379499e1a4d908"
+    },
+    {
+      "source": "manifest.json",
+      "target": "manifest.json",
+      "sourceSha256": "20dbe370a5abd1ce5b1c760458e4232077cbda4967f3db8fd708a7a048fcba96"
+    },
+    {
+      "source": "orchestrator/CAPABILITY_ROUTER.md",
+      "target": "orchestrator/PROJECT_ROUTING.md",
+      "sourceSha256": "80e7e830c9187e8ad70a03914bbce0ce0c01b7da0025ac6d4f4f4e0d692820cc"
+    },
+    {
+      "source": "orchestrator/FEATURE_DECISION_FRAMEWORK.md",
+      "target": "orchestrator/FEATURE_DECISION_FRAMEWORK.md",
+      "sourceSha256": "caff455540f85306b28466c9ffb721e0e57a25326b7f6d58c94dce72a6867b16"
+    },
+    {
+      "source": "orchestrator/MASTER_ORCHESTRATOR_PROMPT.md",
+      "target": "orchestrator/MASTER_ORCHESTRATOR_PROMPT.md",
+      "sourceSha256": "29a164c4dbe35ded680323d59aaeebaf5863b4979900b2c20b0bc178b27eb0a3"
+    },
+    {
+      "source": "orchestrator/PROJECT_DISCOVERY_PROTOCOL.md",
+      "target": "orchestrator/PROJECT_DISCOVERY_PROTOCOL.md",
+      "sourceSha256": "e7215688d265bc8be22ba671cb3af96e840e0f8d4b61c9f15e11a03576584af5"
+    },
+    {
+      "source": "orchestrator/RECOMMENDATION_PROTOCOL.md",
+      "target": "orchestrator/TECHNOLOGY_SELECTION.md",
+      "sourceSha256": "b37e42e5ceb0b1b88f148810ba7057a18f2876304666b2c9506a1e20491edc91"
+    },
+    {
+      "source": "playbooks/ACCESSIBILITY_REMEDIATION_PLAYBOOK.md",
+      "target": "playbooks/ACCESSIBILITY_REMEDIATION_PLAYBOOK.md",
+      "sourceSha256": "4a354595097e519be27ee62819d9cfb7973bbb81f33648943dcea1eacfcb219a"
+    },
+    {
+      "source": "playbooks/AI-CONTAMINATION-CLEANUP-AND-GIT-HYGIENE.md",
+      "target": "playbooks/AI-CONTAMINATION-CLEANUP-AND-GIT-HYGIENE.md",
+      "sourceSha256": "4453cd13f85863f8bf88ea57cfa6558309aaa7c6c2c3d958541ebb160cca68d9"
+    },
+    {
+      "source": "playbooks/AI_AGENT_IMPLEMENTATION_PLAYBOOK.md",
+      "target": "playbooks/AI_AGENT_IMPLEMENTATION_PLAYBOOK.md",
+      "sourceSha256": "00fc6799a0d63402ebdb19fe4765794827aa9db01992c566fc55aa4d2d6dc95c"
+    },
+    {
+      "source": "playbooks/ALL_SCREEN_TYPES_VALIDATION_PLAYBOOK.md",
+      "target": "playbooks/ALL_SCREEN_TYPES_VALIDATION_PLAYBOOK.md",
+      "sourceSha256": "a7eb590c6733058fa566455ccdcd6d5a92f388399598d6bf7b4311df0e2d25db"
+    },
+    {
+      "source": "playbooks/BUILD-BACKEND-AND-API-FROM-SCRATCH.md",
+      "target": "playbooks/BACKEND_DELIVERY_PLAYBOOK.md",
+      "sourceSha256": "418ef10f2ad8f8dd375663d4d3259a7f409fd8702a6c672f5393c4efe1343d7c"
+    },
+    {
+      "source": "playbooks/BUILDING-CLI-AND-CLICKABLE-TUI-PRODUCTS.md",
+      "target": "playbooks/BUILDING-CLI-AND-CLICKABLE-TUI-PRODUCTS.md",
+      "sourceSha256": "ff3ca802bd17427df52ed0d81d723666c33617d40f37c0c6bbe0393c4d373595"
+    },
+    {
+      "source": "playbooks/CONTAINERIZE-AND-DEPLOY-PLAYBOOK.md",
+      "target": "playbooks/CONTAINERIZE-AND-DEPLOY-PLAYBOOK.md",
+      "sourceSha256": "8e3d7a9822115ca085283ee20ecb4e18df9869ccc153e1b1159e3c40ada302ae"
+    },
+    {
+      "source": "playbooks/CREATING-ANIMATED-INTERACTIVE-GRAPHICS-PLAYBOOK.md",
+      "target": "playbooks/CREATING-ANIMATED-INTERACTIVE-GRAPHICS-PLAYBOOK.md",
+      "sourceSha256": "0ef2bd303628570e0f2dfeb70ea1c99f49c57e8255c99aaf3acb8cac57128706"
+    },
+    {
+      "source": "playbooks/DATA_MIGRATION_PLAYBOOK.md",
+      "target": "playbooks/DATA_MIGRATION_PLAYBOOK.md",
+      "sourceSha256": "9153cf4d0ab2e2bde84af92767cff0e518484856f615630dec3af737e6d023ea"
+    },
+    {
+      "source": "playbooks/DESIGN_SYSTEM_IMPLEMENTATION_PLAYBOOK.md",
+      "target": "playbooks/DESIGN_SYSTEM_IMPLEMENTATION_PLAYBOOK.md",
+      "sourceSha256": "a60ce030418ea4570ea1c256093dc80acb1f097beab94df0eae813e0a5fb1814"
+    },
+    {
+      "source": "playbooks/DISASTER-RECOVERY-DRILL-PLAYBOOK.md",
+      "target": "playbooks/DISASTER-RECOVERY-DRILL-PLAYBOOK.md",
+      "sourceSha256": "eab5cb567e43a41b24d4b2ded3ffadf60b635057fb51e3043390e69fcda3a249"
+    },
+    {
+      "source": "playbooks/ELEVATE-ANY-PROJECT-TO-STAND-OUT-PLAYBOOK.md",
+      "target": "playbooks/ELEVATE-ANY-PROJECT-TO-STAND-OUT-PLAYBOOK.md",
+      "sourceSha256": "94183bcd75dcbfee9908020457d6667e60908c46e4227e7847e68c0f0230c44a"
+    },
+    {
+      "source": "playbooks/END_TO_END_PRODUCT_BUILD_PLAYBOOK.md",
+      "target": "playbooks/END_TO_END_PRODUCT_BUILD_PLAYBOOK.md",
+      "sourceSha256": "0dec5d844404a2f256391a5a22d75a18fe4e024d1225bbf72f568ecbef15ad7f"
+    },
+    {
+      "source": "playbooks/EXISTING_REPOSITORY_AUDIT_PLAYBOOK.md",
+      "target": "playbooks/EXISTING_REPOSITORY_AUDIT_PLAYBOOK.md",
+      "sourceSha256": "0122b430a8e06b643d9fe9574abf9c38a273b2f45f95c50139bcc96d6013d6da"
+    },
+    {
+      "source": "playbooks/INCIDENT_RESPONSE_PLAYBOOK.md",
+      "target": "playbooks/INCIDENT_RESPONSE_PLAYBOOK.md",
+      "sourceSha256": "fa32d2690aa3448e5dd60cb29aaf759fc82915bb5ddd095f70fbe0029185a324"
+    },
+    {
+      "source": "playbooks/INFRASTRUCTURE-COST-AND-RIGHTSIZING-PLAYBOOK.md",
+      "target": "playbooks/INFRASTRUCTURE-COST-AND-RIGHTSIZING-PLAYBOOK.md",
+      "sourceSha256": "5420ce4be727cff8d6d4569047a43e2a2ba5b865ea5ef9729fd4e1b1f446aea3"
+    },
+    {
+      "source": "playbooks/LAUNCH-DAY-AND-FIRST-90-DAYS-PLAYBOOK.md",
+      "target": "playbooks/LAUNCH-DAY-AND-FIRST-90-DAYS-PLAYBOOK.md",
+      "sourceSha256": "bb162e025042744ead6c3d4876e9749fefabb9946ca05f2f6839b53bcfba0b14"
+    },
+    {
+      "source": "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md",
+      "target": "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md",
+      "sourceSha256": "ccc9ad099a1f7d4a40cd218c6a1d0057938c3ac2bec14cd0bc20caa43d65e745"
+    },
+    {
+      "source": "playbooks/PRODUCTION_READINESS_PLAYBOOK.md",
+      "target": "playbooks/PRODUCTION_READINESS_PLAYBOOK.md",
+      "sourceSha256": "2b95b05c866152949cf6a41d6c4def0d611abb2454ff81ff8adefe70b29e6e3c"
+    },
+    {
+      "source": "playbooks/PROJECT-TYPE-ADAPTATION-PLAYBOOK.md",
+      "target": "playbooks/PROJECT-TYPE-ADAPTATION-PLAYBOOK.md",
+      "sourceSha256": "2dad61db9c646b4cfc199a56e9828f4afb4afb13ca636c7ddd343b71432b5dc6"
+    },
+    {
+      "source": "playbooks/RESEARCH_TO_ROADMAP_PLAYBOOK.md",
+      "target": "playbooks/RESEARCH_TO_ROADMAP_PLAYBOOK.md",
+      "sourceSha256": "9debdcb94877a936b78a3d47d1dc59ffb5a1907d420121831b51202ca55c04b3"
+    },
+    {
+      "source": "playbooks/SCALING-AND-PERFORMANCE-INVESTIGATION-PLAYBOOK.md",
+      "target": "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md",
+      "sourceSha256": "cc8d6a4bb50b346c8d284051629ce43c26eb45f50f823e4a374a1a85a4272401"
+    },
+    {
+      "source": "playbooks/SECURITY-HARDENING-PASS-PLAYBOOK.md",
+      "target": "playbooks/SECURITY-HARDENING-PASS-PLAYBOOK.md",
+      "sourceSha256": "e35c0443bba962132dcc978431db731b6e0330ecac88d040fcc1856697e83883"
+    },
+    {
+      "source": "playbooks/THIRD_PARTY_INTEGRATION_PLAYBOOK.md",
+      "target": "playbooks/THIRD_PARTY_INTEGRATION_PLAYBOOK.md",
+      "sourceSha256": "80aea22cea60436ea40686ff92a4620aa527a88020e04804ce90f4ddc096bd8f"
+    },
+    {
+      "source": "playbooks/VPS-DEPLOYMENT-PLAYBOOK.md",
+      "target": "playbooks/VPS-DEPLOYMENT-PLAYBOOK.md",
+      "sourceSha256": "20cc130735dc78c00bf38d58fed8b7a8e57f33c8f838604fa929c98d40375ff2"
+    },
+    {
+      "source": "playbooks/ZERO-DOWNTIME-MIGRATION-PLAYBOOK.md",
+      "target": "playbooks/DATA_MIGRATION_PLAYBOOK.md",
+      "sourceSha256": "2fa1ca8e0db50a722d4b8df65220901dcf919cecb944da0d534808ba6f96737c"
+    },
+    {
+      "source": "quality-gates/AI_AND_AUTOMATION_RELEASE_GATE.md",
+      "target": "quality-gates/AI_AND_AUTOMATION_RELEASE_GATE.md",
+      "sourceSha256": "c744bd95c168f36fdf4c624e3b3f0e020864cba4c384de2f8260c887f16cd079"
+    },
+    {
+      "source": "quality-gates/ANTI-BLOAT-AND-ANTI-GENERIC-AI.md",
+      "target": "quality-gates/ANTI-BLOAT-AND-ANTI-GENERIC-AI.md",
+      "sourceSha256": "c2ad18bc87e7f90300877e39e9421ebe15ffc03c2ad90dc42786950a18210cfe"
+    },
+    {
+      "source": "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+      "target": "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+      "sourceSha256": "d3574e67ee0bacc97abdc2a52a4daebb1fad1d679d2afd2663b869fbe8da21f5"
+    },
+    {
+      "source": "quality-gates/BACKEND_AND_API_GATE.md",
+      "target": "quality-gates/BACKEND_AND_API_GATE.md",
+      "sourceSha256": "5ea716577a7e427d7076210c63a528da49fd34552d5e72cf65b861dd59329c2c"
+    },
+    {
+      "source": "quality-gates/CLI-TUI-QUALITY-GATE.md",
+      "target": "quality-gates/CLI-TUI-QUALITY-GATE.md",
+      "sourceSha256": "77b3eb0405113f40c8efbf6e7c607ab86db8e31b07a5ab8f6b1c55f968f6ca67"
+    },
+    {
+      "source": "quality-gates/COMMERCIAL_AND_OPERATIONS_GATE.md",
+      "target": "quality-gates/COMMERCIAL_AND_OPERATIONS_GATE.md",
+      "sourceSha256": "859d1b3f3ed13caf78a0b5cb56f003d8570497aa56bd6cbc29ca8696ba181a0d"
+    },
+    {
+      "source": "quality-gates/DATA_SAFETY_AND_RECOVERY_GATE.md",
+      "target": "quality-gates/DATA_SAFETY_AND_RECOVERY_GATE.md",
+      "sourceSha256": "b2d136b6ec80134342e119c8096e48d40c58ee98f2fd13c427c1e1df46787a6b"
+    },
+    {
+      "source": "quality-gates/DEFINITION_OF_DONE.md",
+      "target": "quality-gates/DEFINITION_OF_DONE.md",
+      "sourceSha256": "0ba5528e7890cdec6396095e846f5f4b586ec9e03e920f25825a018220a246b6"
+    },
+    {
+      "source": "quality-gates/DISTINCTIVENESS_AND_CRAFT_GATE.md",
+      "target": "quality-gates/DISTINCTIVENESS_AND_CRAFT_GATE.md",
+      "sourceSha256": "c68b8d325fb15cfa9c6633c6d362e25c99aa6b6f58a367fcf7b351c071200977"
+    },
+    {
+      "source": "quality-gates/DOMAIN_AND_INTEGRATION_GATE.md",
+      "target": "quality-gates/DOMAIN_AND_INTEGRATION_GATE.md",
+      "sourceSha256": "fb7ef1ed3e18a21d02d613c1757052ae5e5ea939ef619c802b8f455029c400c7"
+    },
+    {
+      "source": "quality-gates/INFRASTRUCTURE_AND_OPERATIONS_GATE.md",
+      "target": "quality-gates/INFRASTRUCTURE_AND_OPERATIONS_GATE.md",
+      "sourceSha256": "d84cd8aee180db748dfc5296d07291397d62e6eb0880a3fdd2aa4e907dd7fa6c"
+    },
+    {
+      "source": "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+      "target": "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+      "sourceSha256": "c1db1bd58559fa7a79b45a27d7cdf33b4373e31a4c3e65498a3e52a5979d9fad"
+    },
+    {
+      "source": "quality-gates/MAINTAINABILITY_AND_HANDOFF_GATE.md",
+      "target": "quality-gates/MAINTAINABILITY_AND_HANDOFF_GATE.md",
+      "sourceSha256": "342a70fdc6832062a8a665841aa484e04b2e836dc590f6379050e2ed45191197"
+    },
+    {
+      "source": "quality-gates/MOTION_AND_INTERACTIVE_GRAPHICS_GATE.md",
+      "target": "quality-gates/MOTION_AND_INTERACTIVE_GRAPHICS_GATE.md",
+      "sourceSha256": "d941cd7a294975475f082b68c6511469ba08da550cf859c360b1762aee1cf703"
+    },
+    {
+      "source": "quality-gates/PROJECT_DISCOVERY_AND_SCOPE_GATE.md",
+      "target": "quality-gates/PROJECT_DISCOVERY_AND_SCOPE_GATE.md",
+      "sourceSha256": "1a86cd1db2e51b01ed5446e93f6b6a97d96ac957f0d0668c7833615c1e7802b0"
+    },
+    {
+      "source": "quality-gates/REPOSITORY-CLEANLINESS-AND-GIT-LEAKAGE-GATE.md",
+      "target": "quality-gates/REPOSITORY-CLEANLINESS-AND-GIT-LEAKAGE-GATE.md",
+      "sourceSha256": "07083cb525b97199998154a2a9993ed3b337bbc001625a9b84465cf620540e8a"
+    },
+    {
+      "source": "quality-gates/SCREEN_AND_FORM_FACTOR_GATE.md",
+      "target": "quality-gates/SCREEN_AND_FORM_FACTOR_GATE.md",
+      "sourceSha256": "9358bcf017db7d6f253646aebf5bbe6e2410d972d648f3881d0561f0ed5f88e9"
+    },
+    {
+      "source": "quality-gates/TESTING_AND_EVIDENCE_GATE.md",
+      "target": "quality-gates/TESTING_AND_EVIDENCE_GATE.md",
+      "sourceSha256": "3066f5fd8b4cacb758c46d38989ea913b0a432bd52838234414d5d9eaba6a659"
+    },
+    {
+      "source": "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+      "target": "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+      "sourceSha256": "debfb8e5529ed8285df3636da3d481296edade5f6d81591bca3ff92a966c0e89"
+    },
+    {
+      "source": "references/ai-workspace-and-gitignore-patterns.md",
+      "target": "references/ai-workspace-and-gitignore-patterns.md",
+      "sourceSha256": "1c72d731e45f15bc40b7dee86b13bd3fb8bd8eb83eefc67b3e49883cbca82014"
+    },
+    {
+      "source": "references/animated-graphics-recipes.md",
+      "target": "references/animated-graphics-recipes.md",
+      "sourceSha256": "94080d22d6c7e44c904b0154eb53ca1751585150f29ae74401a31e97e86df57b"
+    },
+    {
+      "source": "references/api-and-data-pattern-cookbook.md",
+      "target": "references/api-and-data-pattern-cookbook.md",
+      "sourceSha256": "f0a784fe85420e997c2fec42a9316b9742da9bb8440b6eed74764009c4361ad3"
+    },
+    {
+      "source": "references/api-style-selection-guide.md",
+      "target": "references/api-style-selection-guide.md",
+      "sourceSha256": "0ef2c380e1760fc1ef6477df137d162355b54b0b4aa061a1a8d2c8052e34eb4e"
+    },
+    {
+      "source": "references/architecture-decision-records.md",
+      "target": "references/architecture-decision-records.md",
+      "sourceSha256": "1e267356aac8bd6054072dc2caebc4f6ae1ec80b60508e28cf7f2078729849b4"
+    },
+    {
+      "source": "references/architecture-pattern-selection-guide.md",
+      "target": "references/architecture-pattern-selection-guide.md",
+      "sourceSha256": "98f7273cfb414b4f8285b98f8aad62d68c4a89ecf36fe6ea79924cf2b8b5b1e2"
+    },
+    {
+      "source": "references/authn-authz-pattern-catalogue.md",
+      "target": "references/authn-authz-pattern-catalogue.md",
+      "sourceSha256": "b6c755df63b3bac759197f8259835b82ebb7e1048e098c93271cac4490dfc5b9"
+    },
+    {
+      "source": "references/backend-and-infrastructure-recipes.md",
+      "target": "references/backend-and-infrastructure-recipes.md",
+      "sourceSha256": "5c64faf0940812df4ad480532e599f04d4d8a9582c1ee877c0f66319e9295afd"
+    },
+    {
+      "source": "references/backend-code-patterns.md",
+      "target": "references/backend-code-patterns.md",
+      "sourceSha256": "73a02944cfee576a05dc1fa2499306634db5e394660db29404e541b633e49bd8"
+    },
+    {
+      "source": "references/capability-catalogue.md",
+      "target": "references/capability-catalogue.md",
+      "sourceSha256": "a7163d0f9004f739c1891ab77653228f44f192d6a8f61578553f51c306b9faba"
+    },
+    {
+      "source": "references/complete-product-capability-map.md",
+      "target": "references/complete-product-capability-map.md",
+      "sourceSha256": "51e5e35213c7f3eef2af77afbacd84531256dc16b44535875fc38c588a99255e"
+    },
+    {
+      "source": "references/content-design-and-voice-guide.md",
+      "target": "references/content-design-and-voice-guide.md",
+      "sourceSha256": "e40152d2dcd5125eb9ffeb3b915580c9f140efa916de5166e5941dca71ad1c03"
+    },
+    {
+      "source": "references/data-modeling-and-integrity-guide.md",
+      "target": "references/data-modeling-and-integrity-guide.md",
+      "sourceSha256": "e5fd785230d9f76f48c2e1f42766da98d43f7c2e9aa5ce873c0f83138a5d2cd5"
+    },
+    {
+      "source": "references/deployment-topology-options.md",
+      "target": "references/deployment-topology-options.md",
+      "sourceSha256": "915e1bf99d4b2b002f8b04c29c419dff49f414505a79e4faf38693caa981440f"
+    },
+    {
+      "source": "references/design-and-content-principles.md",
+      "target": "references/design-and-content-principles.md",
+      "sourceSha256": "6bca76c80976005100fc1d1fafab3fc9f749b9c6fcd41f6d27fbadb15ecb27ec"
+    },
+    {
+      "source": "references/design-system-governance.md",
+      "target": "references/design-system-governance.md",
+      "sourceSha256": "296d19fdc34e199d3b35e483af401d4f970df8f288d3927da363bc6a8feeafa3"
+    },
+    {
+      "source": "references/distributed-systems-concepts.md",
+      "target": "references/distributed-systems-concepts.md",
+      "sourceSha256": "b5077b49187800217c95806e9d0e3d05575c552427a09c2c768421a92d552225"
+    },
+    {
+      "source": "references/docker-and-container-hardening-checklist.md",
+      "target": "references/docker-and-container-hardening-checklist.md",
+      "sourceSha256": "cbc9e78d148eb333cc5a2f0484cf7355fb2fdf205914e830418c0f9766a770f9"
+    },
+    {
+      "source": "references/failure-case-library.md",
+      "target": "references/failure-case-library.md",
+      "sourceSha256": "a97b04fc7cc8b2f0f0d22f483c87b0e9e0ef6cc9736ef618aef089892e5e61da"
+    },
+    {
+      "source": "references/frontend-stack-selection-guide.md",
+      "target": "references/frontend-stack-selection-guide.md",
+      "sourceSha256": "936a99791e587ec64731af6fa4d0856addda3a509f846db5dd02edda66284281"
+    },
+    {
+      "source": "references/full-stack-product-patterns.md",
+      "target": "references/full-stack-product-patterns.md",
+      "sourceSha256": "99f7663284a7f61150afaa452695e12ae7dd3576f68645715b9e8e5b586f5157"
+    },
+    {
+      "source": "references/glossary-of-engineering-and-motion-terms.md",
+      "target": "references/glossary-of-engineering-and-motion-terms.md",
+      "sourceSha256": "dce8facc5a0fc72f5825b49eed351c2525d5612bf88f2f960f8b6b849f8e9e3a"
+    },
+    {
+      "source": "references/go-bubble-tea-and-tui-framework-guidance.md",
+      "target": "references/go-bubble-tea-and-tui-framework-guidance.md",
+      "sourceSha256": "98784aa6a6dbe24b217def2d7e324d18e3a0f5d974048bfc5d6fe61f595499a5"
+    },
+    {
+      "source": "references/infrastructure-config-snippets.md",
+      "target": "references/infrastructure-config-snippets.md",
+      "sourceSha256": "d6730962f58c53115ea69c698bba7829e4e4b6f5aeb6e7f62496c6a9fce5f8b7"
+    },
+    {
+      "source": "references/input-method-matrix.md",
+      "target": "references/input-method-matrix.md",
+      "sourceSha256": "5d71e0968253557bc9b4ad691bfe604e8f387b720031672072241bf7909e0c34"
+    },
+    {
+      "source": "references/integration-patterns-and-failure-modes.md",
+      "target": "references/integration-patterns-and-failure-modes.md",
+      "sourceSha256": "7d99f57b2e8d506410e3f9a9458fdda2ce28338e5fa51d06e8c8f5c71c8dbfd2"
+    },
+    {
+      "source": "references/interaction-and-state-pattern-library.md",
+      "target": "references/interaction-and-state-pattern-library.md",
+      "sourceSha256": "302e407af672560805efcaaa08fa8aa1f794bedadff32f0acd4c9b23ebf4beb0"
+    },
+    {
+      "source": "references/language-and-framework-profiles.md",
+      "target": "references/language-and-framework-profiles.md",
+      "sourceSha256": "f539f166260b32fdf7e95cb837faa265854b71dc8de53dc6f254fd2bfa7e0033"
+    },
+    {
+      "source": "references/large-screen-multi-window.md",
+      "target": "references/large-screen-multi-window.md",
+      "sourceSha256": "9fa9f7a556e2bd66b5524237960128595d9d038e580b7aeb10bdef17a1b2cb71"
+    },
+    {
+      "source": "references/metrics-and-experimentation-guide.md",
+      "target": "references/metrics-and-experimentation-guide.md",
+      "sourceSha256": "5273a882d05e6e232397b73fdf7e6cc383ef83aea30dedbf8045497b77cb73b1"
+    },
+    {
+      "source": "references/modern-web-platform-features.md",
+      "target": "references/modern-web-platform-features.md",
+      "sourceSha256": "07454e6a25120839a756341a7a715d9a168e3c6fa3eac6b74982b2ea65468430"
+    },
+    {
+      "source": "references/motion-accessibility-and-safety.md",
+      "target": "references/motion-accessibility-and-safety.md",
+      "sourceSha256": "2a9f5cbe45b4ed86afe70f9ecc456686bbc0015d718a89150eee086f38668bab"
+    },
+    {
+      "source": "references/motion-principles-timing-and-easing.md",
+      "target": "references/motion-principles-timing-and-easing.md",
+      "sourceSha256": "496989b37ece7e5c66ffa71019f8fdf939f65a5863d6e9feff0ca29f5b7ceadf"
+    },
+    {
+      "source": "references/observability-signal-catalogue.md",
+      "target": "references/observability-signal-catalogue.md",
+      "sourceSha256": "298715714ca8d46d717568544f9098f1ee46904642ab18b29f9327d89261fce3"
+    },
+    {
+      "source": "references/operational-excellence-guide.md",
+      "target": "references/operational-excellence-guide.md",
+      "sourceSha256": "2462f143f5f24022a30319b9a879c99fbc1b9e181c3a1c18a3dedf80ee841987"
+    },
+    {
+      "source": "references/owasp-and-backend-threat-checklist.md",
+      "target": "references/owasp-and-backend-threat-checklist.md",
+      "sourceSha256": "4b997f563433c689b3ba00063380634c87626a8da0b033fce401e661d78aeea3"
+    },
+    {
+      "source": "references/performance-budgets-and-benchmarks.md",
+      "target": "references/performance-budgets-and-benchmarks.md",
+      "sourceSha256": "f176bdc9698496ab1e4328d417e81a35029b6bd2d48ad7158c0c2714787103eb"
+    },
+    {
+      "source": "references/platform-and-operational-capabilities.md",
+      "target": "references/platform-and-operational-capabilities.md",
+      "sourceSha256": "df9faa1e787c2b9abf2142bc17f7d5eb23d256df351e599d2b96277ad76907d6"
+    },
+    {
+      "source": "references/platform-compatibility-matrix.md",
+      "target": "references/platform-compatibility-matrix.md",
+      "sourceSha256": "9d0d414a5561e9a551a4b0174be76a1b86cac114980e4384fd364a03b9d06316"
+    },
+    {
+      "source": "references/product-domain-patterns.md",
+      "target": "references/product-domain-patterns.md",
+      "sourceSha256": "d4701d229d166c38de66db7db03b94559ea744da4720873f1107af34fa76807b"
+    },
+    {
+      "source": "references/project-type-routing-table.md",
+      "target": "orchestrator/PROJECT_ROUTING.md",
+      "sourceSha256": "f38eebc40424041428fbb51e0b93081544c0ed4be0066064de7b163e23d61000"
+    },
+    {
+      "source": "references/project-type-starter-profiles.md",
+      "target": "references/project-type-starter-profiles.md",
+      "sourceSha256": "492f55861ce527731081f5577d4745bed0bb24aa41c9b45b72448178cacf2b2f"
+    },
+    {
+      "source": "references/reference-architectures-by-scale.md",
+      "target": "references/reference-architectures-by-scale.md",
+      "sourceSha256": "be3fb096bf770d9aced2cb442b7716a30abb365f70e0382c888078061e6ae5ec"
+    },
+    {
+      "source": "references/release-and-change-management.md",
+      "target": "references/release-and-change-management.md",
+      "sourceSha256": "4a8f1f6c77a0a685acbabf9476796da27a6cbe5034068b24e1b86b6e8ed34182"
+    },
+    {
+      "source": "references/reliability-engineering-patterns.md",
+      "target": "references/reliability-engineering-patterns.md",
+      "sourceSha256": "819cd959ad1d5ed3d8959a2ba66d6a827d896f9842a332042f972237c361ea86"
+    },
+    {
+      "source": "references/rendering-technology-selection-guide.md",
+      "target": "references/rendering-technology-selection-guide.md",
+      "sourceSha256": "441af196aea1eefb895894ec0e5156ed9aeb6918b345eca7aadcca4785d1889d"
+    },
+    {
+      "source": "references/repository-hygiene-and-ai-artifact-policy.md",
+      "target": "references/repository-hygiene-and-ai-artifact-policy.md",
+      "sourceSha256": "2df70c8493bea7d2a5acddcd9d0f5c88c0519bd66507826ef5fbdd7cbe1cb53a"
+    },
+    {
+      "source": "references/research-and-validation-methods.md",
+      "target": "references/research-and-validation-methods.md",
+      "sourceSha256": "b44ca7cc5da1fc2ee648280b1da7107fd1ee48b071988830d4093497e75cb77d"
+    },
+    {
+      "source": "references/responsive-layout-strategy.md",
+      "target": "references/responsive-layout-strategy.md",
+      "sourceSha256": "910d3e4987551a8c4df60486e2ba147a3d8da332c475074cd0ee332a65e586f6"
+    },
+    {
+      "source": "references/sample-and-placeholder-asset-policy.md",
+      "target": "references/sample-and-placeholder-asset-policy.md",
+      "sourceSha256": "34468eb926b354ebe418273b13e95d2a3937e563c62a68563058c525c60ded41"
+    },
+    {
+      "source": "references/screen-form-factor-catalogue.md",
+      "target": "references/screen-form-factor-catalogue.md",
+      "sourceSha256": "ad2ee0d4c47dc2f90aa6e63f72eee2a5fc53a01d0535b667cc44c7d27558c384"
+    },
+    {
+      "source": "references/security-and-compliance-frameworks.md",
+      "target": "references/security-and-compliance-frameworks.md",
+      "sourceSha256": "d2002349640dff2746184d05501761a1c4987b7438d442723f5b4dafbb44d0dc"
+    },
+    {
+      "source": "references/security-control-catalogue.md",
+      "target": "references/security-control-catalogue.md",
+      "sourceSha256": "0438cda2f5d8edee5f2381914922b30b647142276949ed779d7fac4cd8d05201"
+    },
+    {
+      "source": "references/server-hardening-reference.md",
+      "target": "references/server-hardening-reference.md",
+      "sourceSha256": "d06b8051f29c5b10754503e1cdebd3bc7533ade9fba5c8d99fb3275c820ab8d1"
+    },
+    {
+      "source": "references/sql-and-data-patterns.md",
+      "target": "references/sql-and-data-patterns.md",
+      "sourceSha256": "6aa34ccd7531ef1f88f0b08c5a73ca947a4df1d6a4e789fdb908970f68c88e72"
+    },
+    {
+      "source": "references/standout-experience-techniques.md",
+      "target": "references/standout-experience-techniques.md",
+      "sourceSha256": "11bfd4d277e8110c2ddcab853c56ee3c93219db8d95e06e2864b24e4f3bdec2e"
+    },
+    {
+      "source": "references/standout-project-patterns.md",
+      "target": "references/standout-project-patterns.md",
+      "sourceSha256": "65e414462c0fca13cd529bc2575a3a33c565e70aad175ef2146b4993b203d2f9"
+    },
+    {
+      "source": "references/technical-decision-records.md",
+      "target": "references/technical-decision-records.md",
+      "sourceSha256": "b50236bbdc3d8172d51db9500b761f3fc91954f0164929915eef91bfb490f244"
+    },
+    {
+      "source": "references/technology-recommendations-by-need.md",
+      "target": "references/technology-recommendations-by-need.md",
+      "sourceSha256": "9ebeb5edbf111dfead48949c1edcb62f1db48dbcda91bd61dd1b375c270cd405"
+    },
+    {
+      "source": "references/terminal-interface-pattern-catalogue.md",
+      "target": "references/terminal-interface-pattern-catalogue.md",
+      "sourceSha256": "0512a5a72cfacdcdb4908289048d87c604e98913a691cfe1af891d91afe54ae7"
+    },
+    {
+      "source": "references/terminal-runtime-and-compatibility.md",
+      "target": "references/terminal-runtime-and-compatibility.md",
+      "sourceSha256": "09d60851a90f9deaf3ba15a79d2642c6f55c676aaa90feb3f763d1f443515535"
+    },
+    {
+      "source": "references/tv-kiosk-specialized-displays.md",
+      "target": "references/tv-kiosk-specialized-displays.md",
+      "sourceSha256": "e0be03b5f9ec2a72e3d1f8ad1531ea4cdf9aaf339603b1fa6eabeec7fce16ee8"
+    },
+    {
+      "source": "references/web-performance-and-delivery.md",
+      "target": "references/web-performance-and-delivery.md",
+      "sourceSha256": "27383c974a00971f59ae57330c192943d64145a393f47a6c4f2d3d5cbb11c398"
+    },
+    {
+      "source": "specialists/3d-spatial-and-immersive-experiences.md",
+      "target": "specialists/3d-spatial-and-immersive-experiences.md",
+      "sourceSha256": "45afa17932dc43c8924e3d991b090f546baf707899bfc1197a822c57330cfaf1"
+    },
+    {
+      "source": "specialists/accessibility-and-inclusive-research.md",
+      "target": "specialists/accessibility-and-inclusive-research.md",
+      "sourceSha256": "adfb98fff5fddfd0345df15a742ac7cefd5b6c2dd8c3e311db022722764bc50a"
+    },
+    {
+      "source": "specialists/accessibility-and-internationalization.md",
+      "target": "specialists/accessibility-and-internationalization.md",
+      "sourceSha256": "e61258d404fc5e5b656615df964a985a28e4a8e5253384b475a3fb0c7b0ce692"
+    },
+    {
+      "source": "specialists/ai-agents-and-tool-use-systems.md",
+      "target": "specialists/ai-agents-and-tool-use-systems.md",
+      "sourceSha256": "678e7ebef1b21805a340d78aca52b1bfa594959dad9d9883bfffd1296c390b15"
+    },
+    {
+      "source": "specialists/ai-and-llm-backend-infrastructure.md",
+      "target": "specialists/ai-and-llm-backend-infrastructure.md",
+      "sourceSha256": "c564186dd235f54a57a101db567a7d9fd54c202b45a2dcbed3e2a3c9e3374d1b"
+    },
+    {
+      "source": "specialists/ai-evaluation-and-governance.md",
+      "target": "specialists/ai-evaluation-and-governance.md",
+      "sourceSha256": "b11aad5a5bed96dfd9e978f342636278b3ed0c3cd6cba6b25653b004b7ba41d7"
+    },
+    {
+      "source": "specialists/analytics-instrumentation-and-product-data.md",
+      "target": "specialists/analytics-instrumentation-and-product-data.md",
+      "sourceSha256": "dc4fc71424af441160488aa81f25f08f4f4fa9cf7714551b48eddbb46f628603"
+    },
+    {
+      "source": "specialists/animated-graphics-and-interactive-motion.md",
+      "target": "specialists/motion-3d-and-immersive.md",
+      "sourceSha256": "4388507a26363270ab10b758a90d9edb3d6cbac809cded8e575d62d6c9f5b564"
+    },
+    {
+      "source": "specialists/api-and-developer-experience.md",
+      "target": "specialists/api-and-developer-experience.md",
+      "sourceSha256": "54d08179d984f8c06ecc17d33d2972b22d587dc32020abadf3b30731f2130101"
+    },
+    {
+      "source": "specialists/api-design-and-protocols.md",
+      "target": "specialists/api-and-developer-experience.md",
+      "sourceSha256": "6dd4a421f0f3447878c96fb99bc8f30e14ec4f19b90be87f22d27e617810a25d"
+    },
+    {
+      "source": "specialists/application-security-engineering.md",
+      "target": "specialists/application-security-engineering.md",
+      "sourceSha256": "b8ebe1e6f68de6d902789922bbe488e66057d960a69daa002211e4f57e0fcb42"
+    },
+    {
+      "source": "specialists/architecture-and-systems-design.md",
+      "target": "specialists/architecture-and-systems-design.md",
+      "sourceSha256": "d8169acb70dc3e153723f89f9490dc736a7ff8ec846f4ebdba08fa3bf767fc15"
+    },
+    {
+      "source": "specialists/audio-and-sonic-design.md",
+      "target": "specialists/audio-and-sonic-design.md",
+      "sourceSha256": "28360e67942f9e326eb6bf4c3e727b2f3a90436e75617a0eecbee4d4bc500467"
+    },
+    {
+      "source": "specialists/authentication-and-authorization-engineering.md",
+      "target": "specialists/identity-and-access-management.md",
+      "sourceSha256": "7cc0fe907defc9ebecc345e62eff1e5940acca9b385217feb26f48a2627e9e14"
+    },
+    {
+      "source": "specialists/backend-and-data-engineering.md",
+      "target": "specialists/backend-and-data-engineering.md",
+      "sourceSha256": "a5ece66b19de988c80e4c658c953cedf1cf95f8eeb94fb703dfa9ccf65e3c87a"
+    },
+    {
+      "source": "specialists/backend-architecture-and-service-design.md",
+      "target": "specialists/backend-and-data-engineering.md",
+      "sourceSha256": "0e1e696de00412472a03b5c5727f256a904aacd45030b26995cb27947e5b9ae3"
+    },
+    {
+      "source": "specialists/backend-testing-and-verification.md",
+      "target": "specialists/backend-testing-and-verification.md",
+      "sourceSha256": "2b0338b1db5b668577cc33926b0b7677346109e079082406023037e6f92f3357"
+    },
+    {
+      "source": "specialists/backup-and-disaster-recovery.md",
+      "target": "specialists/backup-and-disaster-recovery.md",
+      "sourceSha256": "45ec447fc731bf0b9ccd81e6077fd8c3bf93e2973acbb2b4ac5dd5f9c2a5f9ff"
+    },
+    {
+      "source": "specialists/backup-restore-and-disaster-recovery-engineering.md",
+      "target": "specialists/backup-and-disaster-recovery.md",
+      "sourceSha256": "679c4b45c61a5404b1218c379cfd01b3e199e8a46e150471f9846f878f1524dc"
+    },
+    {
+      "source": "specialists/billing-and-entitlements.md",
+      "target": "specialists/billing-and-entitlements.md",
+      "sourceSha256": "d48261054fce221507acdb6381ed4ebd1ec41c8de7ca552cbdaff97a1ebff2cf"
+    },
+    {
+      "source": "specialists/brand-and-art-direction.md",
+      "target": "specialists/brand-and-art-direction.md",
+      "sourceSha256": "efb46af00c8330d41e8cccfd41a8f20900daf78ba0aa638da604183b9f400c01"
+    },
+    {
+      "source": "specialists/browser-extensions-and-plugin-systems.md",
+      "target": "specialists/browser-extensions-and-plugin-systems.md",
+      "sourceSha256": "7c81d4ee0f5608472710e73fab345c5420142c45e45641f6efc568576e4e3390"
+    },
+    {
+      "source": "specialists/caching-and-backend-performance.md",
+      "target": "specialists/caching-and-backend-performance.md",
+      "sourceSha256": "5b4bcb206929506302622554b941efef815a2ce4e3eb919bb146198dd8ac7448"
+    },
+    {
+      "source": "specialists/chaos-engineering-and-resilience-testing.md",
+      "target": "specialists/chaos-engineering-and-resilience-testing.md",
+      "sourceSha256": "58b451eb0033f170d8b7c76d8668011c40c59f52185d4bce28bef4992d18e21f"
+    },
+    {
+      "source": "specialists/ci-cd-and-release-automation.md",
+      "target": "specialists/devops-and-release.md",
+      "sourceSha256": "b551230ff2cafb843163dcb49591e53375835693609de8917c2d3753b8ff22f1"
+    },
+    {
+      "source": "specialists/cloud-infrastructure-and-iac.md",
+      "target": "specialists/cloud-infrastructure-and-iac.md",
+      "sourceSha256": "b70b4867a8132286b3785e884069f6a9daa30a0fdb39b2ae4dbd5285a199b5bf"
+    },
+    {
+      "source": "specialists/commerce-and-checkout.md",
+      "target": "specialists/commerce-and-checkout.md",
+      "sourceSha256": "38135d8d2e31cbb2e77232ade209e1698b535e50f6294fc28d9dd5ddbbaea310"
+    },
+    {
+      "source": "specialists/containers-docker-and-orchestration.md",
+      "target": "specialists/containers-docker-and-orchestration.md",
+      "sourceSha256": "0efe29f5f58e777de7ec67e79c55945bbe9c53fc26b89b68c53693b1274c5dfe"
+    },
+    {
+      "source": "specialists/content-platform-and-cms.md",
+      "target": "specialists/content-platform-and-cms.md",
+      "sourceSha256": "f5b4d2086de9a54de53131d686a98a3252d3dd97b63f9d8a1fea9875fd31e362"
+    },
+    {
+      "source": "specialists/cost-and-capacity-engineering.md",
+      "target": "specialists/cost-and-capacity-engineering.md",
+      "sourceSha256": "ef16c6ea45626976bc3deb2cef78ab516c63502fa309e189a217ca74df978d10"
+    },
+    {
+      "source": "specialists/creative-coding-webgl-and-shaders.md",
+      "target": "specialists/creative-coding-webgl-and-shaders.md",
+      "sourceSha256": "e5dc1eb67b5c216fbe55d51b3c95e876217ad632302c5122510baff0d9f6f2c3"
+    },
+    {
+      "source": "specialists/creative-direction-and-distinctiveness.md",
+      "target": "specialists/distinctive-product-craft-and-differentiation.md",
+      "sourceSha256": "6baa708974e681a38a4e231ba8a96fd31cc08b9a166ebb582a5b01dbdd3d2c3c"
+    },
+    {
+      "source": "specialists/customer-support-and-success.md",
+      "target": "specialists/customer-support-and-success.md",
+      "sourceSha256": "b7e8abaa746239dc6401aef11776812245aedf1240c29356181f4e577c9ca159"
+    },
+    {
+      "source": "specialists/data-governance-and-compliance.md",
+      "target": "specialists/data-governance-and-compliance.md",
+      "sourceSha256": "77b7f82020ed0fe593d1e37bd4f3b39ffee92c78268d8bfbf333b98f8bbaceb4"
+    },
+    {
+      "source": "specialists/data-platform-and-pipelines.md",
+      "target": "specialists/data-platform-and-pipelines.md",
+      "sourceSha256": "0b4e62dafd71733014d6a47cd5b9db86f8b8e913dfad49fa1fd4f7ad7dfc9195"
+    },
+    {
+      "source": "specialists/database-engineering-and-data-modeling.md",
+      "target": "specialists/database-engineering.md",
+      "sourceSha256": "bc203cea987730738c9efab2e219a1949129b66f67ade78644f442a19f8a0f13"
+    },
+    {
+      "source": "specialists/database-operations-and-migrations.md",
+      "target": "specialists/database-engineering.md",
+      "sourceSha256": "83c2eac48812692c10576fd6c3d1c21118cf0eb0d644b11118cd1b71bbe6c81e"
+    },
+    {
+      "source": "specialists/design-systems-and-ui.md",
+      "target": "specialists/design-systems-and-ui.md",
+      "sourceSha256": "f0d4184d2917956926704c21b040a5e4cde63ca0d586e78e29ae4267f4470fb4"
+    },
+    {
+      "source": "specialists/desktop-and-cross-platform.md",
+      "target": "specialists/desktop-and-cross-platform.md",
+      "sourceSha256": "9239bd6f26729596c4e6ebd1c308ae8250195ceec64ea5f047876deeba272381"
+    },
+    {
+      "source": "specialists/devops-and-release.md",
+      "target": "specialists/devops-and-release.md",
+      "sourceSha256": "4b352bbc5920cf99d3c6604923758364110879a23185f9046d2d689fe8865505"
+    },
+    {
+      "source": "specialists/distinctive-product-craft-and-differentiation.md",
+      "target": "specialists/distinctive-product-craft-and-differentiation.md",
+      "sourceSha256": "560bb40affcdff7a3be0b92b84bba9f36d1aeef4dbb1fc45ecd93620ddc670bf"
+    },
+    {
+      "source": "specialists/edge-and-distributed-systems.md",
+      "target": "specialists/edge-and-distributed-systems.md",
+      "sourceSha256": "e213d19b88d0fe8fc780fcddaf175d571f12060fbc9fd9303596b7855d1af0bc"
+    },
+    {
+      "source": "specialists/education-and-learning-products.md",
+      "target": "specialists/education-and-learning-products.md",
+      "sourceSha256": "6ab0821a315d35704821c9220a7516a0037f0e8a2ba9e0dd6e974215ed0d34f9"
+    },
+    {
+      "source": "specialists/email-sms-and-messaging-infrastructure.md",
+      "target": "specialists/email-sms-and-messaging-infrastructure.md",
+      "sourceSha256": "cfeefa46506ae2dae0c9f68669e517f0ab4dae977c0f27f83620e8e3e970fa9a"
+    },
+    {
+      "source": "specialists/experimentation-and-growth.md",
+      "target": "specialists/experimentation-and-growth.md",
+      "sourceSha256": "80928ece2b68f981a5f117c5e5e6ad5888dc25052d073e71b2f0f9cc05134d3d"
+    },
+    {
+      "source": "specialists/financial-planning-and-unit-economics.md",
+      "target": "specialists/financial-planning-and-unit-economics.md",
+      "sourceSha256": "710feec07273e23edc2a9191f9047d766daef4ad821872f11f409c56bcb07ccb"
+    },
+    {
+      "source": "specialists/finops-and-cloud-economics.md",
+      "target": "specialists/finops-and-cloud-economics.md",
+      "sourceSha256": "ed276f84b19850c6573ebd0f8c553c28fe8266ae847701808fdbc1268e8a70c0"
+    },
+    {
+      "source": "specialists/fintech-and-ledger-systems.md",
+      "target": "specialists/fintech-and-ledger-systems.md",
+      "sourceSha256": "e37586b21c27f3fa4367c771748a65aabd49dec2bdf209201d56c6974cc41137"
+    },
+    {
+      "source": "specialists/frontend-engineering.md",
+      "target": "specialists/frontend-engineering.md",
+      "sourceSha256": "fbbef1e60ec04e296e510751855ef628ed274ff0f4a52c734115cd4b9a5a0d2b"
+    },
+    {
+      "source": "specialists/full-stack-application-architecture.md",
+      "target": "specialists/full-stack-application-architecture.md",
+      "sourceSha256": "7c007bf8a141cb647618008f24b3aea9f16b57f8ace877ed284e03e2325530be"
+    },
+    {
+      "source": "specialists/game-and-interactive-systems.md",
+      "target": "specialists/game-and-interactive-systems.md",
+      "sourceSha256": "8742bd0a0e41102b00955ad21f2928d82555abc8903ee3a24c6909d4fdf73248"
+    },
+    {
+      "source": "specialists/generative-and-procedural-graphics.md",
+      "target": "specialists/generative-and-procedural-graphics.md",
+      "sourceSha256": "8cdc690fa97b818d4cbc7f07da7abb5a0684e879d02f50c75102ec55214da09b"
+    },
+    {
+      "source": "specialists/green-and-sustainable-software.md",
+      "target": "specialists/green-and-sustainable-software.md",
+      "sourceSha256": "519a5fb36d0611e6c19929a96c0bd282e4799b0f9bd541644c59cf420cf6406d"
+    },
+    {
+      "source": "specialists/hardware-and-iot-systems.md",
+      "target": "specialists/hardware-and-iot-systems.md",
+      "sourceSha256": "00300acf2a3ce0031da6847591b98239ae4fe66a9a52a12ba47f36f427711409"
+    },
+    {
+      "source": "specialists/healthcare-product-safety.md",
+      "target": "specialists/healthcare-product-safety.md",
+      "sourceSha256": "1cb6d4b32067c28b25dae45ae370396ae2d4f374e358ab76acfed8da44611d4d"
+    },
+    {
+      "source": "specialists/human-content-and-ux-writing.md",
+      "target": "specialists/human-content-and-ux-writing.md",
+      "sourceSha256": "bf189f4bda9e332512101954fb1e345c6b7ef42c5fb004b531b7d245ac31090c"
+    },
+    {
+      "source": "specialists/identity-and-access-management.md",
+      "target": "specialists/identity-and-access-management.md",
+      "sourceSha256": "7b134ab48895384bcee474ee64d92c9ae5d2b9df82a44d9ed78547f6275ad1ea"
+    },
+    {
+      "source": "specialists/import-export-and-data-portability.md",
+      "target": "specialists/import-export-and-data-portability.md",
+      "sourceSha256": "c4c0b1e5cf1c6237275498f88f475baaae95187b2f876b62bea20e70c179682f"
+    },
+    {
+      "source": "specialists/legal-policy-and-regulatory-coordination.md",
+      "target": "specialists/legal-policy-and-regulatory-coordination.md",
+      "sourceSha256": "2d167656d7713b9a05e860cbbb47c3911aac34c58d764428858cc4362cb74411"
+    },
+    {
+      "source": "specialists/marketplace-and-reputation.md",
+      "target": "specialists/marketplace-and-reputation.md",
+      "sourceSha256": "259ffc7a773f0797839cb0d4f5a6da41f639b4e963831344c464b3f1132d7db6"
+    },
+    {
+      "source": "specialists/migration-and-compatibility.md",
+      "target": "specialists/migration-and-compatibility.md",
+      "sourceSha256": "6b456764c1e344bcc35fecff3a37b64d83419b6ae67fc0f032e5f79e87c7f92c"
+    },
+    {
+      "source": "specialists/mlops-and-applied-ml-engineering.md",
+      "target": "specialists/mlops-and-applied-ml-engineering.md",
+      "sourceSha256": "210df3a8cbf320a01c144a6695bf02128585fc00b5d1608d72cfcf9eead95177"
+    },
+    {
+      "source": "specialists/mobile-and-device-experiences.md",
+      "target": "specialists/mobile-and-device-experiences.md",
+      "sourceSha256": "4b9467ac5e1dfe0f84d152f964ce39889efd434fcdb5f00f7cf3720439f49692"
+    },
+    {
+      "source": "specialists/monetization-and-growth.md",
+      "target": "specialists/monetization-and-growth.md",
+      "sourceSha256": "f1388af55bdfca97d62e62896692cf41fabdf1da20d21ce58a2b5c3c3c42f271"
+    },
+    {
+      "source": "specialists/motion-3d-and-immersive.md",
+      "target": "specialists/motion-3d-and-immersive.md",
+      "sourceSha256": "2ffb8f1b11a314c84ba8fc55bbe331e2214a2f1348ea7c803b772d6d1dc6da16"
+    },
+    {
+      "source": "specialists/multi-region-and-high-availability.md",
+      "target": "specialists/multi-region-and-high-availability.md",
+      "sourceSha256": "d4d005eafc256c3cdf6509ea0ea163f9c2d759279b4487d1c4be43ba618545ec"
+    },
+    {
+      "source": "specialists/multi-tenancy-and-enterprise-governance.md",
+      "target": "specialists/multi-tenancy-and-enterprise-governance.md",
+      "sourceSha256": "f444c2d3969ba6e018eb3960f069b19c2ef1fcc59a0efb0cbfe305f9cb393017"
+    },
+    {
+      "source": "specialists/networking-dns-tls-and-edge.md",
+      "target": "specialists/network-and-server-operations.md",
+      "sourceSha256": "b801105db259011e1e18d2e22ccadfd5d38aec705ed8850fdbcc2ce74d956901"
+    },
+    {
+      "source": "specialists/notifications-and-messaging.md",
+      "target": "specialists/notifications-and-messaging.md",
+      "sourceSha256": "a535c5f3217498887c2ce37924d88c9928ed187b61eec49c32e9c98fca45f9ba"
+    },
+    {
+      "source": "specialists/observability-and-incident-response.md",
+      "target": "specialists/observability-and-incident-response.md",
+      "sourceSha256": "653a8ab39c781c72992244d6dc74b3a7a9403f4c23148a9dd595e9281dfee95f"
+    },
+    {
+      "source": "specialists/observability-sre-and-operations.md",
+      "target": "specialists/observability-and-incident-response.md",
+      "sourceSha256": "230619966aa5144fe2bfa6680092726a8d88ab9ee435e0241047fcf9f817af29"
+    },
+    {
+      "source": "specialists/offline-and-resilient-experiences.md",
+      "target": "specialists/offline-and-resilient-experiences.md",
+      "sourceSha256": "c3c8f7b7d7ee6a8b8dde6806a73feb12513448251aee2abb356500e1bb290da1"
+    },
+    {
+      "source": "specialists/performance-and-reliability.md",
+      "target": "specialists/performance-and-reliability.md",
+      "sourceSha256": "61cd9d64935fdba37b62993e220229cc72b8f9bcb092d9aafd36a6fa8ccdf5d1"
+    },
+    {
+      "source": "specialists/platform-engineering-and-developer-experience.md",
+      "target": "specialists/platform-engineering-and-developer-experience.md",
+      "sourceSha256": "a54c00dfc3db47fd7318ab829cb9369ab73f94fc728cc967d48dc6e2b643df4f"
+    },
+    {
+      "source": "specialists/pointer-and-cursor-responsive-design.md",
+      "target": "specialists/pointer-and-cursor-responsive-design.md",
+      "sourceSha256": "1b6558b0445a64162e5070ce16f2b838a13399c59a9ee186c56548120fbefdcc"
+    },
+    {
+      "source": "specialists/portfolio-and-program-management.md",
+      "target": "specialists/portfolio-and-program-management.md",
+      "sourceSha256": "0ada0d0156ab19cf667013b101a60d2fd63938fd9fc181de93e7e82ac05f43b1"
+    },
+    {
+      "source": "specialists/privacy-engineering.md",
+      "target": "specialists/privacy-engineering.md",
+      "sourceSha256": "4f706650abdc24cf5dce2334aeac3dda77b2ee5a6578be700225660e2687bb73"
+    },
+    {
+      "source": "specialists/product-strategy.md",
+      "target": "specialists/product-strategy.md",
+      "sourceSha256": "196293d56d7e7c5b11e4d9240fcb430603417e40a9e0d78b599039126d320ed1"
+    },
+    {
+      "source": "specialists/qa-and-verification.md",
+      "target": "specialists/qa-and-verification.md",
+      "sourceSha256": "0197797c4afbfda52583599f6f50344f6a55065f955efcfdd21dbcce0434db9e"
+    },
+    {
+      "source": "specialists/quality-engineering-and-test-strategy.md",
+      "target": "specialists/quality-engineering-and-test-strategy.md",
+      "sourceSha256": "77423920a557e8efa06c8c5f7cffa23a6de1a48517365cc9242077a1b0ecb648"
+    },
+    {
+      "source": "specialists/queues-jobs-and-event-driven-systems.md",
+      "target": "specialists/queues-and-background-jobs.md",
+      "sourceSha256": "3cfe0cb706f50c36ec6984d252bd97e781ad3d40ae0e631796e41232b7604b5c"
+    },
+    {
+      "source": "specialists/real-time-media-and-streaming.md",
+      "target": "specialists/real-time-media-and-streaming.md",
+      "sourceSha256": "82c1e523f9dcf09b57434e5e09b46ee50ff006073b527ff8c78aa2edd7546c31"
+    },
+    {
+      "source": "specialists/realtime-and-collaboration.md",
+      "target": "specialists/realtime-and-collaboration.md",
+      "sourceSha256": "e9eb6e2ca7cff7f66e86d9dced2282800eb3a24bbe433d62fa742314fe0b9d07"
+    },
+    {
+      "source": "specialists/realtime-backend-systems.md",
+      "target": "specialists/realtime-and-collaboration.md",
+      "sourceSha256": "326ce48c03d6fb1121c9b254d490f1ca65de2299151f1a56996ddf1125ac2733"
+    },
+    {
+      "source": "specialists/research-and-discovery.md",
+      "target": "specialists/research-and-discovery.md",
+      "sourceSha256": "7e0da66a841f2b1d2b5e926ad3f6c0903930db2480120972c7305bff672e5645"
+    },
+    {
+      "source": "specialists/responsive-multi-form-factor.md",
+      "target": "specialists/responsive-multi-form-factor.md",
+      "sourceSha256": "72de28436a955200d151d14e0c79fcee2c8b6553acce425730fc0a768469617b"
+    },
+    {
+      "source": "specialists/robotics-and-autonomous-systems.md",
+      "target": "specialists/robotics-and-autonomous-systems.md",
+      "sourceSha256": "157e5960115d22ef5c92dbe1a7157aa6aa86e4004709086a307a28bde6bc7845"
+    },
+    {
+      "source": "specialists/scaling-and-capacity-engineering.md",
+      "target": "specialists/cost-and-capacity-engineering.md",
+      "sourceSha256": "33ea7f486588ba121c3e5e51df49c8c257f990a28f56e5546ea1af0870517bf4"
+    },
+    {
+      "source": "specialists/scroll-driven-and-narrative-experiences.md",
+      "target": "specialists/scroll-driven-and-narrative-experiences.md",
+      "sourceSha256": "47d3d6a99d150990c63f9a0bdbf656dff05fa333d5836a0a1d4afe30df9d2984"
+    },
+    {
+      "source": "specialists/sdk-library-and-open-source-engineering.md",
+      "target": "specialists/sdk-library-and-open-source-engineering.md",
+      "sourceSha256": "bec84dc6a50ec3bb15ca852a509509207a993bcfc2a919da68a263fd090b3dad"
+    },
+    {
+      "source": "specialists/search-and-indexing-infrastructure.md",
+      "target": "specialists/search-and-information-retrieval.md",
+      "sourceSha256": "0cd498ace88ab658e0c4ceaae21a1f860b1988a50ab81d5a50de6247db9c7126"
+    },
+    {
+      "source": "specialists/search-and-information-retrieval.md",
+      "target": "specialists/search-and-information-retrieval.md",
+      "sourceSha256": "ead0dbfd858a636ff15696ad1c63f34515ae43a6c881cc47cb4468e5dc8f81cb"
+    },
+    {
+      "source": "specialists/search-relevance-and-recommendations.md",
+      "target": "specialists/search-relevance-and-recommendations.md",
+      "sourceSha256": "7513d0cc9aed5e1d90f4878f8d7ba7f79a5739ae6cb290cf1f7ba3249d4db148"
+    },
+    {
+      "source": "specialists/secrets-and-key-management.md",
+      "target": "specialists/secrets-and-key-management.md",
+      "sourceSha256": "8146d1e8683e377172368e2cf863ceeed2dab7014766b21b47e3435a746984bc"
+    },
+    {
+      "source": "specialists/security-and-privacy.md",
+      "target": "specialists/security-and-privacy.md",
+      "sourceSha256": "f1a70b107bf2c9f8fe906fbc1f5f1b8c085724e946a5b526bc901844abbe1333"
+    },
+    {
+      "source": "specialists/security-architecture-and-red-teaming.md",
+      "target": "specialists/security-architecture-and-red-teaming.md",
+      "sourceSha256": "a360188fe4525a24521306447f2bdd17651dfde733c9640ce50d943bd9a6450b"
+    },
+    {
+      "source": "specialists/seo-and-discoverability.md",
+      "target": "specialists/seo-and-discoverability.md",
+      "sourceSha256": "c9c48d525fe43d4d211fcbf6544c8f967fa4f9e4b1b189c48c2c2a4c8bef3bf5"
+    },
+    {
+      "source": "specialists/serverless-and-edge-runtimes.md",
+      "target": "specialists/serverless-and-edge-runtimes.md",
+      "sourceSha256": "635faaec392d2e079af553fe054cb1d33ab830efa8ba055dcd4761185e624b3c"
+    },
+    {
+      "source": "specialists/storage-files-and-media-backend.md",
+      "target": "specialists/storage-files-and-media-backend.md",
+      "sourceSha256": "1a84dc0c127dfd9334fcb25a7534cd6406ee6426e04c5b373e5e8345dc79849a"
+    },
+    {
+      "source": "specialists/supply-chain-and-build-security.md",
+      "target": "specialists/supply-chain-and-build-security.md",
+      "sourceSha256": "685268f39527a0165ee8baa28324dbc18781be6767afa99d52afaa92fb2bd4a4"
+    },
+    {
+      "source": "specialists/technical-debt-and-modernization.md",
+      "target": "specialists/technical-debt-and-modernization.md",
+      "sourceSha256": "09a17611849877bbe5b341d83b6fabc8d8374c5cdb7a1b77bfed6b3dd0acfa08"
+    },
+    {
+      "source": "specialists/technical-documentation.md",
+      "target": "specialists/technical-documentation.md",
+      "sourceSha256": "4899a82b2a86d376286aabb858704839d447f170d5070cd5e028a07dcd4e41f7"
+    },
+    {
+      "source": "specialists/technical-writing-and-knowledge-management.md",
+      "target": "specialists/technical-writing-and-knowledge-management.md",
+      "sourceSha256": "3daab8024c63b6e026589a498bcc8a221e0e0c1122b56eaab0d4582fcfe1e2eb"
+    },
+    {
+      "source": "specialists/terminal-cli-and-interactive-tui.md",
+      "target": "specialists/cli-and-tui-engineering.md",
+      "sourceSha256": "47c0181aa7736bce72e103c9db01dfa7cc047f637de7797b3021cff75ea62920"
+    },
+    {
+      "source": "specialists/trust-safety-and-moderation.md",
+      "target": "specialists/trust-safety-and-moderation.md",
+      "sourceSha256": "22014c557bca8980711dc0cfa739c43fffd3e648615457e07529cd13ae9ae1b4"
+    },
+    {
+      "source": "specialists/ux-and-information-architecture.md",
+      "target": "specialists/ux-and-information-architecture.md",
+      "sourceSha256": "ccf0c7fd9f03ee990cf2a8f379a02e4419349136e71e3fb7ca519e6f5f68b372"
+    },
+    {
+      "source": "specialists/visual-craft-typography-color-and-layout.md",
+      "target": "specialists/visual-craft-typography-color-and-layout.md",
+      "sourceSha256": "6c8c22734f49bd99c99de03917a3be3ef9aad5347e674cf093ed8ed10c88336b"
+    },
+    {
+      "source": "specialists/visualization-and-information-design.md",
+      "target": "specialists/visualization-and-information-design.md",
+      "sourceSha256": "28b7fe11c358100ecc5da4696ce4270ed87db1ae0d017a3478e32eec0c2c43c5"
+    },
+    {
+      "source": "specialists/voice-and-conversational-experiences.md",
+      "target": "specialists/voice-and-conversational-experiences.md",
+      "sourceSha256": "362779216e5c9e3f86ba33dadc163f0b36e863dbe10bd374d7e8805eeb9a67d8"
+    },
+    {
+      "source": "specialists/vps-and-linux-server-administration.md",
+      "target": "specialists/network-and-server-operations.md",
+      "sourceSha256": "3af49f5e370822cc6e704a47b46dfb4591d03b52a5dd079b9e814584373f2d75"
+    },
+    {
+      "source": "specialists/web-graphics-engineering.md",
+      "target": "specialists/web-graphics-engineering.md",
+      "sourceSha256": "396f7fb21bfd88eee162512ca067adc124b12ccd7f74111ce0a2ff2f0cf0bffb"
+    },
+    {
+      "source": "specialists/workflow-automation-and-integrations.md",
+      "target": "specialists/workflow-automation-and-integrations.md",
+      "sourceSha256": "872bf8ade6c293b10de8b31ded45a7cd7b41539ddbcfdd98f786592b74690a0e"
+    },
+    {
+      "source": "templates/ACCESSIBILITY_AND_LOCALIZATION_REVIEW.md",
+      "target": "templates/ACCESSIBILITY_AND_LOCALIZATION_REVIEW.md",
+      "sourceSha256": "43bde03bd1f23bd3718de92ce1c217f2772bad572b7aa162bc572fdbfa7fe639"
+    },
+    {
+      "source": "templates/ACCESSIBILITY_CONFORMANCE_REPORT.md",
+      "target": "templates/ACCESSIBILITY_CONFORMANCE_REPORT.md",
+      "sourceSha256": "f84e5c354ecdb14e7956e53de935c65fa9e672d09da2e075b7471e76e4cd74c8"
+    },
+    {
+      "source": "templates/ACCESSIBILITY_TEST_PLAN.md",
+      "target": "templates/ACCESSIBILITY_TEST_PLAN.md",
+      "sourceSha256": "56b0b5f6fe18a904cad4188cdbe353d37e1de49ad1b5c975c6a7bb0a910e8526"
+    },
+    {
+      "source": "templates/AI_EVALUATION_PLAN.md",
+      "target": "templates/AI_EVALUATION_PLAN.md",
+      "sourceSha256": "90e9e013b3b6f57eba81a7cdbfe924a54748f9b7356351e1de91475140e16e3d"
+    },
+    {
+      "source": "templates/AI_FEATURE_SAFETY_REVIEW.md",
+      "target": "templates/AI_FEATURE_SAFETY_REVIEW.md",
+      "sourceSha256": "fbb9ba4b601704c03759c9d800a4a4c7d64862fc244da9c9efb9a624e6915ba7"
+    },
+    {
+      "source": "templates/AI_TOOL_PERMISSION_MATRIX.md",
+      "target": "templates/AI_TOOL_PERMISSION_MATRIX.md",
+      "sourceSha256": "a8a3513fc0c7a5f25ed1fe8db8334ffa3222571145954dc9bf41f026a8a7449b"
+    },
+    {
+      "source": "templates/ANALYTICS_METRIC_SPEC.md",
+      "target": "templates/ANALYTICS_METRIC_SPEC.md",
+      "sourceSha256": "ff5fafe1dfc363fa07a433a077a2fb9c76e5fbe8ef261ce5312e3420e6a66ffd"
+    },
+    {
+      "source": "templates/API_CONTRACT_REVIEW.md",
+      "target": "templates/API_CONTRACT_REVIEW.md",
+      "sourceSha256": "1cb92323f91395bc49f7c6402252ab4ecbe845e16d1594676ce7156b13756091"
+    },
+    {
+      "source": "templates/AUTHORIZATION_MATRIX.md",
+      "target": "templates/AUTHORIZATION_MATRIX.md",
+      "sourceSha256": "f21d5d52f61f9082cce9f1e4b70877c6487b9be7061599d26fb2f433bafdfb86"
+    },
+    {
+      "source": "templates/BACKEND_ARCHITECTURE_BRIEF.md",
+      "target": "templates/BACKEND_ARCHITECTURE_BRIEF.md",
+      "sourceSha256": "3301397deadbb82255af0acae34d001e9d9683f88d31b8c2cfde6a5c4b07e6a3"
+    },
+    {
+      "source": "templates/BACKUP_RESTORE_TEST_LOG.md",
+      "target": "templates/BACKUP_RESTORE_TEST_LOG.md",
+      "sourceSha256": "9a8cf374f1fb9eb47089891e7cb14a71f1778f2a8a3eb778998f00ceb7a34327"
+    },
+    {
+      "source": "templates/CAPACITY_AND_SCALING_REVIEW.md",
+      "target": "templates/CAPACITY_AND_SCALING_REVIEW.md",
+      "sourceSha256": "e63709f4b2e7cdbc162cc2a6c9aa3f03346b23d03dcabcc72ffe016fc8373e84"
+    },
+    {
+      "source": "templates/CLI_COMMAND_AND_ACTION_REGISTRY.md",
+      "target": "templates/CLI_COMMAND_AND_ACTION_REGISTRY.md",
+      "sourceSha256": "c741b053f7404db3ddf06785cba826841151d4d78ef538656483f09ef4b86ca7"
+    },
+    {
+      "source": "templates/CLI_TUI_PRODUCT_SPEC.md",
+      "target": "templates/CLI_TUI_PRODUCT_SPEC.md",
+      "sourceSha256": "6f89f16958d4b5216fdd596b7a896b7a5b26d9ba71392fd2f5467dae4f92a40b"
+    },
+    {
+      "source": "templates/COST_MODEL_AND_CAPACITY_PLAN.md",
+      "target": "templates/COST_MODEL_AND_CAPACITY_PLAN.md",
+      "sourceSha256": "9ffa5fcf34cd156cb355aadbb7d53b0a068cdfd0ec0c3888aaae1ef9770f3f77"
+    },
+    {
+      "source": "templates/CREATIVE_DIRECTION_OPTIONS.md",
+      "target": "templates/CREATIVE_DIRECTION_OPTIONS.md",
+      "sourceSha256": "d15769aad273e734395094a4b17def0d45f6e211617f32d9afe53d3410d260a8"
+    },
+    {
+      "source": "templates/DATABASE_SCHEMA_REVIEW.md",
+      "target": "templates/DATABASE_SCHEMA_REVIEW.md",
+      "sourceSha256": "71710774b40577d46d4b35d2958f2c1f97db7a672aee9f872db634c33591e8b3"
+    },
+    {
+      "source": "templates/DATA_LIFECYCLE_AND_RETENTION.md",
+      "target": "templates/DATA_LIFECYCLE_AND_RETENTION.md",
+      "sourceSha256": "f88e2f175dc5a8169f908c88cce0a30c5e2d08c21d643bd02004336d2fba173b"
+    },
+    {
+      "source": "templates/DEPLOYMENT_PIPELINE_SPEC.md",
+      "target": "templates/DEPLOYMENT_PIPELINE_SPEC.md",
+      "sourceSha256": "035035ea51956623de9a3a66f5d9e8a1cecee3505e865e00d16f76122cecc790"
+    },
+    {
+      "source": "templates/DEPRECATION_AND_END_OF_LIFE_PLAN.md",
+      "target": "templates/DEPRECATION_AND_END_OF_LIFE_PLAN.md",
+      "sourceSha256": "22f22bec4b9731c8f679968afeb4c5981970c81e12d446d3afad7fec31d764f8"
+    },
+    {
+      "source": "templates/DEVICE_VIEWPORT_TEST_PLAN.md",
+      "target": "templates/DEVICE_VIEWPORT_TEST_PLAN.md",
+      "sourceSha256": "1a333fef3b4e236d260b16050773b35d4604cbd95ce9662ed03b240bd793866d"
+    },
+    {
+      "source": "templates/DISASTER_RECOVERY_PLAN.md",
+      "target": "templates/DISASTER_RECOVERY_PLAN.md",
+      "sourceSha256": "f16d2ca9972b4a08c7e47ea46a0ecea69a9c56fadac0948b488b736eafdd2056"
+    },
+    {
+      "source": "templates/DOMAIN_MODEL_AND_STATE_MACHINE.md",
+      "target": "templates/DOMAIN_MODEL_AND_STATE_MACHINE.md",
+      "sourceSha256": "e877063bd2d2e6924f477e466cb60966b298f1cc259420d318ad95f8bb8634f4"
+    },
+    {
+      "source": "templates/ENVIRONMENT_AND_CONFIG_MATRIX.md",
+      "target": "templates/ENVIRONMENT_AND_CONFIG_MATRIX.md",
+      "sourceSha256": "68cc667e1247af78ee81bac7372368ea1fdc3156e58f4239abf7724b4fc1fcd7"
+    },
+    {
+      "source": "templates/FEATURE_DECISION_REGISTER.md",
+      "target": "templates/FEATURE_DECISION_REGISTER.md",
+      "sourceSha256": "2860f45e54823dd9e0b79578214131523c1228329d33f12bb7701cc53d60761d"
+    },
+    {
+      "source": "templates/FULL_STACK_APPLICATION_BLUEPRINT.md",
+      "target": "templates/FULL_STACK_APPLICATION_BLUEPRINT.md",
+      "sourceSha256": "9aced667ef08ce6b10ed6842a547d5dfdb1e57475c5932f11c47dbbc4733fa09"
+    },
+    {
+      "source": "templates/INCIDENT_POSTMORTEM.md",
+      "target": "templates/INCIDENT_POSTMORTEM.md",
+      "sourceSha256": "143136c17c515686cb272845ce7f3701bb57376ced5353badc8254229f52f775"
+    },
+    {
+      "source": "templates/INFRASTRUCTURE_TOPOLOGY.md",
+      "target": "templates/INFRASTRUCTURE_TOPOLOGY.md",
+      "sourceSha256": "16e47eb646b5023578c02edd215de8b222658a2da5624e2666207e577fbca83c"
+    },
+    {
+      "source": "templates/INTEGRATION_REGISTER.md",
+      "target": "templates/INTEGRATION_REGISTER.md",
+      "sourceSha256": "ec4f4625c1f5362b33f1e37c745d31781e6b54f631bd5ac9be6a710b6c808510"
+    },
+    {
+      "source": "templates/INTERACTIVE_GRAPHICS_BRIEF.md",
+      "target": "templates/INTERACTIVE_GRAPHICS_BRIEF.md",
+      "sourceSha256": "74b03e264662e18b117a1bf9fd0624ab687a3ce8de5211cbc02a8e68e22f2402"
+    },
+    {
+      "source": "templates/LOAD_TEST_PLAN.md",
+      "target": "templates/LOAD_TEST_PLAN.md",
+      "sourceSha256": "da11998b916448d71efb61dba9d11d1f2e7eee66e91b6fa2985b4098d4915a5b"
+    },
+    {
+      "source": "templates/LOCALIZATION_READINESS.md",
+      "target": "templates/LOCALIZATION_READINESS.md",
+      "sourceSha256": "9dc00ff6309e78a547629cc8617f0a88666c793aa114b6914f97e4451c0072d7"
+    },
+    {
+      "source": "templates/MIGRATION_RUNBOOK.md",
+      "target": "templates/MIGRATION_RUNBOOK.md",
+      "sourceSha256": "ae3bba68fa357f7fa71f3b15ca55921952fed202633a02f19c84634217fb060a"
+    },
+    {
+      "source": "templates/MOTION_SPEC.md",
+      "target": "templates/MOTION_SPEC.md",
+      "sourceSha256": "4d8653021c061e13c9e2357d9539ece6933f97fd121947b3f794758eae5c485b"
+    },
+    {
+      "source": "templates/MULTI_INPUT_ACCESSIBILITY_TEST.md",
+      "target": "templates/MULTI_INPUT_ACCESSIBILITY_TEST.md",
+      "sourceSha256": "6e75bcdf1b95f4950c62cd72cdecab1f5b604b8bee59147c7c2babb3c43e4871"
+    },
+    {
+      "source": "templates/NETWORK_AND_DNS_MAP.md",
+      "target": "templates/NETWORK_AND_DNS_MAP.md",
+      "sourceSha256": "c78324ea76022a7838ba5717756e3a42bc7f4cb33b78b0fa720eb3f0474a447b"
+    },
+    {
+      "source": "templates/OBSERVABILITY_SPEC.md",
+      "target": "templates/OBSERVABILITY_SPEC.md",
+      "sourceSha256": "993127b0d65183b9e764f9113a159e2fd146565ebba3a82bbf02f3357cc4c713"
+    },
+    {
+      "source": "templates/OPERATIONAL_READINESS_REVIEW.md",
+      "target": "templates/OPERATIONAL_READINESS_REVIEW.md",
+      "sourceSha256": "748384894ad592e55a3a00144d70499e0cb76dc7af4e436c9dac95d3b61d8566"
+    },
+    {
+      "source": "templates/PERFORMANCE_BUDGET.md",
+      "target": "templates/PERFORMANCE_BUDGET.md",
+      "sourceSha256": "06e460740678fb1d9fa2d67ee39c14e659dc1db438828f23a5932bd9353d09d3"
+    },
+    {
+      "source": "templates/POST_LAUNCH_REVIEW.md",
+      "target": "templates/POST_LAUNCH_REVIEW.md",
+      "sourceSha256": "f008f0894f91fac45630139565b12d29067144cd04a544811ae755a8a82b8c27"
+    },
+    {
+      "source": "templates/PRODUCT_RISK_REGISTER.md",
+      "target": "templates/PRODUCT_RISK_REGISTER.md",
+      "sourceSha256": "e44222952d717c2268fcfb70fa77c07fae76a88b24838d2a706bf6e6f3d00eb1"
+    },
+    {
+      "source": "templates/PROJECT_BRIEF.md",
+      "target": "templates/PROJECT_BRIEF.md",
+      "sourceSha256": "fa59a2a04c1bc1d22cee7562c4ab7a891f5727a97e211a8a4e75d541c60cd979"
+    },
+    {
+      "source": "templates/PROJECT_CHARTER_AND_OUTCOME_MAP.md",
+      "target": "templates/PROJECT_CHARTER_AND_OUTCOME_MAP.md",
+      "sourceSha256": "f36956c66151c9fb9f380d1101dcb8eabc54d8430be68bf7632e5e5735e632ba"
+    },
+    {
+      "source": "templates/PROJECT_GITIGNORE_TEMPLATE.md",
+      "target": "templates/PROJECT_GITIGNORE_TEMPLATE.md",
+      "sourceSha256": "f57d8d580cda2649feca70559bc51578ed38905a52d3a29717246be308cc9e68"
+    },
+    {
+      "source": "templates/QUEUE_AND_JOB_SPEC.md",
+      "target": "templates/QUEUE_AND_JOB_SPEC.md",
+      "sourceSha256": "2a6de8d1bd38f42aea3567e49e954ab2113c82f9fe242b6fae19187067a713f6"
+    },
+    {
+      "source": "templates/RELEASE_AND_EVIDENCE_REPORT.md",
+      "target": "templates/RELEASE_AND_EVIDENCE_REPORT.md",
+      "sourceSha256": "ecd45dc2fec72752c833b3047ba73f253b99053d6624c00b94cf3ca20b46d92a"
+    },
+    {
+      "source": "templates/RELEASE_PLAN_AND_ROLLBACK.md",
+      "target": "templates/RELEASE_PLAN_AND_ROLLBACK.md",
+      "sourceSha256": "80b0f8d0037d5925e81a59f467094df5ce1130417642e30d06fb81cc52ad5780"
+    },
+    {
+      "source": "templates/REPOSITORY_HYGIENE_REVIEW.md",
+      "target": "templates/REPOSITORY_HYGIENE_REVIEW.md",
+      "sourceSha256": "3b5dc4620ce1f747896e3c9c33b5fe95a2687c2e63728e4a5bfe617fc5f8bb01"
+    },
+    {
+      "source": "templates/RESEARCH_PLAN_AND_FINDINGS.md",
+      "target": "templates/RESEARCH_PLAN_AND_FINDINGS.md",
+      "sourceSha256": "24811cdc3775cf7b1615dc213a714959a0e870b1fc50e898307b99f99d33cf69"
+    },
+    {
+      "source": "templates/RESPONSIVE_BEHAVIOR_SPEC.md",
+      "target": "templates/RESPONSIVE_BEHAVIOR_SPEC.md",
+      "sourceSha256": "70beb5c3c6b0c01b1ef0d584a391a6dad5ea31beeea64f771159f2640e348006"
+    },
+    {
+      "source": "templates/RUNBOOK.md",
+      "target": "templates/RUNBOOK.md",
+      "sourceSha256": "e2e7fdc919a683726e24ea9d0d2a25229349afb7fd3609ce63e6ad47d69fe904"
+    },
+    {
+      "source": "templates/SCREEN_AND_STATE_INVENTORY.md",
+      "target": "templates/SCREEN_AND_STATE_INVENTORY.md",
+      "sourceSha256": "ebedf04511ba41a1e7ec60d96d98fd0328f12d8037dc53fd7f5c5fae370b6c9d"
+    },
+    {
+      "source": "templates/SCREEN_COVERAGE_MATRIX.md",
+      "target": "templates/SCREEN_COVERAGE_MATRIX.md",
+      "sourceSha256": "8b1bc2039e27486bd080800b40b4760ef36daa945e327cd5cfef7140e65a2025"
+    },
+    {
+      "source": "templates/SECRETS_INVENTORY.md",
+      "target": "templates/SECRETS_INVENTORY.md",
+      "sourceSha256": "624a2e84cdae2d1ec7cc5ebf5e81e69deb3f04b8e8ab89f11c5a3ad45535b48c"
+    },
+    {
+      "source": "templates/SECURITY_REVIEW_FINDINGS.md",
+      "target": "templates/SECURITY_REVIEW_FINDINGS.md",
+      "sourceSha256": "4b225b26e1455ff883c8c3893c6e7ce27a2656b81e42131188cd4f66f4c6d935"
+    },
+    {
+      "source": "templates/SECURITY_THREAT_REGISTER.md",
+      "target": "templates/SECURITY_THREAT_REGISTER.md",
+      "sourceSha256": "6f5e9d90b9a23dbe2d9a5d2b06c9968a8bbf1c25fc54d33f57f2239077f3501d"
+    },
+    {
+      "source": "templates/SERVER_HARDENING_CHECKLIST.md",
+      "target": "templates/SERVER_HARDENING_CHECKLIST.md",
+      "sourceSha256": "f5a1070c4a760e6b1d4078db20e223317b1ea7a6769205a76591222b57d82cf5"
+    },
+    {
+      "source": "templates/SLO_AND_ALERT_SPEC.md",
+      "target": "templates/SLO_AND_ALERT_SPEC.md",
+      "sourceSha256": "3f5ede823860fdb742108ed9c3c9764c0959db5eed6c7720f6c483296eade658"
+    },
+    {
+      "source": "templates/STANDOUT_OPPORTUNITY_REGISTER.md",
+      "target": "templates/STANDOUT_OPPORTUNITY_REGISTER.md",
+      "sourceSha256": "25a2c027aa0d20715cea1054c0ea68ccdb38460fb147f6db0952842d51591682"
+    },
+    {
+      "source": "templates/TECHNOLOGY_RECOMMENDATION_RECORD.md",
+      "target": "templates/TECHNOLOGY_RECOMMENDATION_RECORD.md",
+      "sourceSha256": "c84f9f4d61dd201586ad7635ee2e568e7c3b45b0d70a5ba1d46fbab7e0578fc5"
+    },
+    {
+      "source": "templates/TERMINAL_COMPATIBILITY_TEST.md",
+      "target": "templates/TERMINAL_COMPATIBILITY_TEST.md",
+      "sourceSha256": "d557640cc5c040054f19ffa0b5c0f6fe920810cd1f47ca491ca499af2ad309ef"
+    },
+    {
+      "source": "templates/TERMINAL_KEYMAP_AND_MOUSE_SPEC.md",
+      "target": "templates/TERMINAL_KEYMAP_AND_MOUSE_SPEC.md",
+      "sourceSha256": "0536b294a3c5370a06f8c6c9ecab55ceb3b2b8bb826b98c652c305910fc39176"
+    },
+    {
+      "source": "templates/THIRD_PARTY_DUE_DILIGENCE.md",
+      "target": "templates/THIRD_PARTY_DUE_DILIGENCE.md",
+      "sourceSha256": "6bd6ece920b81d582c9a72555e8d85ec3efada6f187442b105322f247548fbf5"
+    },
+    {
+      "source": "templates/THREAT_MODEL_WORKSHEET.md",
+      "target": "templates/THREAT_MODEL_WORKSHEET.md",
+      "sourceSha256": "70e59c8321ab45d97226152117582cc15107e88b6651bee5772b96e984db646e"
+    },
+    {
+      "source": "templates/USER_FEEDBACK_AND_SUPPORT_TAXONOMY.md",
+      "target": "templates/USER_FEEDBACK_AND_SUPPORT_TAXONOMY.md",
+      "sourceSha256": "e1367439f83ca711432c6f348364497d1bf4de089f89105c87ab02b3286a9c65"
+    },
+    {
+      "source": "templates/USER_JOURNEY_AND_FAILURE_MAP.md",
+      "target": "templates/USER_JOURNEY_AND_FAILURE_MAP.md",
+      "sourceSha256": "5e0c4a01c0fd970b29915acf7175638f26f730f9c20d49b4b01fdc59d9993e6c"
+    },
+    {
+      "source": "templates/USER_STORY_AND_ACCEPTANCE_CRITERIA.md",
+      "target": "templates/USER_STORY_AND_ACCEPTANCE_CRITERIA.md",
+      "sourceSha256": "d3abd91883dfde107334f213c6cbc17e6e74b3a1dc71a786e972d48413389731"
+    },
+    {
+      "source": "templates/VENDOR_AND_EXIT_PLAN.md",
+      "target": "templates/VENDOR_AND_EXIT_PLAN.md",
+      "sourceSha256": "260a5e665570ac77b8b006b9a7d1515189616401feec01e2fb5dc2449ecacf5d"
+    },
+    {
+      "source": "tools/build_manifest.py",
+      "target": "scripts/toolkit.py",
+      "sourceSha256": "81930723b6980d87e0f27ccb3d9534d79b1814cbc08740044b9d8290cc7e12a4"
+    },
+    {
+      "source": "tools/validate_package.py",
+      "target": "scripts/toolkit.py",
+      "sourceSha256": "f9314bc3d67f46b7d97cd5af18a4ebe4959a996ee3e55d5cc0e87d16d82670b6"
+    }
+  ],
+  "behavioralEvaluation": "not_run; provenance and static validation do not establish agent behavior"
+}

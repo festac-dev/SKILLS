@@ -1,0 +1,1259 @@
+{
+  "schema_version": 1,
+  "routes": [
+    {
+      "id": "backend",
+      "keywords": [
+        "backend",
+        "api",
+        "duplicate webhook",
+        "database",
+        "server engineering"
+      ],
+      "resources": [
+        "specialists/backend-and-data-engineering.md",
+        "specialists/edge-and-distributed-systems.md",
+        "specialists/quality-engineering-and-test-strategy.md",
+        "playbooks/BACKEND_DELIVERY_PLAYBOOK.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "backend, api, duplicate webhook, database, server engineering",
+      "skip": "Skip UI redesign and infrastructure replacement unless required.",
+      "overlap": "Backend owns transactions; API specialist owns public developer contracts."
+    },
+    {
+      "id": "cli",
+      "keywords": [
+        "tui",
+        "cli",
+        "terminal interface",
+        "bubble tea",
+        "command palette"
+      ],
+      "resources": [
+        "specialists/cli-and-tui-engineering.md",
+        "references/platform-compatibility-matrix.md",
+        "specialists/quality-engineering-and-test-strategy.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "tui, cli, terminal interface, bubble tea, command palette",
+      "skip": "Skip GUI, cloud, and authentication features without requirements.",
+      "overlap": "Command registry owns actions; frameworks are optional implementations."
+    },
+    {
+      "id": "frontend",
+      "keywords": [
+        "responsive form",
+        "frontend",
+        "responsive",
+        "web form",
+        "core web vitals"
+      ],
+      "resources": [
+        "specialists/frontend-engineering.md",
+        "references/platform-compatibility-matrix.md",
+        "templates/SCREEN_AND_STATE_INVENTORY.md",
+        "specialists/accessibility-and-internationalization.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "responsive form, frontend, responsive, web form, core web vitals",
+      "skip": "Skip backend changes unless the journey requires them.",
+      "overlap": "Frontend owns browser behavior; mobile owns native lifecycle."
+    },
+    {
+      "id": "solidity",
+      "keywords": [
+        "solidity",
+        "foundry",
+        "proxy storage",
+        "smart contract",
+        "reentrancy"
+      ],
+      "resources": [
+        "specialists/solidity-contract-engineering.md",
+        "specialists/formal-methods-and-invariants.md",
+        "specialists/security-architecture-and-red-teaming.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "solidity, foundry, proxy storage, smart contract, reentrancy",
+      "skip": "Skip signing/broadcast without separate task scope.",
+      "overlap": "Contract code here; wallet/transaction lifecycle belongs to EVM."
+    },
+    {
+      "id": "monorepo",
+      "keywords": [
+        "monorepo",
+        "cross-repo",
+        "codemod",
+        "shared package"
+      ],
+      "resources": [
+        "specialists/monorepo-and-cross-repo-engineering.md",
+        "specialists/migration-and-compatibility.md",
+        "specialists/quality-engineering-and-test-strategy.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "monorepo, cross-repo, codemod, shared package",
+      "skip": "Skip inaccessible repositories and publication unless authorized.",
+      "overlap": "Graph and rollout here; individual refactors stay with modernization."
+    },
+    {
+      "id": "agent",
+      "keywords": [
+        "rag",
+        "llm",
+        "agent runtime",
+        "tool use",
+        "agent engineering"
+      ],
+      "resources": [
+        "playbooks/AI_AGENT_IMPLEMENTATION_PLAYBOOK.md",
+        "specialists/ai-evaluation-and-governance.md",
+        "templates/AI_TOOL_PERMISSION_MATRIX.md"
+      ],
+      "gates": [
+        "quality-gates/AI_AND_AUTOMATION_RELEASE_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "rag, llm, agent runtime, tool use, agent engineering",
+      "skip": "Skip AI features when ordinary deterministic code meets the task.",
+      "overlap": "Runtime owns execution; MCP resource owns protocol contracts."
+    },
+    {
+      "id": "mcp",
+      "keywords": [
+        "mcp",
+        "tool schema",
+        "tool server",
+        "tool sandbox"
+      ],
+      "resources": [
+        "specialists/tool-and-mcp-engineering.md",
+        "playbooks/AI_AGENT_IMPLEMENTATION_PLAYBOOK.md"
+      ],
+      "gates": [
+        "quality-gates/AI_AND_AUTOMATION_RELEASE_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "mcp, tool schema, tool server, tool sandbox",
+      "skip": "Skip stable existing tools that require no contract changes.",
+      "overlap": "Protocol and adapters here; policy remains enforced outside the model."
+    },
+    {
+      "id": "injection",
+      "keywords": [
+        "prompt injection",
+        "untrusted tool output",
+        "poisoned retrieval"
+      ],
+      "resources": [
+        "specialists/ai-evaluation-and-governance.md",
+        "specialists/security-architecture-and-red-teaming.md"
+      ],
+      "gates": [
+        "quality-gates/AI_AND_AUTOMATION_RELEASE_GATE.md"
+      ],
+      "when_to_load": "prompt injection, untrusted tool output, poisoned retrieval",
+      "skip": "Skip unrelated pentesting or live target access.",
+      "overlap": "AI authority boundaries here; general app threats use security review."
+    },
+    {
+      "id": "delegation",
+      "keywords": [
+        "multi-agent",
+        "parallel agents",
+        "delegate tasks"
+      ],
+      "resources": [
+        "specialists/multi-agent-coordination.md",
+        "references/agent-context-and-handoffs.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "multi-agent, parallel agents, delegate tasks",
+      "skip": "Skip delegation when unavailable, unauthorized, or tightly coupled.",
+      "overlap": "One owner integrates; no concurrent writers to the same path."
+    },
+    {
+      "id": "context",
+      "keywords": [
+        "checkpoint",
+        "handoff",
+        "resume work",
+        "long-horizon",
+        "context window",
+        "resume session",
+        "continue from where",
+        "interrupted session"
+      ],
+      "resources": [
+        "references/agent-context-and-handoffs.md",
+        "orchestrator/GLOBAL_RULES.md"
+      ],
+      "gates": [
+        "quality-gates/MAINTAINABILITY_AND_HANDOFF_GATE.md"
+      ],
+      "when_to_load": "checkpoint, handoff, resume work, long-horizon, context window, resume session, continue from where, interrupted session",
+      "skip": "Skip persistent handoff files for trivial completed tasks.",
+      "overlap": "Persist facts and evidence, never hidden reasoning or new authority."
+    },
+    {
+      "id": "skill-maintenance",
+      "keywords": [
+        "skill routing",
+        "skill authoring",
+        "skill eval",
+        "self-improving skills",
+        "skill deprecation",
+        "skills directory",
+        "update skills",
+        "upgrade skills",
+        "skill library"
+      ],
+      "resources": [
+        "references/skill-lifecycle-and-improvement.md",
+        "playbooks/SKILL_EVALUATION_PLAYBOOK.md",
+        "orchestrator/PROJECT_ROUTING.md"
+      ],
+      "gates": [
+        "quality-gates/GATE_PROTOCOL.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "skill routing, skill authoring, skill eval, self-improving skills, skill deprecation, skills directory, update skills, upgrade skills, skill library",
+      "skip": "Preserve user scope and useful guidance. Revise stale content when authorized; avoid unrelated host or product configuration changes.",
+      "overlap": "Existing topic owner is extended; add a skill only for a missing capability."
+    },
+    {
+      "id": "data-pipeline",
+      "keywords": [
+        "etl",
+        "elt",
+        "dbt",
+        "ml pipeline",
+        "vector database",
+        "model serving"
+      ],
+      "resources": [
+        "specialists/data-platform-and-pipelines.md",
+        "specialists/data-governance-and-compliance.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "etl, elt, dbt, ml pipeline, vector database, model serving",
+      "skip": "Skip model serving when the work only transforms data.",
+      "overlap": "Pipelines own lineage; search owns ranking and online reindexing."
+    },
+    {
+      "id": "search",
+      "keywords": [
+        "elasticsearch",
+        "opensearch",
+        "hybrid search",
+        "reindex"
+      ],
+      "resources": [
+        "specialists/search-relevance-and-recommendations.md",
+        "specialists/search-and-information-retrieval.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "elasticsearch, opensearch, hybrid search, reindex",
+      "skip": "Skip vector retrieval without relevance evidence.",
+      "overlap": "Existing retrieval brief owns user query needs; ranking reference owns engine workflow."
+    },
+    {
+      "id": "distributed",
+      "keywords": [
+        "saga",
+        "outbox",
+        "crdt",
+        "backpressure",
+        "network partition",
+        "distributed systems"
+      ],
+      "resources": [
+        "specialists/edge-and-distributed-systems.md",
+        "specialists/realtime-and-collaboration.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "saga, outbox, crdt, backpressure, network partition, distributed systems",
+      "skip": "Skip services/queues without an actual distribution need.",
+      "overlap": "Transactional boundaries stay with backend; durable delivery stays here."
+    },
+    {
+      "id": "infrastructure",
+      "keywords": [
+        "kubernetes",
+        "helm",
+        "vps",
+        "docker",
+        "infrastructure",
+        "linux server",
+        "cloud deployment"
+      ],
+      "resources": [
+        "specialists/devops-and-release.md",
+        "specialists/supply-chain-and-build-security.md",
+        "specialists/backup-and-disaster-recovery.md",
+        "specialists/finops-and-cloud-economics.md"
+      ],
+      "gates": [
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "kubernetes, helm, vps, docker, infrastructure, linux server, cloud deployment",
+      "skip": "Skip clusters, mesh, operators, and multi-region without requirements.",
+      "overlap": "DevOps owns deployment; SRE owns user-facing reliability objectives."
+    },
+    {
+      "id": "sre",
+      "keywords": [
+        "slo",
+        "error budget",
+        "sre",
+        "chaos",
+        "capacity planning"
+      ],
+      "resources": [
+        "references/reliability-engineering-patterns.md",
+        "specialists/observability-and-incident-response.md",
+        "specialists/backup-and-disaster-recovery.md"
+      ],
+      "gates": [
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "slo, error budget, sre, chaos, capacity planning",
+      "skip": "Skip production fault injection without scoped authorization.",
+      "overlap": "Performance investigation measures bottlenecks; SRE sets operating goals."
+    },
+    {
+      "id": "systems",
+      "keywords": [
+        "ffi",
+        "wasm",
+        "c++",
+        "rust unsafe",
+        "native library",
+        "systems language"
+      ],
+      "resources": [
+        "specialists/systems-languages-and-interop.md",
+        "specialists/quality-engineering-and-test-strategy.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "ffi, wasm, c++, rust unsafe, native library, systems language",
+      "skip": "Skip language migration without measured need.",
+      "overlap": "ABI and ownership here; runtime compatibility belongs to compatibility route."
+    },
+    {
+      "id": "mobile",
+      "keywords": [
+        "react native",
+        "flutter",
+        "foldable",
+        "tablet",
+        "mobile app",
+        "push notification"
+      ],
+      "resources": [
+        "specialists/mobile-and-device-experiences.md",
+        "references/platform-compatibility-matrix.md",
+        "specialists/offline-and-resilient-experiences.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "react native, flutter, foldable, tablet, mobile app, push notification",
+      "skip": "Skip store releases for mobile web.",
+      "overlap": "Native lifecycle here; frontend owns browser forms and state."
+    },
+    {
+      "id": "security",
+      "keywords": [
+        "threat model",
+        "stride",
+        "attack tree",
+        "pentest",
+        "owasp",
+        "asvs",
+        "security review"
+      ],
+      "resources": [
+        "specialists/security-architecture-and-red-teaming.md",
+        "references/security-control-catalogue.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "threat model, stride, attack tree, pentest, owasp, asvs, security review",
+      "skip": "Skip unapproved live testing and unrelated hardening.",
+      "overlap": "Threat review owns findings; control catalogue maps versioned requirements."
+    },
+    {
+      "id": "identity",
+      "keywords": [
+        "secrets rotation",
+        "credential rotation",
+        "authentication",
+        "authorization",
+        "tenant isolation"
+      ],
+      "resources": [
+        "specialists/identity-and-access-management.md",
+        "specialists/backend-and-data-engineering.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "secrets rotation, credential rotation, authentication, authorization, tenant isolation",
+      "skip": "Skip secret values in outputs and reports.",
+      "overlap": "Identity owns credentials; backend enforces resource permissions."
+    },
+    {
+      "id": "supply-chain",
+      "keywords": [
+        "sbom",
+        "slsa",
+        "dependency audit",
+        "supply chain",
+        "lockfile security"
+      ],
+      "resources": [
+        "specialists/supply-chain-and-build-security.md",
+        "specialists/legal-policy-and-regulatory-coordination.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "sbom, slsa, dependency audit, supply chain, lockfile security",
+      "skip": "Skip auto-upgrading unrelated dependencies.",
+      "overlap": "Build integrity here; legal resource owns license obligations."
+    },
+    {
+      "id": "privacy",
+      "keywords": [
+        "gdpr",
+        "soc 2",
+        "pii",
+        "retention",
+        "privacy"
+      ],
+      "resources": [
+        "specialists/data-governance-and-compliance.md",
+        "specialists/privacy-engineering.md",
+        "specialists/legal-policy-and-regulatory-coordination.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md"
+      ],
+      "when_to_load": "gdpr, soc 2, pii, retention, privacy",
+      "skip": "Skip unsupported compliance/attestation claims.",
+      "overlap": "Governance owns evidence; qualified reviewers own legal interpretations."
+    },
+    {
+      "id": "evm",
+      "keywords": [
+        "evm",
+        "wallet signing",
+        "gas fee",
+        "nonce",
+        "mainnet transaction"
+      ],
+      "resources": [
+        "specialists/evm-transaction-engineering.md",
+        "specialists/fintech-and-ledger-systems.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "evm, wallet signing, gas fee, nonce, mainnet transaction",
+      "skip": "Skip signing/broadcast without exact scope.",
+      "overlap": "Transaction lifecycle here; contract source goes to Solidity."
+    },
+    {
+      "id": "cross-chain",
+      "keywords": [
+        "near protocol",
+        "near contract",
+        "cross-chain",
+        "bridge",
+        "intent solver",
+        "account abstraction"
+      ],
+      "resources": [
+        "specialists/near-and-cross-chain-engineering.md",
+        "specialists/edge-and-distributed-systems.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "near protocol, near contract, cross-chain, bridge, intent solver, account abstraction",
+      "skip": "Skip mainnet actions and new bridge trust without review.",
+      "overlap": "Cross-chain settlement here; single-chain EVM transactions use EVM route."
+    },
+    {
+      "id": "automation",
+      "keywords": [
+        "playwright",
+        "browser automation",
+        "desktop automation",
+        "scraping"
+      ],
+      "resources": [
+        "specialists/browser-and-desktop-automation.md",
+        "specialists/workflow-automation-and-integrations.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "playwright, browser automation, desktop automation, scraping",
+      "skip": "Skip bypassing access restrictions and unrequested submissions.",
+      "overlap": "UI interaction here; workflow service integrations own durable side effects."
+    },
+    {
+      "id": "compatibility",
+      "keywords": [
+        "wine",
+        "proton",
+        "box64",
+        "dxvk",
+        "windows api shim"
+      ],
+      "resources": [
+        "specialists/compatibility-runtime-engineering.md",
+        "specialists/systems-languages-and-interop.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "wine, proton, box64, dxvk, windows api shim",
+      "skip": "Skip random runtime changes and unsupported platform claims.",
+      "overlap": "Diagnose each translation layer before changing application code."
+    },
+    {
+      "id": "graphics",
+      "keywords": [
+        "three.js",
+        "webgl",
+        "shader",
+        "animation",
+        "motion design",
+        "3d",
+        "moving graphics",
+        "rotating",
+        "flowing",
+        "autoplay",
+        "animations",
+        "animated"
+      ],
+      "resources": [
+        "motion-studio/SKILL.md",
+        "specialists/motion-3d-and-immersive.md",
+        "specialists/design-systems-and-ui.md",
+        "specialists/brand-and-art-direction.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "three.js, webgl, shader, animation, motion design, 3d, moving graphics, rotating, flowing, autoplay, animations, animated",
+      "skip": "Skip rendering changes when graphics are outside the brief. Explicitly requested motion is in scope.",
+      "overlap": "Motion owns timing, rendering and cleanup; brand owns identity; spatial owns camera, picking and immersive input."
+    },
+    {
+      "id": "environment",
+      "keywords": [
+        "termux",
+        "android host",
+        "low-ram",
+        "offline build",
+        "zip patch"
+      ],
+      "resources": [
+        "references/termux-and-constrained-environments.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "termux, android host, low-ram, offline build, zip patch",
+      "skip": "Skip archives when directory-only delivery is requested.",
+      "overlap": "Supplement the main task route; do not infer Android from a path."
+    },
+    {
+      "id": "hackathon",
+      "keywords": [
+        "hackathon",
+        "demo deadline",
+        "pitch demo",
+        "submission checklist",
+        "submission form"
+      ],
+      "resources": [
+        "playbooks/HACKATHON_DELIVERY_PLAYBOOK.md",
+        "orchestrator/FEATURE_DECISION_FRAMEWORK.md",
+        "specialists/technical-documentation.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "hackathon, demo deadline, pitch demo, submission checklist",
+      "skip": "Skip prototype shortcuts in existing production systems.",
+      "overlap": "Product scope is preserved; demo limitations remain visible."
+    },
+    {
+      "id": "formal",
+      "keywords": [
+        "tla+",
+        "alloy",
+        "formal methods",
+        "prove invariant"
+      ],
+      "resources": [
+        "specialists/formal-methods-and-invariants.md",
+        "specialists/quality-engineering-and-test-strategy.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "tla+, alloy, formal methods, prove invariant",
+      "skip": "Skip heavyweight modeling when ordinary tests resolve low risk.",
+      "overlap": "State model and bounds here; implementation evidence still required."
+    },
+    {
+      "id": "differential",
+      "keywords": [
+        "differential testing",
+        "metamorphic",
+        "independent oracle"
+      ],
+      "resources": [
+        "references/differential-and-metamorphic-testing.md",
+        "specialists/quality-engineering-and-test-strategy.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "differential testing, metamorphic, independent oracle",
+      "skip": "Skip weak relations with no domain justification.",
+      "overlap": "Oracle independence here; test execution belongs to project test tools."
+    },
+    {
+      "id": "simulation",
+      "keywords": [
+        "deterministic replay",
+        "fault injection",
+        "time-travel",
+        "simulation"
+      ],
+      "resources": [
+        "specialists/game-and-interactive-systems.md",
+        "specialists/edge-and-distributed-systems.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "deterministic replay, fault injection, time-travel, simulation",
+      "skip": "Skip uncontrolled production experiments.",
+      "overlap": "Replay owns recorded state/input; SRE owns production experiment authorization."
+    },
+    {
+      "id": "migration",
+      "keywords": [
+        "strangler",
+        "dual-write",
+        "shadow traffic",
+        "zero-downtime",
+        "legacy migration"
+      ],
+      "resources": [
+        "specialists/migration-and-compatibility.md",
+        "playbooks/DATA_MIGRATION_PLAYBOOK.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "strangler, dual-write, shadow traffic, zero-downtime, legacy migration",
+      "skip": "Skip destructive contraction before consumer/recovery evidence.",
+      "overlap": "Migration owns data authority and cutover; cross-repo route owns consumer graph."
+    },
+    {
+      "id": "economics",
+      "keywords": [
+        "unit economics",
+        "cost of delay",
+        "build-vs-buy",
+        "token budget",
+        "latency budget"
+      ],
+      "resources": [
+        "specialists/financial-planning-and-unit-economics.md",
+        "specialists/cost-and-capacity-engineering.md",
+        "orchestrator/TECHNOLOGY_SELECTION.md"
+      ],
+      "gates": [
+        "quality-gates/COMMERCIAL_AND_OPERATIONS_GATE.md"
+      ],
+      "when_to_load": "unit economics, cost of delay, build-vs-buy, token budget, latency budget",
+      "skip": "Skip fabricated pricing/market assumptions.",
+      "overlap": "Economic choices here; explicit user budgets remain binding."
+    },
+    {
+      "id": "debugging",
+      "keywords": [
+        "debug",
+        "incident triage",
+        "root cause",
+        "production outage"
+      ],
+      "resources": [
+        "playbooks/INCIDENT_RESPONSE_PLAYBOOK.md",
+        "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md",
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md"
+      ],
+      "when_to_load": "debug, incident triage, root cause, production outage",
+      "skip": "Skip symptom-only patches and destructive evidence loss.",
+      "overlap": "Incident containment is distinct from completed causal repair."
+    },
+    {
+      "id": "review",
+      "keywords": [
+        "code review",
+        "refactor",
+        "self-review"
+      ],
+      "resources": [
+        "specialists/technical-debt-and-modernization.md",
+        "orchestrator/ENGINEERING_JUDGMENT_AND_EVIDENCE.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "code review, refactor, self-review",
+      "skip": "Skip unrelated cleanup and user-work rewrites.",
+      "overlap": "Modernization owns behavior preservation; domain routes supply special invariants."
+    },
+    {
+      "id": "release",
+      "keywords": [
+        "semver",
+        "changelog",
+        "pull request",
+        "release workflow",
+        "rollback"
+      ],
+      "resources": [
+        "references/release-and-change-management.md",
+        "playbooks/PRODUCTION_READINESS_PLAYBOOK.md"
+      ],
+      "gates": [
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "semver, changelog, pull request, release workflow, rollback",
+      "skip": "Skip publication without existing authorization.",
+      "overlap": "Release coordinates artifacts; data migration owns schema compatibility."
+    },
+    {
+      "id": "hygiene",
+      "keywords": [
+        "repository hygiene",
+        "ai residue",
+        "gitignore",
+        "agent artifacts",
+        "build cache",
+        "build caches",
+        "clear caches",
+        "clean caches",
+        "build artifacts",
+        "prepare for git",
+        "ready for git",
+        "prompt files"
+      ],
+      "resources": [
+        "references/repository-hygiene-and-ai-artifact-policy.md",
+        "playbooks/EXISTING_REPOSITORY_AUDIT_PLAYBOOK.md",
+        "scripts/cache_cleanup.py",
+        "templates/REPOSITORY_HYGIENE.gitignore"
+      ],
+      "gates": [
+        "quality-gates/MAINTAINABILITY_AND_HANDOFF_GATE.md"
+      ],
+      "when_to_load": "Inspect or clean development residue, prompt files, build caches, and the files intended for Git.",
+      "skip": "Preserve runtime state, final deliverables and intentional source/docs. A named user removal overrides general keep recommendations; do not infer permission to commit or push.",
+      "overlap": "Hygiene owns classification and scoped cleanup; releases own publication. Ignore patterns do not remove tracked files."
+    },
+    {
+      "id": "discovery",
+      "keywords": [
+        "product brief",
+        "prd",
+        "new product",
+        "discovery"
+      ],
+      "resources": [
+        "orchestrator/PROJECT_DISCOVERY_PROTOCOL.md",
+        "specialists/product-strategy.md",
+        "orchestrator/FEATURE_DECISION_FRAMEWORK.md"
+      ],
+      "gates": [
+        "quality-gates/PROJECT_DISCOVERY_AND_SCOPE_GATE.md"
+      ],
+      "when_to_load": "product brief, prd, new product, discovery",
+      "skip": "Skip manufactured research and automatic feature expansion.",
+      "overlap": "Select additional routes only after requirements expose the need."
+    },
+    {
+      "id": "brand",
+      "keywords": [
+        "brand",
+        "logo",
+        "visual identity",
+        "art direction",
+        "palette",
+        "professional logo",
+        "distinct templates",
+        "template redesign"
+      ],
+      "resources": [
+        "specialists/brand-and-art-direction.md",
+        "specialists/design-systems-and-ui.md",
+        "references/design-and-content-principles.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "brand, logo, visual identity, art direction, palette, professional logo, distinct templates, template redesign",
+      "skip": "Skip identity changes when the task only repairs existing behavior.",
+      "overlap": "Brand owns identity; UI owns reusable tokens/components; graphics owns animated implementation."
+    },
+    {
+      "id": "ux",
+      "keywords": [
+        "navigation",
+        "information architecture",
+        "user journey",
+        "workspace navigation"
+      ],
+      "resources": [
+        "specialists/ux-and-information-architecture.md",
+        "specialists/human-content-and-ux-writing.md",
+        "templates/SCREEN_AND_STATE_INVENTORY.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "navigation, information architecture, user journey, workspace navigation",
+      "skip": "Skip unrelated visual refresh and backend replacement.",
+      "overlap": "UX owns task structure and recovery; frontend implements browser behavior."
+    },
+    {
+      "id": "accessibility",
+      "keywords": [
+        "accessibility",
+        "screen reader",
+        "keyboard focus",
+        "contrast",
+        "wcag",
+        "rtl"
+      ],
+      "resources": [
+        "specialists/accessibility-and-internationalization.md",
+        "playbooks/ACCESSIBILITY_REMEDIATION_PLAYBOOK.md",
+        "templates/ACCESSIBILITY_TEST_PLAN.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "accessibility, screen reader, keyboard focus, contrast, wcag, rtl",
+      "skip": "Apply the relevant criteria and report untested assistive technologies honestly.",
+      "overlap": "Accessibility owns barriers and alternatives; frontend and content own implementation."
+    },
+    {
+      "id": "documentation",
+      "keywords": [
+        "readme",
+        "technical documentation",
+        "public documentation",
+        "setup guide",
+        "verification summary",
+        "installation guide",
+        "operator guide",
+        "api documentation"
+      ],
+      "resources": [
+        "specialists/technical-documentation.md",
+        "orchestrator/ENGINEERING_JUDGMENT_AND_EVIDENCE.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/MAINTAINABILITY_AND_HANDOFF_GATE.md"
+      ],
+      "when_to_load": "Create or revise READMEs, installation/operator guides, API documentation and verification summaries for any project, using the actual reader, stack and contracts.",
+      "skip": "Keep private delivery notes outside public product docs; retain material limits and required disclosures. A copy edit does not authorize paid tests, hosting or new features.",
+      "overlap": "Technical documentation owns audience, executable instructions and claim presentation; API guidance owns contracts; engineering evidence owns verification status; hackathon guidance owns applicable submission rules."
+    },
+    {
+      "id": "content",
+      "keywords": [
+        "microcopy",
+        "ux writing",
+        "button labels",
+        "content design"
+      ],
+      "resources": [
+        "specialists/human-content-and-ux-writing.md",
+        "references/content-design-and-voice-guide.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "microcopy, ux writing, button labels, content design",
+      "skip": "Skip brand replacement and new workflows for a copy correction.",
+      "overlap": "Content owns meaning and voice; UX owns destinations and task structure."
+    },
+    {
+      "id": "performance",
+      "keywords": [
+        "performance",
+        "slow page",
+        "memory leak",
+        "profiling",
+        "frame time"
+      ],
+      "resources": [
+        "playbooks/PERFORMANCE_INVESTIGATION_PLAYBOOK.md",
+        "specialists/performance-and-reliability.md",
+        "templates/PERFORMANCE_BUDGET.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "performance, slow page, memory leak, profiling, frame time",
+      "skip": "Skip speculative optimization before reproducing and measuring the problem.",
+      "overlap": "Investigation owns measurement; the affected frontend, backend or graphics resource owns the fix."
+    },
+    {
+      "id": "product-build",
+      "keywords": [
+        "build a product",
+        "product build",
+        "build an app",
+        "end-to-end product",
+        "complete application"
+      ],
+      "resources": [
+        "playbooks/END_TO_END_PRODUCT_BUILD_PLAYBOOK.md",
+        "specialists/product-strategy.md",
+        "specialists/full-stack-application-architecture.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "build a product, product build, build an app, end-to-end product, complete application",
+      "skip": "Use only disciplines needed by the accepted journeys.",
+      "overlap": "The product route sets acceptance; supporting routes own implementation details."
+    },
+    {
+      "id": "payments",
+      "keywords": [
+        "payment",
+        "payments",
+        "billing",
+        "checkout",
+        "entitlements"
+      ],
+      "resources": [
+        "specialists/billing-and-entitlements.md",
+        "specialists/fintech-and-ledger-systems.md",
+        "specialists/commerce-and-checkout.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "payment, payments, billing, checkout, entitlements",
+      "skip": "Do not infer authority to charge, refund or broadcast real transactions from implementation work.",
+      "overlap": "Billing owns access lifecycle; ledger owns exact amounts; commerce owns order completion."
+    },
+    {
+      "id": "integration",
+      "keywords": [
+        "provider integration",
+        "third-party integration",
+        "external service",
+        "provider setting",
+        "account setting",
+        "integration enabled",
+        "provider data collection"
+      ],
+      "resources": [
+        "playbooks/THIRD_PARTY_INTEGRATION_PLAYBOOK.md",
+        "references/integration-patterns-and-failure-modes.md",
+        "templates/INTEGRATION_REGISTER.md",
+        "orchestrator/ENGINEERING_JUDGMENT_AND_EVIDENCE.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "Integrate an external service or verify the state of its account, configuration or operation.",
+      "skip": "Skip new provider connections or external side effects outside current authorization.",
+      "overlap": "Integration owns the provider boundary; backend owns internal transactions."
+    },
+    {
+      "id": "research",
+      "keywords": [
+        "user research",
+        "product discovery",
+        "usability study",
+        "roadmap"
+      ],
+      "resources": [
+        "specialists/research-and-discovery.md",
+        "playbooks/RESEARCH_TO_ROADMAP_PLAYBOOK.md",
+        "references/research-and-validation-methods.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "user research, product discovery, usability study, roadmap",
+      "skip": "Do not invent observations, participants or market validation.",
+      "overlap": "Research owns evidence and uncertainty; product strategy owns committed scope."
+    },
+    {
+      "id": "preview",
+      "keywords": [
+        "localhost",
+        "local preview",
+        "preview server",
+        "start preview",
+        "launch locally"
+      ],
+      "resources": [
+        "specialists/devops-and-release.md",
+        "specialists/qa-and-verification.md",
+        "references/agent-context-and-handoffs.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "localhost, local preview, preview server, start preview, launch locally",
+      "skip": "Local launch does not authorize deployment to a public service.",
+      "overlap": "Preview owns process/artifact identity; QA owns the populated journey; environment supplements host constraints."
+    },
+    {
+      "id": "video",
+      "keywords": [
+        "demo video",
+        "product film",
+        "product video",
+        "launch video",
+        "video production",
+        "voice-over",
+        "remotion",
+        "screencast"
+      ],
+      "resources": [
+        "motion-studio/SKILL.md",
+        "specialists/product-demo-video-production.md",
+        "playbooks/PRODUCT_DEMO_VIDEO_PLAYBOOK.md",
+        "references/video-rendering-and-audio-qa.md"
+      ],
+      "gates": [
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md",
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md"
+      ],
+      "when_to_load": "Demo videos, product films, narrated walkthroughs and video-production guidance",
+      "skip": "A sample prompt used for skill improvement does not authorize its embedded repository clone, rendering or delivery commands.",
+      "overlap": "Video owns editorial timeline and export; interface graphics owns in-app animation; brand guidance offers project-specific direction."
+    },
+    {
+      "id": "api-contract",
+      "keywords": [
+        "API contract",
+        "OpenAPI",
+        "GraphQL",
+        "protobuf",
+        "webhook signature",
+        "API versioning"
+      ],
+      "resources": [
+        "specialists/api-and-developer-experience.md",
+        "templates/API_CONTRACT_REVIEW.md",
+        "specialists/identity-and-access-management.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "API contract, OpenAPI, GraphQL, protobuf, webhook signature, API versioning",
+      "skip": "Skip replacing a stable API style or adding public integrations outside the brief.",
+      "overlap": "API owns consumer contracts; backend owns operation implementation and database owns durable invariants."
+    },
+    {
+      "id": "database",
+      "keywords": [
+        "database design",
+        "query plan",
+        "transaction isolation",
+        "database migrations",
+        "connection pool",
+        "database schema",
+        "slow query"
+      ],
+      "resources": [
+        "specialists/database-engineering.md",
+        "references/data-modeling-and-integrity-guide.md",
+        "playbooks/DATA_MIGRATION_PLAYBOOK.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "database design, query plan, transaction isolation, database migrations, connection pool, database schema, slow query",
+      "skip": "Skip introducing a datastore without persistence requirements.",
+      "overlap": "Database owns storage semantics and capacity; backend owns business operations; recovery owns restore drills."
+    },
+    {
+      "id": "queues",
+      "keywords": [
+        "background jobs",
+        "job queue",
+        "dead-letter",
+        "worker lease",
+        "job scheduler",
+        "queue replay"
+      ],
+      "resources": [
+        "specialists/queues-and-background-jobs.md",
+        "specialists/edge-and-distributed-systems.md",
+        "specialists/observability-and-incident-response.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "background jobs, job queue, dead-letter, worker lease, job scheduler, queue replay",
+      "skip": "Skip brokers and workers when a bounded in-process operation is sufficient.",
+      "overlap": "Queues own job lifecycle; distributed systems owns cross-service consistency; realtime owns client synchronization."
+    },
+    {
+      "id": "server-operations",
+      "keywords": [
+        "VPS",
+        "DNS",
+        "TLS",
+        "reverse proxy",
+        "server administration",
+        "Linux service",
+        "firewall",
+        "network diagnosis"
+      ],
+      "resources": [
+        "specialists/network-and-server-operations.md",
+        "specialists/devops-and-release.md",
+        "specialists/backup-and-disaster-recovery.md"
+      ],
+      "gates": [
+        "quality-gates/INTEGRATION_AND_OPERATIONS_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "VPS, DNS, TLS, reverse proxy, server administration, Linux service, firewall, network diagnosis",
+      "skip": "Skip host mutations for an application-only task; inspect the actual OS and authorization.",
+      "overlap": "Server operations owns host and traffic paths; DevOps owns release artifacts and rollout."
+    },
+    {
+      "id": "realtime",
+      "keywords": [
+        "WebSocket",
+        "SSE",
+        "real-time collaboration",
+        "reconnect",
+        "presence",
+        "slow consumer",
+        "subscription stream"
+      ],
+      "resources": [
+        "specialists/realtime-and-collaboration.md",
+        "specialists/edge-and-distributed-systems.md",
+        "specialists/identity-and-access-management.md"
+      ],
+      "gates": [
+        "quality-gates/ARCHITECTURE_AND_DATA_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "WebSocket, SSE, real-time collaboration, reconnect, presence, slow consumer, subscription stream",
+      "skip": "Skip realtime infrastructure when polling or a normal request meets the user need.",
+      "overlap": "Realtime owns synchronization and connections; queues own durable work; identity owns authorization policy."
+    },
+    {
+      "id": "visual-reference",
+      "keywords": [
+        "visual reference",
+        "design reference",
+        "carousel",
+        "TikTok",
+        "reference video",
+        "reference collection"
+      ],
+      "resources": [
+        "references/visual-reference-analysis.md",
+        "specialists/brand-and-art-direction.md",
+        "templates/VISUAL_DIRECTION_AND_MOTION_BRIEF.md"
+      ],
+      "gates": [
+        "quality-gates/USER_EXPERIENCE_AND_CONTENT_GATE.md",
+        "quality-gates/TESTING_AND_EVIDENCE_GATE.md"
+      ],
+      "when_to_load": "visual reference, design reference, carousel, TikTok, reference video, reference collection",
+      "skip": "Skip media retrieval for unrelated fixes; sample material supplies ideas, not product facts or new action permission.",
+      "overlap": "Reference analysis owns observation and transfer; brand, UX, motion and film specialists own the resulting implementation."
+    }
+  ]
+}

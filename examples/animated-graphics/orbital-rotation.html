@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbital rotation: drag, tilt, inertia, idle spin</title>
+<style>
+  /* Demo palette only. Replace with the project's own tokens; nothing here is a mandated look. */
+  :root { --bg:#0f1115; --fg:#e8eaf0; --muted:#9aa3b2; --a:#6ea8fe; --b:#f0b36a; --c:#7ed6a5; color-scheme: dark light; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f6f7f9; --fg:#14171c; --muted:#566070; --a:#2f6fdd; --b:#b9651a; --c:#1f8a5b; } }
+  html,body { height:100%; margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui,sans-serif; }
+  main { min-height:100%; display:grid; place-items:center; padding:2rem; gap:1rem; }
+  .stage { width:min(70vmin,420px); aspect-ratio:1; perspective:1100px; touch-action:pan-y; cursor:grab; outline-offset:8px; }
+  .stage:active { cursor:grabbing; }
+  .scene { position:relative; width:100%; height:100%; transform-style:preserve-3d; will-change:transform; }
+  .ring { position:absolute; inset:0; border-radius:50%; border:2px solid var(--a); transform-style:preserve-3d; }
+  .ring.r2 { inset:12%; border-color:var(--b); transform:rotateX(70deg); }
+  .ring.r3 { inset:24%; border-color:var(--c); transform:rotateY(70deg); }
+  .core { position:absolute; inset:40%; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--fg), var(--a)); box-shadow:0 0 40px color-mix(in srgb, var(--a) 60%, transparent); }
+  .dot { position:absolute; width:12px; height:12px; margin:-6px; border-radius:50%; background:var(--b); left:50%; top:0; }
+  .hint { color:var(--muted); font-size:.9rem; text-align:center; max-width:36ch; }
+  @media (prefers-reduced-motion: reduce) { .dot { display:none; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="stage" id="stage" tabindex="0" role="img" aria-label="Interactive 3D orbit graphic. Drag or use arrow keys to rotate.">
+    <div class="scene" id="scene">
+      <div class="ring r1"><span class="dot"></span></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="core"></div>
+    </div>
+  </div>
+  <p class="hint">Drag, use arrow keys, or move the pointer. It spins when idle and pauses when off-screen or the tab is hidden.</p>
+</main>
+<script>
+(() => {
+  const stage = document.getElementById('stage'), scene = document.getElementById('scene');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  let rx = -18, ry = 28;           // current rotation (deg)
+  let vx = 0, vy = 0;              // angular velocity (deg/s) -> inertia
+  let tiltX = 0, tiltY = 0;        // pointer tilt target (deg), eased
+  let dragging = false, lastX = 0, lastY = 0, lastT = 0, idleSince = performance.now();
+  let orbit = 0, visible = true, raf = 0, last = performance.now();
+
+  function render() { scene.style.transform = `rotateX(${(rx + tiltX).toFixed(2)}deg) rotateY(${(ry + tiltY).toFixed(2)}deg)`; }
+  function shouldRun() { return visible && !document.hidden && !reduced.matches; }
+
+  function frame(now) {
+    raf = 0;
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!dragging) {
+      ry += vy * dt; rx += vx * dt;
+      const decay = Math.exp(-3.2 * dt); vx *= decay; vy *= decay;           // frame-rate independent friction
+      if (!reduced.matches && now - idleSince > 1500) ry += 12 * dt;           // idle auto-rotate resumes after a pause
+      rx = clamp(rx, -80, 80);
+    }
+    orbit = (orbit + 360 / 14 * dt) % 360;
+    document.querySelector('.ring.r1').style.transform = `rotateZ(${orbit}deg)`;
+    render();
+    if (shouldRun()) raf = requestAnimationFrame(frame);
+  }
+  function start() { if (!raf && shouldRun() && !reduced.matches) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+  stage.addEventListener('pointerdown', (e) => { dragging = true; stage.setPointerCapture(e.pointerId); lastX = e.clientX; lastY = e.clientY; lastT = e.timeStamp; vx = vy = 0; idleSince = Infinity; });
+  stage.addEventListener('pointermove', (e) => {
+    if (dragging) {
+      const dt = Math.max(1, e.timeStamp - lastT) / 1000;
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      ry += dx * 0.4; rx = clamp(rx - dy * 0.4, -80, 80);
+      vy = (dx * 0.4) / dt; vx = (-dy * 0.4) / dt;
+      lastX = e.clientX; lastY = e.clientY; lastT = e.timeStamp; render();
+    } else if (e.pointerType === 'mouse' && !reduced.matches) {
+      const r = stage.getBoundingClientRect();
+      tiltY = ((e.clientX - r.left) / r.width - 0.5) * 10; tiltX = -((e.clientY - r.top) / r.height - 0.5) * 10; render();
+    }
+  });
+  const end = () => { if (dragging) { dragging = false; idleSince = performance.now(); vx = clamp(vx, -400, 400); vy = clamp(vy, -400, 400); if (reduced.matches) { vx = vy = 0; } start(); } };
+  stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
+  stage.addEventListener('pointerleave', () => { tiltX = tiltY = 0; render(); });
+  stage.addEventListener('keydown', (e) => {                                  // keyboard equivalent of dragging
+    const step = 10, map = { ArrowLeft: () => ry -= step, ArrowRight: () => ry += step, ArrowUp: () => rx = clamp(rx + step, -80, 80), ArrowDown: () => rx = clamp(rx - step, -80, 80) };
+    if (map[e.key]) { e.preventDefault(); map[e.key](); idleSince = performance.now(); render(); }
+  });
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; visible ? start() : stop(); }).observe(stage);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  reduced.addEventListener('change', () => { reduced.matches ? stop() : start(); });
+
+  render(); start();
+  window.__demo = { get state() { return { rx, ry, raf: !!raf }; } };   // test hook only
+})();
+</script>
+</body>
+</html>

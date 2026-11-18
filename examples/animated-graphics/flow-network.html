@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flowing network: particles along connections, cursor field, draggable nodes</title>
+<style>
+  :root { --bg:#0e1116; --fg:#e8ecf3; --muted:#98a2b3; --line:#3a4658; --a:#6ea8fe; --b:#7ed6a5; --w:#f0b36a; color-scheme: dark light; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f7f8fa; --fg:#14171c; --muted:#566070; --line:#b8c1cf; --a:#2f6fdd; --b:#1f8a5b; --w:#b9651a; } }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui,sans-serif; }
+  .wrap { position:relative; height:100%; min-height:420px; }
+  canvas { position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; }
+  .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <canvas id="c" role="img" aria-label="Network diagram. Particles flow along connections; faster flow means higher throughput. Nodes can be dragged."></canvas>
+  <ul class="sr" id="desc"></ul>
+</div>
+<script>
+(() => {
+  const canvas = document.getElementById('c'), ctx = canvas.getContext('2d');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let colors = {}; const readColors = () => colors = { line: css('--line'), a: css('--a'), b: css('--b'), w: css('--w'), fg: css('--fg') };
+  matchMedia('(prefers-color-scheme: light)').addEventListener('change', readColors); readColors();
+
+  const nodes = [
+    { id: 'Client', x: .10, y: .50 }, { id: 'Edge', x: .30, y: .30 }, { id: 'API', x: .50, y: .50 },
+    { id: 'Queue', x: .50, y: .18 }, { id: 'Worker', x: .72, y: .28 }, { id: 'DB', x: .72, y: .72 }, { id: 'Cache', x: .30, y: .74 },
+  ].map((n) => ({ ...n, px: 0, py: 0, vx: 0, vy: 0, pulse: 0 }));
+  const idx = Object.fromEntries(nodes.map((n, i) => [n.id, i]));
+  // Illustrative throughput weights drive particle speed and density.
+  const edges = [['Client','Edge',1],['Edge','API',1],['API','Queue',.5],['Queue','Worker',.5],['API','DB',.8],['API','Cache',.9],['Worker','DB',.4]]
+    .map(([a, b, w]) => ({ a: idx[a], b: idx[b], w, t: Math.random() }));
+  const particles = [];
+  let W = 0, H = 0, dpr = 1, load = 5, mouse = { x: -999, y: -999, active: false }, drag = null, visible = true, raf = 0, last = performance.now();
+
+  function resize() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);                         // cap DPR to protect GPU/battery
+    const r = canvas.getBoundingClientRect(); W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    nodes.forEach((n) => { if (!n.placed) { n.px = n.x * W; n.py = n.y * H; n.placed = true; } n.px = Math.min(W - 20, n.px); n.py = Math.min(H - 20, n.py); });
+    draw(0);
+  }
+  new ResizeObserver(resize).observe(canvas);
+
+  const mid = (a, b) => ({ x: (a.px + b.px) / 2, y: (a.py + b.py) / 2 - Math.abs(b.px - a.px) * 0.12 });
+  const bez = (a, b, t) => { const m = mid(a, b), u = 1 - t; return { x: u*u*a.px + 2*u*t*m.x + t*t*b.px, y: u*u*a.py + 2*u*t*m.y + t*t*b.py }; };
+
+  function step(dt) {
+    // cursor field: gentle repulsion; spring back toward home so the layout stays readable
+    for (const n of nodes) {
+      if (n === drag) continue;
+      let fx = (n.x * W - n.px) * 6, fy = (n.y * H - n.py) * 6;
+      if (mouse.active) { const dx = n.px - mouse.x, dy = n.py - mouse.y, d2 = dx*dx + dy*dy, R = 140; if (d2 < R*R && d2 > 1) { const d = Math.sqrt(d2), f = (1 - d / R) * 900; fx += dx / d * f; fy += dy / d * f; n.pulse = Math.max(n.pulse, 0.6); } }
+      n.vx = (n.vx + fx * dt) * Math.exp(-8 * dt); n.vy = (n.vy + fy * dt) * Math.exp(-8 * dt);
+      n.px += n.vx * dt; n.py += n.vy * dt; n.pulse = Math.max(0, n.pulse - dt);
+    }
+    // spawn particles proportional to edge weight and load
+    for (const e of edges) { if (Math.random() < e.w * load * 0.12 * dt * 10 && particles.length < 260) particles.push({ e, t: 0, s: (0.25 + e.w * 0.35) * (0.6 + load / 10) }); }
+    for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.t += p.s * dt; if (p.t >= 1) { nodes[p.e.b].pulse = 1; particles.splice(i, 1); } }
+  }
+
+  function draw(time) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineWidth = 1.5; ctx.strokeStyle = colors.line;
+    for (const e of edges) { const a = nodes[e.a], b = nodes[e.b], m = mid(a, b); ctx.beginPath(); ctx.moveTo(a.px, a.py); ctx.quadraticCurveTo(m.x, m.y, b.px, b.py); ctx.stroke(); }
+    ctx.fillStyle = colors.a;
+    for (const p of particles) { const q = bez(nodes[p.e.a], nodes[p.e.b], p.t); ctx.globalAlpha = Math.sin(Math.PI * p.t) * 0.95; ctx.beginPath(); ctx.arc(q.x, q.y, 2.5, 0, 6.283); ctx.fill(); }
+    ctx.globalAlpha = 1;
+    for (const n of nodes) {
+      ctx.beginPath(); ctx.arc(n.px, n.py, 10 + n.pulse * 6, 0, 6.283); ctx.fillStyle = n.pulse > 0.05 ? colors.w : colors.b; ctx.globalAlpha = 0.9; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.fillStyle = colors.fg; ctx.font = '13px system-ui'; ctx.textAlign = 'center'; ctx.fillText(n.id, n.px, n.py - 20);
+    }
+  }
+  function loop(now) { raf = 0; const dt = Math.min(0.05, (now - last) / 1000); last = now; step(dt); draw(now); if (visible && !document.hidden && !reduced.matches) raf = requestAnimationFrame(loop); }
+  const start = () => { if (!raf && visible && !document.hidden && !reduced.matches) { last = performance.now(); raf = requestAnimationFrame(loop); } };
+  const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+  const pos = (e) => { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+  canvas.addEventListener('pointermove', (e) => { const p = pos(e); mouse = { ...p, active: e.pointerType === 'mouse' }; if (drag) { drag.px = p.x; drag.py = p.y; drag.x = p.x / W; drag.y = p.y / H; if (!raf) draw(0); } });
+  canvas.addEventListener('pointerleave', () => mouse.active = false);
+  canvas.addEventListener('pointerdown', (e) => { const p = pos(e); drag = nodes.find((n) => Math.hypot(n.px - p.x, n.py - p.y) < 22) || null; if (drag) canvas.setPointerCapture(e.pointerId); });
+  const release = () => { drag = null; }; canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; visible ? start() : stop(); }).observe(canvas);
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+  reduced.addEventListener('change', () => reduced.matches ? (stop(), draw(0)) : start());
+  document.getElementById('desc').innerHTML = edges.map((e) => `<li>${nodes[e.a].id} to ${nodes[e.b].id}, relative throughput ${Math.round(e.w * 100)} percent</li>`).join('');
+
+  resize(); start();
+  window.__demo = { particles: () => particles.length, nodes: () => nodes.map((n) => ({ id: n.id, x: n.px, y: n.py })), running: () => !!raf };   // test hook only
+})();
+</script>
+</body>
+</html>

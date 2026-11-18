@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layered parallax: pointer, scroll and device tilt</title>
+<style>
+  :root { --sky1:#10233f; --sky2:#27456e; --l1:#2d5a7b; --l2:#1f4660; --l3:#142f42; --fg:#f2f5fa; color-scheme: dark; }
+  html,body { margin:0; background:#0b1522; color:var(--fg); font:16px/1.55 system-ui,sans-serif; }
+  .hero { position:relative; height:100svh; min-height:480px; overflow:hidden; background:linear-gradient(var(--sky1), var(--sky2)); isolation:isolate; }
+  .layer { position:absolute; left:-6%; right:-6%; bottom:0; will-change:transform; }   /* oversize so edges never show while moving */
+  .layer svg { display:block; width:100%; height:auto; }
+  .stars { top:0; height:60%; background-image:radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent), radial-gradient(1px 1px at 70% 20%, #fff, transparent), radial-gradient(1.5px 1.5px at 85% 55%, #fff, transparent), radial-gradient(1px 1px at 40% 65%, #fff, transparent); background-size:300px 300px; opacity:.8; }
+  .copy { position:absolute; z-index:5; inset:auto 0 18% 0; text-align:center; padding:0 1.5rem; }   /* text stays on a stable plane */
+  .copy h1 { margin:.2em 0; font-size:clamp(2rem,6vw,4rem); letter-spacing:-.02em; }
+  .copy p { margin:0 auto; max-width:40ch; opacity:.9; }
+  .more { height:100svh; display:grid; place-items:center; padding:2rem; text-align:center; background:#0b1522; }
+  @media (prefers-reduced-motion: reduce) { .layer { transform:none !important; } }
+</style>
+</head>
+<body>
+<section class="hero" id="hero" aria-label="Layered landscape illustration">
+  <div class="layer stars" data-depth="0.015" style="bottom:auto" aria-hidden="true"></div>
+  <div class="layer" data-depth="0.03" aria-hidden="true"><svg viewBox="0 0 1200 300" preserveAspectRatio="none"><path d="M0 220 L150 120 L300 200 L470 80 L650 210 L820 110 L1000 200 L1200 130 V300 H0Z" fill="var(--l1)"/></svg></div>
+  <div class="layer" data-depth="0.06" aria-hidden="true"><svg viewBox="0 0 1200 260" preserveAspectRatio="none"><path d="M0 200 L120 140 L260 190 L420 110 L600 200 L780 130 L960 190 L1200 120 V260 H0Z" fill="var(--l2)"/></svg></div>
+  <div class="layer" data-depth="0.11" aria-hidden="true"><svg viewBox="0 0 1200 220" preserveAspectRatio="none"><path d="M0 180 L140 130 L300 175 L500 100 L700 180 L900 120 L1200 170 V220 H0Z" fill="var(--l3)"/></svg></div>
+  <div class="copy"><h1>Depth without decoration</h1><p>Layers move at different rates from pointer, scroll, and device tilt. This text does not move.</p></div>
+</section>
+<section class="more"><p>Scroll back up. Foreground layers travel farther than background layers.</p></section>
+<script>
+(() => {
+  const hero = document.getElementById('hero'), layers = [...hero.querySelectorAll('.layer')];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  let tx = 0, ty = 0, x = 0, y = 0, scrollY = 0, raf = 0, last = performance.now(), visible = true;
+  const RANGE = 0.5;    // pointer range as a fraction of viewport, clamped to +/-RANGE
+
+  function frame(now) {
+    raf = 0; const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const k = 1 - Math.exp(-7 * dt); x += (tx - x) * k; y += (ty - y) * k;      // eased, frame-rate independent
+    const w = hero.clientWidth, h = hero.clientHeight;
+    for (const el of layers) {
+      const d = parseFloat(el.dataset.depth);
+      el.style.transform = `translate3d(${(-x * w * d).toFixed(2)}px, ${(-y * h * d + scrollY * d * 1.5).toFixed(2)}px, 0)`;
+    }
+    if (visible && (Math.abs(tx - x) > 0.0005 || Math.abs(ty - y) > 0.0005 || scrollDirty)) { scrollDirty = false; raf = requestAnimationFrame(frame); }
+  }
+  let scrollDirty = false;
+  const kick = () => { if (!raf && visible && !reduced.matches) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+
+  hero.addEventListener('pointermove', (e) => { if (e.pointerType !== 'mouse') return; const r = hero.getBoundingClientRect(); tx = clamp((e.clientX - r.left) / r.width - .5, -RANGE, RANGE); ty = clamp((e.clientY - r.top) / r.height - .5, -RANGE, RANGE); kick(); });
+  hero.addEventListener('pointerleave', () => { tx = ty = 0; kick(); });
+  addEventListener('scroll', () => { scrollY = Math.min(scrollY = window.scrollY, hero.clientHeight); scrollDirty = true; kick(); }, { passive: true });
+  // Device tilt only where available and already permitted (iOS requires a user gesture and permission prompt)
+  addEventListener('deviceorientation', (e) => { if (reduced.matches || e.gamma == null) return; tx = clamp(e.gamma / 45, -RANGE, RANGE); ty = clamp((e.beta - 45) / 90, -RANGE, RANGE); kick(); });
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) kick(); }).observe(hero);
+  window.__demo = { transforms: () => layers.map((l) => l.style.transform) };      // test hook only
+})();
+</script>
+</body>
+</html>

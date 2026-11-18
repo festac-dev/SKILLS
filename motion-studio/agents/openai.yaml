@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motion Studio"
+  short_description: "Animated interfaces and narrated product films"
+  default_prompt: "Use $motion-studio to create a polished motion sequence with real product evidence."

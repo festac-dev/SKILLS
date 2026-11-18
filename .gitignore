@@ -1,0 +1,5 @@
+# Toolkit build products and Python caches only.
+/dist/
+__pycache__/
+*.py[cod]
+.pytest_cache/

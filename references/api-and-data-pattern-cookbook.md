@@ -1,0 +1,21 @@
+# API and Data Pattern Cookbook
+
+- **Optimistic concurrency**: include `version`; `UPDATE ... WHERE id=? AND version=?`; if zero rows, return 409/412.
+- **Soft-delete safe uniqueness**: partial unique index on active rows.
+- **Audit log**: append-only table with actor, action, target, before/after (redacted), request ID, timestamp; protect from tampering.
+- **Multi-tenant row security**: tenant ID on every table; enforced by query layer and database row-level security where available; tests for cross-tenant access.
+- **Money**: integer minor units plus currency code; rounding rules documented; ledger with double-entry for financial products.
+- **Hierarchies**: adjacency list + recursive queries, closure table, materialized path, or nested sets, chosen by read/write patterns.
+- **Versioned content/history**: append-only revisions with current pointer.
+- **Search suggestions/autocomplete**: prefix index or dedicated search; rate limit and cache.
+- **Bulk import**: staging table → validate → report errors → apply in transaction or batches; idempotent re-run.
+- **Export**: streaming, paginated, signed URLs, expiry, audit.
+- **Webhooks out**: sign `timestamp.body` with HMAC, include event ID, retry exponential schedule, expire, provide replay and delivery log; receivers verify signature, timestamp tolerance, and dedupe.
+- **Webhooks in**: verify signature using raw body, respond fast (2xx), enqueue processing, dedupe by event ID.
+- **Feature flags**: typed, owned, expiring; evaluated server-side for security-relevant gating; cleaned up after rollout.
+- **Configuration**: schema-validated at startup, defaults safe, secrets separate.
+- **Pagination of nested/related data**: avoid unbounded includes; limit and link.
+- **Long-running operation**: `POST` returns `202` + `Location` status URL with progress and result link.
+- **Search + permissions**: filter by access control at query time, never post-filter pages.
+- **Soft rate limits for expensive endpoints**: cost-weighted limits per user and per tenant.
+- **GDPR-style deletion/export workflows**: inventory of personal data locations, deletion propagation to backups/search/analytics per policy, verifiable completion.

@@ -1,0 +1,21 @@
+# Infrastructure and Operations Gate
+
+- [ ] Infrastructure and configuration are reproducible (IaC or scripted build) and documented.
+- [ ] Environments are separated; production access is least-privilege and audited.
+- [ ] Only intended ports are public; admin and data services are private.
+- [ ] TLS valid with automatic renewal and expiry alerts.
+- [ ] Health/readiness checks and graceful shutdown work.
+- [ ] Deployment is repeatable with a tested rollback.
+- [ ] Monitoring, alerting, and log access exist; test alert received.
+- [ ] SLOs or explicit reliability targets are defined for critical journeys.
+- [ ] Backups are encrypted, off-host, monitored, and restore-tested (record date and timing).
+- [ ] DR plan defines RPO/RTO and has been exercised proportionate to risk.
+- [ ] Capacity assumptions and load test results exist for expected peaks.
+- [ ] Runbooks exist for top failure modes; on-call/ownership is clear.
+- [ ] Patch/upgrade cadence and end-of-life dates are tracked.
+- [ ] Cost budget and alerts are set.
+- [ ] A rebuild runbook exists and was actually tried.
+- [ ] CI/CD produces immutable, traceable artifacts; previous version retained for rollback.
+- [ ] Secrets are outside source and images with a named rotation owner.
+- [ ] No production change was made without authorization.
+- [ ] See also `quality-gates/DATA_SAFETY_AND_RECOVERY_GATE.md`.
