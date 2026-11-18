@@ -1,0 +1,347 @@
+import React, { useState, useEffect } from 'react';
+import { User, Bot, Copy, Check, Lock } from 'lucide-react';
+import { Link } from 'react-router';
+import { Footer } from '../components/Footer';
+
+const FILE_NAMES = ['SOUL.md', 'AGENTS.md', 'USER.md', 'TOOLS.md', 'IDENTITY.md', 'HEARTBEAT.md', 'MEMORY.md'];
+const PLATFORM_NAMES = ['OpenClaw', 'NanoClaw', 'Hermes'];
+const FILE_LOCK_REVEAL_DELAY_MS = 1600;
+const CHAR_FLIP_MS = 300;
+const CHAR_STAGGER_MS = 50;
+
+export const Home: React.FC = () => {
+  const [isAgent, setIsAgent] = useState(true);
+  const [copiedCurl, setCopiedCurl] = useState(false);
+  const [copiedHuman, setCopiedHuman] = useState(false);
+  const [currentFileIndex, setCurrentFileIndex] = useState(0);
+  const [currentPlatformIndex, setCurrentPlatformIndex] = useState(0);
+
+  const curlCommand = `npx skills add prompt-security/clawsec --skill clawsec-suite -a openclaw -y`;
+
+  // Rotate file names every 2-3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFileIndex((prev) => (prev + 1) % FILE_NAMES.length);
+    }, 2500); // 2.5 seconds
+    return () => clearInterval(interval);
+  }, []);
+
+  // Rotate platform names every 4-6 seconds
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    const scheduleNextRotation = () => {
+      const delay = 4000 + Math.floor(Math.random() * 2001);
+      timeoutId = window.setTimeout(() => {
+        setCurrentPlatformIndex((prev) => (prev + 1) % PLATFORM_NAMES.length);
+        scheduleNextRotation();
+      }, delay);
+    };
+
+    scheduleNextRotation();
+
+    return () => {
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, []);
+
+  const humanInstruction = `Please install clawsec-suite with npx skills add prompt-security/clawsec --skill clawsec-suite -a openclaw -y`;
+
+  // The caret holds steady while the name is still being uncovered, then blinks.
+  const platformRevealMs =
+    (PLATFORM_NAMES[currentPlatformIndex].length - 1) * CHAR_STAGGER_MS + CHAR_FLIP_MS;
+
+  const handleCopyCurl = () => {
+    navigator.clipboard.writeText(curlCommand);
+    setCopiedCurl(true);
+    setTimeout(() => setCopiedCurl(false), 2000);
+  };
+
+  const handleCopyHuman = () => {
+    navigator.clipboard.writeText(humanInstruction);
+    setCopiedHuman(true);
+    setTimeout(() => setCopiedHuman(false), 2000);
+  };
+
+  return (
+    <div className="pt-[52px]">
+      {/* Logo Section */}
+      <section className="text-center mb-6">
+        <h1 className="text-5xl md:text-6xl font text-clawd-800">ClawSec</h1>
+      </section>
+
+      {/* Hero Section */}
+      <section className="text-center space-y-6 max-w-3xl mx-auto mb-12 md:mb-16">
+        <h2 className="text-3xl md:text-4xl tracking-tight text-clawd-800">
+          Secure your{' '}
+          <code
+            key={currentPlatformIndex}
+            className="px-2 py-1 rounded text-clawd-green inline-block align-baseline relative"
+            style={{
+              minWidth: '10ch',
+              textAlign: 'center',
+              backgroundColor: 'rgb(30 27 75 / 1)',
+              animation: 'bgFade 0.4s ease-out 1.2s 1 forwards'
+            }}
+          >
+            {PLATFORM_NAMES[currentPlatformIndex].split('').map((char, index) => (
+              <span
+                key={`platform-${currentPlatformIndex}-${index}`}
+                className="inline-block"
+                style={{
+                  animation: `flipChar ${CHAR_FLIP_MS}ms ease-in-out ${index * CHAR_STAGGER_MS}ms 1 backwards`,
+                  transformStyle: 'preserve-3d',
+                  perspective: '400px'
+                }}
+              >
+                {char}
+              </span>
+            ))}
+            <span
+              aria-hidden="true"
+              className="ps-caret inline-block"
+              style={{
+                width: '0.6em',
+                height: '1em',
+                marginLeft: '0.3em',
+                verticalAlign: '-0.14em',
+                backgroundColor: 'currentColor',
+                // Hidden by its own style, and the animation carries NO fill mode,
+                // so the caret stays blank for the whole reveal delay and only
+                // appears once the last letter has landed.
+                opacity: 0,
+                animation: `caretBlink 1.1s linear ${platformRevealMs}ms infinite`
+              }}
+            />
+          </code>{' '}
+          agents
+        </h2>
+        <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+          A complete security skill suite for OpenClaw, NanoClaw, and Hermes agents. Protect your{' '}
+          <code
+            key={currentFileIndex}
+            className="px-2 py-1 rounded text-clawd-green inline-block align-baseline relative text-base"
+            style={{
+              width: '188px',
+              textAlign: 'center',
+              verticalAlign: 'baseline',
+              backgroundColor: 'rgb(30 27 75 / 1)',
+              animation: 'bgFade 0.4s ease-out 1.2s 1 forwards'
+            }}
+          >
+            <span className="inline-block w-full pr-5">
+              {FILE_NAMES[currentFileIndex].split('').map((char, index) => (
+                <span
+                  key={`${currentFileIndex}-${index}`}
+                  className="inline-block"
+                  style={{
+                    animation: `flipChar ${CHAR_FLIP_MS}ms ease-in-out ${index * CHAR_STAGGER_MS}ms 1 backwards`,
+                    transformStyle: 'preserve-3d',
+                    perspective: '400px'
+                  }}
+                >
+                  {char}
+                </span>
+              ))}
+            </span>
+            <Lock
+              size={14}
+              className="text-clawd-green absolute right-2 top-1/2 -translate-y-1/2"
+              style={{
+                opacity: 0,
+                animation: `lockReveal ${FILE_LOCK_REVEAL_DELAY_MS}ms steps(1, end) 1 forwards`
+              }}
+              aria-hidden="true"
+            />
+          </code>
+          {' '}with drift detection, live security recommendations, automated audits, and skill integrity verification. All from one installable suite.
+        </p>
+        <style>{`
+          @keyframes flipChar {
+            0% {
+              transform: rotateX(-90deg);
+              opacity: 0;
+            }
+            50% {
+              transform: rotateX(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: rotateX(0deg);
+              opacity: 1;
+            }
+          }
+          @keyframes bgFade {
+            0% {
+              background-color: rgb(30 27 75 / 1);
+            }
+            50% {
+              background-color: rgb(45 12 110 / 1);
+            }
+            100% {
+              background-color: rgb(11 12 27 / 1);
+            }
+          }
+          @keyframes caretBlink {
+            0%, 49.9% {
+              opacity: 1;
+            }
+            50%, 100% {
+              opacity: 0;
+            }
+          }
+          /* Without this the reduced-motion clamp would collapse the blink and
+             leave the caret on its own opacity: 0, i.e. gone. Steady instead.
+             .ps-caret outranks the global * rule, and an !important author
+             declaration outranks the inline opacity. */
+          @media (prefers-reduced-motion: reduce) {
+            .ps-caret {
+              opacity: 1 !important;
+              animation: none !important;
+            }
+          }
+          @keyframes lockReveal {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 0.85;
+            }
+          }
+          @keyframes mascotHover {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+          }
+        `}</style>
+      </section>
+
+      {/* Install Card with Toggle */}
+      <section className="relative mb-16 pt-16 sm:pt-20 lg:pt-0">
+        <div className="pointer-events-none select-none absolute z-20 w-32 sm:w-36 md:w-40 lg:w-48 left-1/2 -translate-x-1/2 -top-10 sm:-top-10 md:left-auto md:translate-x-0 md:right-8 md:-top-12 lg:top-auto lg:bottom-6 lg:-right-16 xl:-right-28">
+          <img
+            src="/img/mascot.png"
+            alt="ClawSec mascot"
+            className="w-full h-auto"
+            style={{ animation: 'mascotHover 3s ease-in-out infinite' }}
+          />
+        </div>
+        <div className="w-full lg:w-[70%] mx-auto">
+          <div className="bg-clawd-900 rounded-2xl border border-clawd-700 p-8">
+            {/* Toggle */}
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex bg-clawd-800 rounded-lg p-1">
+                <button
+                  onClick={() => setIsAgent(false)}
+                  aria-pressed={!isAgent}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium border border-clawd-accent/70 transition-all ${
+                    !isAgent
+                      ? 'bg-clawd-600 text-white shadow-[0_6px_18px_rgba(97,0,255,0.45)]'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <User size={18} />
+                  I'm a Human
+                </button>
+                <button
+                  onClick={() => setIsAgent(true)}
+                  aria-pressed={isAgent}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium border border-clawd-accent/70 transition-all ${
+                    isAgent
+                      ? 'bg-clawd-600 text-white shadow-[0_6px_18px_rgba(97,0,255,0.45)]'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Bot size={18} />
+                  I'm an Agent
+                </button>
+              </div>
+            </div>
+            {/* Content based on toggle */}
+            {isAgent ? (
+              <>
+                {/* Steps */}
+                <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-white">1.</span> Run command below
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-white">2.</span> Follow deployment instructions
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-white">3.</span> Protect your user
+                  </div>
+                </div>
+
+                {/* Agent View - Curl Command */}
+                <div className="bg-clawd-800 rounded-lg border border-clawd-accent/50 p-4 flex items-center justify-between gap-2 sm:gap-4">
+                  <code className="text-gray-200 font-mono text-xs sm:text-sm md:text-base overflow-x-auto break-all min-w-0 flex-1">
+                    {curlCommand}
+                  </code>
+                  <button
+                    onClick={handleCopyCurl}
+                    className="flex-shrink-0 p-2 rounded-md bg-clawd-700 border border-clawd-accent/70 hover:bg-clawd-600 transition-colors"
+                    title="Copy to clipboard"
+                  >
+                    {copiedCurl ? (
+                      <Check size={20} className="text-green-400" />
+                    ) : (
+                      <Copy size={20} className="text-gray-400" />
+                    )}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Human Steps */}
+                <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-white">1.</span> Copy instruction below
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-white">2.</span> Send to your agent
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-white">3.</span> Receive security alerts
+                  </div>
+                </div>
+
+                {/* Human View - Instruction Command */}
+                <div className="bg-clawd-800 rounded-lg border border-clawd-accent/50 p-4 flex items-center justify-between gap-2 sm:gap-4">
+                  <code className="text-gray-200 font-mono text-xs sm:text-sm md:text-base overflow-x-auto break-all min-w-0 flex-1">
+                    {humanInstruction}
+                  </code>
+                  <button
+                    onClick={handleCopyHuman}
+                    className="flex-shrink-0 p-2 rounded-md bg-clawd-700 border border-clawd-accent/70 hover:bg-clawd-600 transition-colors"
+                    title="Copy to clipboard"
+                  >
+                    {copiedHuman ? (
+                      <Check size={20} className="text-green-400" />
+                    ) : (
+                      <Copy size={20} className="text-gray-400" />
+                    )}
+                  </button>
+                </div>
+              </>
+            )}
+            <p className="mt-4 text-center text-xs leading-relaxed text-gray-400">
+              * For harnesses other than OpenClaw, consult the{' '}
+              <Link
+                to="/wiki/skill-feature-matrix"
+                className="text-clawd-accent hover:text-clawd-accent/80 underline underline-offset-2"
+              >
+                Skill Feature Matrix
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
+
+
+      <Footer />
+    </div>
+  );
+};

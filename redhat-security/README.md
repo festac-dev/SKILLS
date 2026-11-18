@@ -1,0 +1,199 @@
+# Security Skills
+
+Security skills for AI coding assistants and agentic systems. Skills encode security recommendations, guidelines, and best practices as structured markdown files that AI assistants (Claude Code, Cursor, Copilot, and others) consume directly while writing, testing, and auditing code.
+
+The goal is to shift security left: apply security guidance during development, not after review.
+
+## Get started
+
+```bash
+make bootstrap
+```
+
+Installs ruff, ty, [skillsaw](https://github.com/stbenjam/skillsaw), pre-commit, and wires up git hooks so linting and ADR validation run automatically before each commit. Requires [`uv`](https://docs.astral.sh/uv/) on your PATH.
+
+## Using a skill
+
+Reference any skill by path in your assistant prompt:
+
+```
+Using `module/skills/input-output-sanitization/SKILL.md`: review this MCP server for injection risks.
+```
+
+```
+Using `module/skills/cargo-fuzz/SKILL.md`: write a fuzzing harness for this parser.
+```
+
+```
+Using `module/skills/differential-review/SKILL.md`: review the security impact of this diff.
+```
+
+Skills are tool-agnostic — the same files work in any assistant that can read them.
+
+## Install via Lola
+
+Install all skills to your AI assistant in one command using [Lola](https://github.com/LobsterTrap/lola):
+
+```bash
+lola mod add https://github.com/RedHatProductSecurity/prodsec-skills.git
+lola install prodsec-skills --assistant claude-code
+```
+
+## Install in an agent harness (Ambient, custom runners)
+
+For platforms that bake knowledge into runner images and expose it via `add_dirs`
+(e.g. [Ambient Code Platform](https://github.com/ambient-code/platform)):
+
+**1. Clone the module into your image at build time, pinned to a specific SHA:**
+
+```dockerfile
+ARG PRODSEC_SKILLS_REF=<pinned-sha>
+RUN git clone https://github.com/RedHatProductSecurity/prodsec-skills.git /app/prodsec-skills \
+    && git -C /app/prodsec-skills checkout --detach "${PRODSEC_SKILLS_REF}" \
+    && rm -rf /app/prodsec-skills/.git
+```
+
+**2. Add `/app/prodsec-skills/module` to `add_dirs`** — not the repo root. This
+ensures the agent's context entry point is `module/AGENTS.md` (the AI Main Spec),
+not the contributor-facing root `AGENTS.md`:
+
+```python
+# bridge.py — during session setup
+PRODSEC_MODULE_PATH = "/app/prodsec-skills/module"
+if Path(f"{PRODSEC_MODULE_PATH}/skills").exists() and PRODSEC_MODULE_PATH not in add_dirs:
+    add_dirs.append(PRODSEC_MODULE_PATH)
+```
+
+**3. Optionally inject a system prompt** directing agents to the skill index and
+the correct path pattern (`module/skills/<skill-id>/SKILL.md`):
+
+```python
+PRODSEC_SKILLS_PROMPT = (
+    "## Security Skills\n"
+    "Product Security skills are available at `/app/prodsec-skills/module/skills/`.\n"
+    "Choose a skill by reading its `description` field in `SKILL.md` — it is written "
+    "as an invocation condition. When performing security-sensitive tasks, read the "
+    "relevant skill before proceeding.\n"
+    "See `/app/prodsec-skills/module/AGENTS.md` for the full index and usage guide.\n\n"
+)
+```
+
+The `module/AGENTS.md` file (the AI Main Spec) is the single entry point — it
+lists all 138 skills with their trigger conditions and category groupings.
+
+## Use with CodeRabbit
+
+The included [`.coderabbit.yaml`](.coderabbit.yaml) translates prodsec-skills into automated PR review rules for [CodeRabbit](https://coderabbit.ai). It condenses ~60 skills into path-based review instructions, enables 8 security scanners, and defines pre-merge checks for the highest-severity concerns.
+
+This condensed version will be updated as new applicable skills are added to prodsec-skills.
+
+**To adopt in your repository:**
+
+1. Copy `.coderabbit.yaml` to the root of your repo (must be on the default branch):
+
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/RedHatProductSecurity/prodsec-skills/main/.coderabbit.yaml \
+     -o .coderabbit.yaml
+   ```
+
+   > **Note:** This fetches the latest version from `main`. For reproducible
+   > installs, pin to a specific commit SHA:
+   > `https://raw.githubusercontent.com/RedHatProductSecurity/prodsec-skills/<SHA>/.coderabbit.yaml`
+
+2. Customize the globs in `path_instructions` for your project structure. The defaults use common conventions (`**/{auth,oauth}/**/*`, `**/*.go`, etc.) but may need tuning.
+
+3. Adjust pre-merge check modes. Start with `warning`, promote to `error` after 2-4 weeks:
+
+   ```yaml
+   pre_merge_checks:
+     custom_checks:
+       - name: "no-hardcoded-secrets"
+         mode: "warning"  # change to "error" once tuned
+   ```
+
+4. Validate by commenting `@coderabbitai configuration` on any PR.
+
+**What you get:**
+
+| Feature | Coverage |
+|---------|----------|
+| Path-based review instructions | 19 blocks covering injection, web security, crypto, containers, Kubernetes/OpenShift, MCP server/client, inference engine, agents, LLM security, supply chain, CI/CD, auth, API gateway, Go, C/C++, databases, messaging, model registry |
+| Security scanners | gitleaks, Semgrep, Checkov, Hadolint, Trivy, OSV Scanner, actionlint, ast-grep |
+| Pre-merge checks (Pro+) | Hardcoded secrets, weak crypto, injection vectors, container privileges, sensitive data in logs, AI attribution |
+
+Pre-merge checks require CodeRabbit Pro+. Path instructions and scanners work on all plans.
+
+See [ADR-0003](docs/ADRs/0003-coderabbit-integration.md) for the full decision record and skill-to-config mapping.
+
+## Skill catalog
+
+**138** skills across four categories. See [`docs/skills-index.md`](docs/skills-index.md) for the full index.
+
+| Category | Skills | Purpose |
+|----------|--------|---------|
+| [`secure_development`](docs/secure-development-skills.md) | 113 | Building secure software — AI/agentic infrastructure, cryptography, supply chain, security principles, technology-specific hardening |
+| [`security_testing`](docs/security-testing-skills.md) | 17 | Finding vulnerabilities — fuzzing and static analysis |
+| [`security_auditing`](docs/security-auditing-skills.md) | 4 | Security review workflows |
+| [`developer_tooling`](docs/developer-tooling-skills.md) | 4 | General-purpose development tooling |
+
+## Repository layout
+
+```
+module/                  # AI Context Module (packaged for assistants / Lola)
+  AGENTS.md              # AI Main Spec for the module
+  mcps.json              # MCP server slot (reserved)
+  skills/<skill-id>/     # One directory per skill
+    SKILL.md
+    reference/           # Optional supporting docs (AgentSkills layout)
+ge-core/<skill-id>/      # GE Core — 12 curated skills for Global Engineering (see docs/ge-core.md)
+  SKILL.md               # agentskills.io-compliant frontmatter
+scripts/                 # Validators and utilities (not part of the module)
+docs/                    # Indexes, ADRs, design notes
+experimental/            # Work in progress; contributions welcome
+AGENTS.md                # Contributor context for this repo
+```
+
+Layout is specified in [ADR-0002](docs/ADRs/0002-agentskills-standards.md).
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for full details. The short version:
+
+1. New or experimental skills go in `experimental/` first.
+2. Skills must use the standard front matter format:
+   ```markdown
+   ---
+   name: skill-name
+   description: Precise one-line trigger condition for the skill.
+   category: secure_development
+   subcategory: mcp-server
+   ---
+   ```
+3. Skills must be tool-agnostic — no assistant-specific syntax or config.
+4. When adapting skills from upstream sources, record the source commit and license in the relevant `docs/*-skills.md` provenance section. Trail of Bits skills are CC BY-SA 4.0; adaptations carry the same license.
+
+### Updating indexes when adding a skill
+
+Every new skill file requires updates to the index files — do this in the same commit as the skill itself:
+
+| File | What to update |
+|------|----------------|
+| `docs/skills-index.md` | Add or adjust rows; fix category totals |
+| `docs/<category>-skills.md` | Add skill to subcategory table; update count |
+| `README.md` (this file) | Increment the category count and total |
+| `module/AGENTS.md` | Update skill count or collision table if relevant |
+
+For architecture decisions and conventions, see [`AGENTS.md`](UPSTREAM_AGENTS.md).
+
+## License
+
+This project is licensed under the Apache License 2.0 — see [`LICENSE`](LICENSE) for details.
+
+**Some skills are adapted from third-party sources under their own licenses:**
+
+| Source | License | Skills | Details |
+|--------|---------|--------|---------|
+| [Trail of Bits Skills Marketplace](https://github.com/trailofbits/skills) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | 32 skills (fuzzing, static analysis, audit workflows, developer tooling, and select crypto/config/supply-chain skills) | ShareAlike — adaptations must use the same license |
+| [CoSAI Project CodeGuard](https://github.com/cosai-oasis/project-codeguard) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | 8 skills (web security, C/C++ safety, algorithm selection, build YAML) | Attribution required |
+
+Each affected skill file has `license` and `origin` fields in its YAML front matter. See [`NOTICE`](NOTICE) for the complete list and [`docs/secure-development-skills.md`](docs/secure-development-skills.md) for full provenance.

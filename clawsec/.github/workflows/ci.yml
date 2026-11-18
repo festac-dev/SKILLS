@@ -1,0 +1,265 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-typescript:
+    name: Lint TypeScript/React (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+          cache: 'npm'
+      - run: npm ci
+      - name: ESLint
+        run: npx eslint . --ext .ts,.tsx,.js,.jsx,.mjs --max-warnings 0
+      - name: TypeScript Check
+        run: npx tsc --noEmit
+      - name: Build Check
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run build
+
+  lint-python:
+    name: Lint Python
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12.16'
+      # Versions come from the manifest so Dependabot's pip entry governs what
+      # CI actually executes. Inline `pipx --spec` pins are invisible to it.
+      - name: Install linters
+        run: pip install -r .github/requirements-lint-python.txt
+      - name: Ruff (lint + format check)
+        run: ruff check utils/ --output-format=github
+      - name: Bandit (security)
+        run: bandit -r utils/ -ll
+
+  lint-shell:
+    name: Lint Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
+        with:
+          scandir: './scripts'
+          severity: warning
+      - name: ShellCheck git hooks
+        uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
+        with:
+          scandir: './.githooks'
+          additional_files: 'pre-commit pre-push'
+          severity: warning
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Trivy FS Scan
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          ignore-unfixed: true
+      - name: Trivy Config Scan
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+  secret-scan:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+    # Stated explicitly, not inherited: this job runs third-party scanners over
+    # untrusted PR content and needs nothing but the checkout. Keeping the block
+    # here means a future widening of the workflow default cannot widen this job.
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # TruffleHog needs both sides of the range it is asked to diff.
+          fetch-depth: 0
+      # Dead or alive: `unverified` is included deliberately, so a rotated or
+      # already-dead credential still fails. It is the same policy as
+      # .githooks/pre-push, so the local gate and CI cannot disagree.
+      #
+      # What keeps that usable is that the Action scans the PR range, not the
+      # whole repo. Over full history this filter reports 140 findings here --
+      # the advisory feed cites upstream fix commits as 40-char hex SHAs, which
+      # read as legacy GitHub PATs -- but a range scan sees only the diff, so an
+      # ordinary PR reports 0.
+      - name: TruffleHog
+        uses: trufflesecurity/trufflehog@3bd2b5887eb0efb8fa18bfd1d296032924e4ffdc # v3.99.9
+        with:
+          extra_args: --results=verified,unknown,unverified
+      # Private keys and other deterministic patterns. TruffleHog only emits a
+      # PrivateKey finding when it can verify the key against a provider, so an
+      # unverifiable one -- exactly the shape of CLAWSEC_SIGNING_PRIVATE_KEY --
+      # produces no output at all. gitleaks matches on pattern and catches it.
+      # Scoped to the PR range: pre-existing test fixtures on main are not this
+      # PR's problem, and scanning the range is what a contributor can act on.
+      #
+      # Pinned by digest, not tag: a retagged image would change what this gate
+      # does with no commit to review. The other actions here are SHA-pinned for
+      # the same reason.
+      #
+      # workflow_dispatch has no pull_request payload, so it gets an explicit
+      # range instead of being skipped -- skipping left manual runs with no
+      # private-key detection at all, which is the one thing gitleaks is here
+      # for.
+      - name: Gitleaks
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          IMAGE: zricethezav/gitleaks@sha256:105ac66a57b2bb8afb61a3b8a5dcc4817773d03724a7e8a515214cfe58225556
+        run: |
+          if [ -n "$BASE_SHA" ] && [ -n "$HEAD_SHA" ]; then
+            RANGE="$BASE_SHA..$HEAD_SHA"
+          else
+            git fetch -q --no-tags origin "${GITHUB_BASE_REF:-main}"
+            RANGE="origin/${GITHUB_BASE_REF:-main}..HEAD"
+          fi
+          echo "scanning $RANGE"
+          docker run --rm -v "$PWD:/repo" -w /repo \
+            "$IMAGE" git --redact --no-banner --log-opts="$RANGE"
+
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+          cache: 'npm'
+      - run: npm ci
+      - name: npm audit
+        run: npm audit --audit-level=high --registry=https://registry.npmjs.org
+      # The pinned ClawHub CLI runs in skill-release.yml with publish secrets,
+      # so its lockfile gets the same gate as the root one. No install step:
+      # --package-lock-only audits the lockfile directly, so nothing from that
+      # dependency tree executes in this job.
+      - name: npm audit (clawhub-cli)
+        run: npm audit --prefix .github/clawhub-cli --package-lock-only --audit-level=high --registry=https://registry.npmjs.org
+      - name: Check for outdated deps
+        run: npm outdated || true
+
+  advisory-feed-tests:
+    name: Advisory Feed Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+          cache: 'npm'
+      - run: npm ci
+      - name: GHSA Without CVE Feed Tests
+        run: node scripts/test-ghsa-without-cve-feed.mjs
+      - name: GHSA Poll Workflow Tests
+        run: node scripts/test-ghsa-poll-workflow.mjs
+      - name: NVD GHSA Consolidation Workflow Tests
+        run: node scripts/test-nvd-ghsa-consolidation-workflow.mjs
+      - name: NVD Poll Helper Tests
+        run: bash scripts/test-nvd-poll-helpers.sh
+      - name: NVD + GHSA Pipeline Dry Run
+        run: node scripts/test-nvd-ghsa-pipeline-dry-run.mjs
+      - name: Matrix Advisory Consumer Compatibility
+        run: node scripts/test-advisory-consumer-compatibility.mjs
+      - name: Advisory Mirror Propagation Tests
+        run: node scripts/test-advisory-mirror-propagation.mjs
+      - name: NanoClaw Advisory Matcher Tests
+        run: node skills/clawsec-nanoclaw/test/security-hardening.test.mjs
+      - name: Picoclaw Advisory Consumer Tests
+        run: node skills/picoclaw-security-guardian/test/advisories.test.mjs
+      - name: Skill Release Tooling Tests
+        run: |
+          set -euo pipefail
+          for test_file in scripts/test-skill-*.mjs; do
+            node "$test_file"
+          done
+      - name: Deploy Pages Advisory Checksums Tests
+        run: node scripts/test-deploy-pages-checksums.mjs
+      - name: GitHub Traffic Archive Tests
+        run: node scripts/test-github-traffic-archive.mjs
+
+  clawsec-suite-tests:
+    name: ClawSec Suite Verification Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+          cache: 'npm'
+      - run: npm ci
+      - name: Feed Verification Tests
+        run: node skills/clawsec-suite/test/feed_verification.test.mjs
+      - name: Guarded Install Tests
+        run: node skills/clawsec-suite/test/guarded_install.test.mjs
+      - name: Advisory Suppression Tests
+        run: node skills/clawsec-suite/test/advisory_suppression.test.mjs
+      - name: Path Resolution Tests
+        run: node skills/clawsec-suite/test/path_resolution.test.mjs
+      - name: Fuzz Property Tests
+        run: node skills/clawsec-suite/test/fuzz_properties.test.mjs
+      - name: Semver/Scope/Suppression Fuzz Tests
+        run: node skills/clawsec-suite/test/fuzz_semver_scope_suppression.test.mjs
+      - name: Advisory Application Scope Tests
+        run: node skills/clawsec-suite/test/advisory_application_scope.test.mjs
+
+  hermes-attestation-guardian-tests:
+    name: Hermes Attestation Guardian Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+      - name: Hermes Skill Tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test_file in skills/hermes-attestation-guardian/test/*.test.mjs; do
+            node "$test_file"
+          done
+
+  openclaw-audit-watchdog-tests:
+    name: OpenClaw Audit Watchdog Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+          cache: 'npm'
+      - run: npm ci
+      - name: Suppression Config Tests
+        run: node skills/openclaw-audit-watchdog/test/suppression_config.test.mjs
+      - name: Suppression Config Fuzz Tests
+        run: node skills/openclaw-audit-watchdog/test/suppression_config_fuzz.test.mjs
+      - name: Render Report Suppression Tests
+        run: node skills/openclaw-audit-watchdog/test/render_report_suppression.test.mjs

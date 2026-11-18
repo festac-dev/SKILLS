@@ -1,0 +1,57 @@
+name: Wiki Export Verify
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+      - 'pages/WikiBrowser.tsx'
+      - 'scripts/build-github-wiki-export.mjs'
+      - 'scripts/test-wiki-sync-export.mjs'
+      - 'scripts/generate-wiki-llms.mjs'
+      - 'scripts/test-wiki-llms-export.mjs'
+      - 'utils/wikiPathHelpers.mjs'
+      - 'utils/markdownHelpers.mjs'
+      - '.github/workflows/wiki-export-verify.yml'
+      - '.github/workflows/wiki-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wiki-export-verify-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-wiki-export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+
+      - name: Test wiki export transform
+        run: node scripts/test-wiki-sync-export.mjs
+
+      - name: Test wiki llms.txt export
+        run: node scripts/test-wiki-llms-export.mjs
+
+      - name: Build flattened GitHub Wiki export
+        run: |
+          set -euo pipefail
+
+          EXPORT_DIR="${RUNNER_TEMP}/github-wiki-export"
+          node scripts/build-github-wiki-export.mjs --source wiki --output "$EXPORT_DIR"
+
+          test -f "${EXPORT_DIR}/Home.md"
+          test -f "${EXPORT_DIR}/_Sidebar.md"
+          if find "$EXPORT_DIR" -mindepth 2 -type f -name '*.md' | grep -q .; then
+            echo "::error::Flattened GitHub Wiki export contains nested markdown files"
+            find "$EXPORT_DIR" -mindepth 2 -type f -name '*.md'
+            exit 1
+          fi

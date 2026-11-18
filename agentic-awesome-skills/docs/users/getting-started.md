@@ -1,0 +1,240 @@
+# Getting Started with AAS Core
+
+**Start with one real task and reusable instructions your coding agent can follow.** Agentic Awesome Skills provides `SKILL.md` playbooks with examples and resources. AAS Core helps Codex or Claude find and read them, then record the skills it chooses for you to review.
+
+For example, ask your agent to investigate a failing test, explain the cause, propose a fix and rerun the relevant checks. Follow [Codex setup](codex-cli-skills.md) or [Claude Code setup](claude-code-skills.md) to connect Core first. If you use Cursor, start with its [direct installation guide](cursor-skills.md).
+
+> **Product boundary:** Codex or Claude owns skill selection. AAS Core provides complete local catalog access, reproducible composition, validation, and plan preview; apply and recovery remain experimental.
+
+> [!IMPORTANT]
+> **npm publishing paused.** Publishing new AAS versions to npm is paused while the maintainer account is locked. Use GitHub for current skills and updates. [Install or update without npm](#install-and-update-without-npm).
+
+## Your first result
+
+Choose [Codex](codex-cli-skills.md) or [Claude Code](claude-code-skills.md), then follow the six numbered steps in that guide. Already connected? Start at step 3 to verify the connection before selecting skills.
+
+| Stage | Ready to continue when |
+| --- | --- |
+| Connect (steps 1–3) | A real client search and read return the skill and catalog version. |
+| Select (step 4) | You have inspected the exact IDs, requirements and selection rationale. |
+| Preview (step 5) | Manifest validation succeeds and you have reviewed the plan. |
+| Use (step 6) | You approve the separate installer preview, then check the result of your original task. |
+
+Keep the runtime integrity returned during configuration. Stop at any failed check and resolve its reported error before continuing; a copied configuration is not proof of a working connection.
+
+## Start with AAS Core
+
+For a complete setup through your first skill selection and installation preview, follow [Codex setup](codex-cli-skills.md) or [Claude Code setup](claude-code-skills.md).
+
+In release 20.11.0, `aas stack install-preview --manifest <file> --destination <skill-directory>` prepares a direct-installer dry run from the agent-selected IDs. It does not execute installation or choose skills; destination names must satisfy the installer's filename restrictions. See [the manifest handoff](aas-core.md#use-the-reviewed-selection).
+
+AAS Core is the primary product path. Codex or Claude inspects your project, searches and reads the complete catalog through the local read-only AAS MCP, chooses the exact skill IDs, and uses `compose_stack` to propose an `aas-stack.json`. You review those IDs before using the `aas` CLI to validate the manifest and preview a plan.
+
+```text
+project -> agent -> full local catalog -> agent selection -> compose_stack -> aas-stack.json
+        -> human review -> validate -> plan preview
+```
+
+Start with the canonical [AAS Core guide](aas-core.md) to configure the MCP and run that flow. Then follow [From selection to use](../../README.md#from-selection-to-use) to preview direct installation of those exact IDs. A Core plan is a review artifact; the direct installer provides its own preview before it copies files. The direct installer, plugins, bundles, and manual skill invocation described below remain useful alternatives, especially for hosts without a native AAS MCP adapter.
+
+> **Need more examples after setup?** Continue with the [Complete Usage Guide](usage.md).
+
+---
+
+## What Are "Skills"?
+
+AI Agents (like **Claude Code**, **Gemini**, **Cursor**) are smart, but they lack specific knowledge about your tools.
+**Skills** are reusable Markdown procedures with task-specific instructions, examples and limitations. The agent still needs to check that the procedure fits your project and verify its output.
+
+A useful first result is one reviewed selection applied to a real task, with an observable check or artifact you can reuse.
+
+---
+
+## Alternative Path: Direct Skill Distribution and Starter Packs
+
+Don't panic about the size of the repository. You don't need everything at once.
+We have curated **Starter Packs** to get you running immediately.
+
+Starter Packs group skills by role to help you choose a focused set to install.
+
+If you prefer a packaged install for **Claude Code**, **Codex**, or another Agent Plugins-compatible client, use the plugin distributions described in [plugins.md](plugins.md).
+
+### Install and update without npm
+
+#### Install one skill from GitHub
+
+Install [GitHub CLI](https://cli.github.com/) and sign in with `gh auth login`. Use a version with `gh skill install` available. These commands preview and install the `brainstorming` skill for Codex:
+
+```sh
+gh skill preview sickn33/agentic-awesome-skills skills/brainstorming/SKILL.md@v20.11.0
+gh skill install sickn33/agentic-awesome-skills skills/brainstorming/SKILL.md --agent codex --scope user --pin v20.11.0
+```
+
+Use the exact path to the skill's `SKILL.md` on GitHub. Review its instructions and supporting files before activating it. Change `--agent` to your host, such as `claude-code`, `cursor`, or `gemini-cli`. Run `gh skill install --help` for the complete list. Use `--scope project` from your project for a project-level install, or `--dir <directory>` for a custom path. With Antigravity, start with a small selection to avoid context overload.
+
+#### Update a skill or switch from npm
+
+Find the new tag in [GitHub Releases](https://github.com/sickn33/agentic-awesome-skills/releases/latest). Preview at the new tag, then repeat the install with that tag and the same destination. GitHub CLI skips pinned skills during `gh skill update`, so use the install command to change the pin.
+
+For a skill previously installed with npm, point `--dir` at the existing skill root. Back up any local changes outside the agent's skill directory before approving an overwrite. If the terminal cannot prompt, add `--force` only after you have reviewed the replacement and confirmed the destination. A separate skill directory can be used to stage a copy before replacing the installed one.
+
+#### Download the repository or update a Git clone
+
+For a specific release, open [GitHub Releases](https://github.com/sickn33/agentic-awesome-skills/releases/latest) and download **Source code (zip)**. Extract it outside the agent's skill directory. Copy only the reviewed skill folders from `skills/` into your agent's skill directory, keeping each folder and its support files together. To update, download the new release and replace the selected folders after backing up local changes. If you already cloned a release tag, use a separate checkout for the new tag or download its ZIP.
+
+For a checkout that follows the latest accepted source changes on `main`, use Git:
+
+```sh
+git clone --depth 1 --branch main https://github.com/sickn33/agentic-awesome-skills.git ./agentic-awesome-skills
+```
+
+Update that checkout from its parent directory:
+
+```sh
+git -C ./agentic-awesome-skills pull --ff-only
+```
+
+Review the changes before copying updated skill folders into your agent's directory. Updating the checkout updates the repository files. Skills copied elsewhere are updated when you replace those copies.
+
+### 2. Pick Your Persona
+
+Find the bundle that matches your role (see [bundles.md](bundles.md)):
+
+| Persona               | Bundle Name    | What's Inside?                                    |
+| :-------------------- | :------------- | :------------------------------------------------ |
+| **Web Developer**     | `Web Wizard`   | React Patterns, Tailwind mastery, Frontend Design |
+| **Security Engineer** | `Hacker Pack`  | OWASP, Metasploit, Pentest Methodology            |
+| **Manager / PM**      | `Product Pack` | Brainstorming, Planning, SEO, Strategy            |
+| **Everything**        | `Essentials`   | Clean Code, Planning, Validation (The Basics)     |
+
+---
+
+## Bundles vs Workflows
+
+Bundles and workflows solve different problems:
+
+- **Bundles** = curated sets by role (what to pick).
+- **Workflows** = step-by-step playbooks (how to execute).
+
+Start with bundles in [bundles.md](bundles.md), then run a workflow from [workflows.md](workflows.md) when you need guided execution.
+
+Example:
+
+> "Use **@antigravity-workflows** and run `ship-saas-mvp` for my project idea."
+
+---
+
+## How to Use a Skill
+
+Once installed, just talk to your AI naturally.
+
+### Example 1: Planning a Feature (**Essentials**)
+
+> "Use **@brainstorming** to help me design a new login flow."
+
+**What happens:** The AI loads the brainstorming skill, asks you structured questions, and produces a professional spec.
+
+### Example 2: Checking Your Code (**Web Wizard**)
+
+> "Run **@lint-and-validate** on this file and fix errors."
+
+**What happens:** The AI follows strict linting rules defined in the skill to clean your code.
+
+### Example 3: Security Audit (**Hacker Pack**)
+
+> "Use **@api-security-best-practices** to review my API endpoints."
+
+**What happens:** The AI audits your code against OWASP standards.
+
+---
+
+## 🔌 Supported Tools
+
+| Tool            | Status          | Path                                                                  |
+| :-------------- | :-------------- | :-------------------------------------------------------------------- |
+| **Claude Code** | ✅ Full Support | `.claude/skills/` or install via `/plugin marketplace add sickn33/agentic-awesome-skills` |
+| **Gemini CLI**  | ✅ Full Support | `.gemini/skills/`                                                     |
+| **Codex CLI**   | ✅ Full Support | `.codex/skills/` or use the repo-local plugin metadata described in [plugins.md](plugins.md) |
+| **Kiro CLI**    | ✅ Full Support | Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/`                |
+| **Kiro IDE**    | ✅ Full Support | Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/`                |
+| **Antigravity** | ✅ Native       | Global: `~/.agents/skills/` · Workspace: `.agent/skills/` |
+| **Antigravity CLI (`agy`)** | ✅ Full Support | Global slash-command directories: `~/.gemini/antigravity-cli/skills/<skill>/SKILL.md` |
+| **Cursor**      | ✅ Native       | `.cursor/skills/`                                                     |
+| **OpenCode**    | ✅ Full Support | `.agents/skills/` (prefer reduced installs with `--risk`, `--category`, or `--tags`) |
+| **AdaL CLI**    | ✅ Full Support | `.adal/skills/`                                                       |
+| **Copilot**     | ✅ Native (preview) | `gh skill install ... --agent github-copilot` at project or user scope |
+
+---
+
+## Trust & Safety
+
+We classify skills so you know what you're running:
+
+- ⚪ **unknown**: legacy/unclassified content that still needs maintainer triage.
+- 🟢 **none**: pure text/reasoning guidance.
+- 🔵 **safe**: read-only or low-risk operational guidance.
+- 🟠 **critical**: state-changing or deployment-impacting guidance.
+- 🔴 **offensive**: pentest/red-team guidance with an explicit Authorized Use Only warning.
+
+Community PRs may still submit `risk: unknown`, but maintainers now audit and progressively reconcile those labels using the repo-wide audit/report tooling. High-risk guidance is extra-reviewed with repository-wide `security:docs` scanning before release.
+
+_Check the [Skill Catalog](../../CATALOG.md) for the full list._
+
+---
+
+## FAQ
+
+If you prefer a plugin install instead of copying skills into tool directories, start with [plugins.md](plugins.md).
+
+For Claude Code, use:
+
+```text
+/plugin marketplace add sickn33/agentic-awesome-skills
+/plugin install agentic-awesome-skills
+```
+
+For Codex, this repository also ships a root plugin plus bundle plugins through the repo-local metadata described in [plugins.md](plugins.md).
+
+For clients implementing Agent Plugins 1.0, use a specialized bundle whose generated status says `Agent Plugins 1.0 portable`. Its directory contains the standard root `plugin.json` and directly discoverable `skills/`; installation itself follows the client's instructions.
+
+**Q: Do I need to install every skill?**
+A: No. With AAS Core, ask the agent to inspect the project and choose exact IDs from the complete catalog. On the legacy direct-install path, you can install the broad library while the host reads only invoked or relevant skills. **Starter Packs** in [bundles.md](bundles.md) remain human-curated discovery aids.
+
+**Q: Can I make my own skills?**
+A: Yes! Use the **@skill-creator** skill to build your own.
+
+**Q: What if Antigravity on Windows gets stuck in a truncation crash loop?**
+A: Follow the recovery steps in [windows-truncation-recovery.md](windows-truncation-recovery.md). It explains which Antigravity storage folders to back up and clear, and includes an optional batch helper adapted from [issue #274](https://github.com/sickn33/agentic-awesome-skills/issues/274).
+
+**Q: What if Antigravity overloads on Linux or macOS when too many skills are active?**
+A: Use the activation flow in [agent-overload-recovery.md](agent-overload-recovery.md). It shows how to run `scripts/activate-skills.sh` from a cloned repo so you can keep the full library archived and activate only the bundles or skills you need in the live Antigravity directory.
+
+**Q: What if `agy` does not show installed skills when I type `/`?**
+A: The Antigravity CLI reads skill directories from `~/.gemini/antigravity-cli/skills/<skill>/SKILL.md`. Install your selected skills with `--agent antigravity-cli` in the [GitHub CLI command](#install-one-skill-from-github). Restart `agy`, then open `/skills` or type a specific slash command such as `/brainstorming`.
+
+**Q: What if OpenCode or another `.agents/skills` host becomes unstable with a full install?**
+A: Choose a small set from the catalog, then use the [GitHub CLI command](#install-one-skill-from-github) for each exact skill. Keep the same release tag for the entire set.
+
+**Q: Is this free?**
+A: Yes. Original code and tooling are MIT-licensed, and original documentation/non-code written content is CC BY 4.0. See [../../LICENSE](../../LICENSE) and [../../LICENSE-CONTENT](../../LICENSE-CONTENT).
+
+---
+
+## Next Steps
+
+Need a tool-specific starting point first?
+
+- [Claude Code skills](claude-code-skills.md)
+- [Plugins for compatible agent clients](plugins.md)
+- [Cursor skills](cursor-skills.md)
+- [Codex CLI skills](codex-cli-skills.md)
+- [Gemini CLI skills](gemini-cli-skills.md)
+
+1. [Configure and use AAS Core](aas-core.md)
+2. [Browse the Bundles](bundles.md)
+3. [See Real-World Examples](../contributors/examples.md)
+4. [Contribute a Skill](../../CONTRIBUTING.md)
+
+## Moving from a retired plugin pack
+
+Consult the [plugin migration guide](plugin-migration.md), install and verify the replacement through your host, then disable the old pack to avoid duplicate activation. The activation helper recognizes former bundle IDs; the marketplace does not redirect them automatically. Use the guide matching your published release.

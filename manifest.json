@@ -30,13 +30,13 @@
     },
     {
       "path": "COLLECTIONS.json",
-      "bytes": 16388920,
-      "sha256": "e76e755b7a6339194f968c0fcb605580eca792fe40456e6e1df4cfcb78e22c8c"
+      "bytes": 60255095,
+      "sha256": "0b15918328e43bad4a33f8123a2bbfe465e7d885a7f3f1d15969a96dffd4e0c2"
     },
     {
       "path": "COLLECTIONS.md",
-      "bytes": 4626,
-      "sha256": "52fafd8c8914a1e7e3ff7c64deac700d81b13c63b8a36d9ef18b022cf108f1a8"
+      "bytes": 9589,
+      "sha256": "3519936e26af056d20565d255701b0f18256090c692ca91143ab17b3c748bf74"
     },
     {
       "path": "COLLECTION_RULES.md",
@@ -50,8 +50,8 @@
     },
     {
       "path": "NOTICE.md",
-      "bytes": 4108,
-      "sha256": "5de4d43fd7e266d608404212a66b7601884c8c536e3106f206b6b7e18f4b4395"
+      "bytes": 7710,
+      "sha256": "2ffddbf16f9a0dbb2a66e213bc9722c08d7a488da8f822d5aabb383c1b65293f"
     },
     {
       "path": "README.md",

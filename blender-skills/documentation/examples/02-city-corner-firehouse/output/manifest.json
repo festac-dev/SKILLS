@@ -1,0 +1,27 @@
+{
+  "run_id": "Feedback_Firehouse_05",
+  "source": "result.blend",
+  "fresh_start_objects": 0,
+  "build_seconds": 14.40783690000535,
+  "blender_version": "5.2.2 LTS",
+  "objects": 2611,
+  "script_sha256": "df2e074ac92b619359f59c2d370c5eef1a9735b95fcfe1707ff007ea886b1b31",
+  "settings": {
+    "engine": "CYCLES",
+    "device": "OPTIX",
+    "samples": 64,
+    "seed": 27,
+    "resolution": [
+      1280,
+      720
+    ]
+  },
+  "outputs": [
+    {
+      "path": "result.png",
+      "width": 1280,
+      "height": 720,
+      "alpha": true
+    }
+  ]
+}

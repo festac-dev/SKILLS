@@ -1,0 +1,124 @@
+# Copyright (C) 2025 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# use this file except in compliance with the License. You may obtain a copy of
+# the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations under
+# the License.
+
+cassandraToBigtableConfigs:
+  # [Optional] Global default GCP Project ID
+  projectId: YOUR_GCP_PROJECT_ID
+  # [Optional] Global default configuration table name. This defaults to 'schema_mapping'
+  schemaMappingTable: SCHEMA_MAPPING_TABLE_NAME
+  # [Optional] Default column family for primitive data types. This defaults to 'cf1'
+  defaultColumnFamily: DEFAULT_COLUMN_FAMILY
+
+listeners:
+- name: cluster1
+  port: 9042
+  bigtable:
+    # [Optional] skip if it is the same as cassandraToBigtableConfigs.projectId.
+    projectId: YOUR_GCP_PROJECT_ID
+
+    # [Optional] appProfileID (global) is required only if you want to use a specific app profile.
+    # If a per-instance appProfileID is specified, it will override this global setting.
+    # appProfileID: GCP_BIGTABLE_APP_PROFILE_ID
+
+    # [Optional] If you want to use multiple instances then pass the instance names by comma seperated
+    # Instance(cassandra keyspace) name should not contain any special characters except underscore(_)
+    # if instanceIds values given here then proxy wont read from the below instances list
+    # instanceIds: GCP_BIGTABLE_INSTANCE_ID1,GCP_BIGTABLE_INSTANCE_ID2
+
+    # If you want to use multiple instances, define them as a list of objects below.
+    instances:
+    # [Required] The name of the Bigtable instance.
+    - bigtableInstance: GCP_BIGTABLE_INSTANCE_ID1
+      # [Required] The cassandra keyspace associated with this Bigtable instance.
+      # Cassandra keyspace should not contain any special characters except underscore(_).
+      keyspace: KEYSPACE_MAP_TO_INSTANCE
+      # [Optional] appProfileID is required only if you want to use a specific app profile for this instance.
+      # This will override the global appProfileID if specified.
+      # appProfileID: GCP_BIGTABLE_APP_PROFILE_ID
+      # [example for adding another keyspace instance]
+      # - bigtableInstance: GCP_BIGTABLE_INSTANCE_ID2
+      #   keyspace: KEYSPACE_MAP_TO_INSTANCE2
+      #   appProfileID: GCP_BIGTABLE_APP_PROFILE_ID
+
+    # [Optional] Name of the table  where cassandra schema to bigtable schema mapping is stored. This defaults to 'schema_mapping'
+    schemaMappingTable: SCHEMA_MAPPING_TABLE_NAME
+
+    # [Optional] Default column family for primitive data types. This defaults to 'cf1'
+    defaultColumnFamily: DEFAULT_COLUMN_FAMILY
+
+    # [Optional] Nearly all users should keep this set to false. When undefined
+    # or false, Ordered Code Bytes Encoding is used for int keys on all new
+    # tables. Existing table encoding is respected.
+    encodeIntRowKeysWithBigEndian: false
+
+    # Number of grpc channels to be used for Bigtable session.
+    Session:
+      # [Optional] The number of GRPC channels used by the Bigtable client. The default is 1.
+      grpcChannels: 4
+
+otel:
+  # Set enabled to true or false for OTEL metrics/traces/logs.
+  enabled: False
+  # Set enabled to true or false for client side OTEL (metrics/traces).
+  enabledClientSideMetrics: True
+
+  # Name of the collector service to be setup as a sidecar
+  serviceName: YOUR_OTEL_COLLECTOR_SERVICE_NAME
+
+  healthcheck:
+    # Enable the health check in this proxy application config only if the
+    # "health_check" extension is added to the OTEL collector service configuration.
+    #
+    # Recommendation:
+    # Enable the OTEL health check if you need to verify the collector's availability
+    # at the start of the application. For development or testing environments, it can
+    # be safely disabled to reduce complexity.
+
+    # Enable/Disable Health Check for OTEL, Default 'False'.
+    enabled: False
+    # Health check endpoint for the OTEL collector service
+    endpoint: localhost:13133
+  metrics:
+    # Collector service endpoint
+    endpoint: METRICS_SERVICE_ENDPOINT
+
+  traces:
+    # Collector service endpoint
+    endpoint: TRACER_SERVICE_ENDPOINT
+    #Sampling ratio should be between 0 and 1. Here 0.05 means 5/100 Sampling ratio.
+    samplingRatio: 1
+
+loggerConfig:
+  # Specifies the type of output, here it is set to 'file' indicating logs will be written to a file.
+  # Value of `outputType` should be `file` for file type or `stdout` for standard output.
+  # Default value is `stdout`.
+  outputType: stdout
+  # Set this only if the outputType is set to `file`.
+  # The path and name of the log file where logs will be stored. For example, output.log, Required Key.
+  # Default `/var/log/cassandra-to-spanner-proxy/output.log`.
+  fileName: output/output.log
+  # Set this only if the outputType is set to `file`.
+  # The maximum size of the log file in megabytes before it is rotated. For example, 500 for 500 MB.
+  maxSize: 10
+  # Set this only if the outputType is set to `file`.
+  # The maximum number of backup log files to keep. Once this limit is reached, the oldest log file will be deleted.
+  maxBackups: 2
+  # Set this only if the outputType is set to `file`.
+  # The maximum age in days for a log file to be retained. Logs older than this will be deleted. Required Key.
+  # Default 3 days
+  maxAge: 1
+
+  # Set this only if the outputType is set to `file`.
+  # Default value is set to 'False'. Change the value to 'True', if log files are required to be compressed.
+  compress: True

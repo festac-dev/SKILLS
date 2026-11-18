@@ -1,0 +1,55 @@
+{
+  "name": "ClawSec",
+  "private": true,
+  "license": "AGPL-3.0-or-later",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
+    "gen:wiki-llms": "node scripts/generate-wiki-llms.mjs",
+    "readme:heroes:check": "node --test assets/readme/source/hero-manifest.test.mjs && node assets/readme/source/generate-localized-hero-svgs.mjs --check && node assets/readme/source/verify-localized-heroes.mjs",
+    "populate-local-wiki": "./scripts/populate-local-wiki.sh",
+    "predev": "npm run gen:wiki-llms",
+    "dev": "vite",
+    "prebuild": "npm run gen:wiki-llms && npm run readme:heroes:check",
+    "i18n:qa": "python scripts/i18n/qa_check.py",
+    "i18n:bootstrap:ko": "python scripts/i18n/bootstrap_language_from_en.py --lang ko",
+    "i18n:bootstrap:fr": "python scripts/i18n/bootstrap_language_from_en.py --lang fr",
+    "i18n:bootstrap:de": "python scripts/i18n/bootstrap_language_from_en.py --lang de",
+    "i18n:bootstrap:ja": "python scripts/i18n/bootstrap_language_from_en.py --lang ja",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "0.577.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-markdown": "10.1.0",
+    "react-router": "8.5.1",
+    "remark-gfm": "4.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@types/node": "26.6.6",
+    "@typescript-eslint/eslint-plugin": "8.72.2",
+    "@typescript-eslint/parser": "8.72.2",
+    "@vitejs/plugin-react": "6.3.0",
+    "eslint": "9.39.5",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "fast-check": "4.10.2",
+    "typescript": "5.9.3",
+    "vite": "8.3.8"
+  },
+  "overrides": {
+    "ajv": "6.15.0",
+    "balanced-match": "4.0.4",
+    "brace-expansion": "5.0.13",
+    "browserslist": "4.29.5",
+    "js-yaml": "4.3.2",
+    "minimatch": "11.0.1",
+    "nanoid": "3.3.20",
+    "picomatch": "4.0.7",
+    "postcss": "8.5.33"
+  }
+}

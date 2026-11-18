@@ -1,0 +1,419 @@
+import { Mobilecli } from "./mobilecli";
+import { ActionableError, Button, FoldPosture, ForegroundApp, GesturePoint, InstalledApp, Orientation, Robot, ScreenElement, ScreenSize, ScreenshotOptions, SwipeDirection } from "./robot";
+
+interface InstalledAppsResponse {
+	status: "ok",
+	data: Array<{
+		packageName: string;
+		appName?: string; // ios
+		version?: string; // ios
+	}>;
+}
+
+interface DeviceInfoResponse {
+	status: "ok",
+	data: {
+		device: {
+			id: string;
+			name: string;
+			platform: string;
+			type: string;
+			version: string;
+			state: string;
+			screenSize?: {
+				width: number;
+				height: number;
+				scale: number;
+			};
+		};
+	};
+}
+
+interface UIElementResponse {
+	ref?: string;
+	type: string;
+	label?: string;
+	text?: string;
+	name?: string;
+	value?: string;
+	identifier?: string;
+	rect: {
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+	};
+	focused?: boolean;
+	selected?: boolean;
+	checked?: boolean;
+	enabled?: boolean;
+	children?: UIElementResponse[];
+}
+
+interface DumpUIResponse {
+	status: "ok",
+	// mobilecli answers "dump ui" with status "ok" but an empty payload when the
+	// device screen is off or locked, so neither level can be relied on.
+	data?: {
+		elements?: UIElementResponse[];
+		rawData?: unknown;
+	};
+}
+
+interface ForegroundAppResponse {
+	status: "ok",
+	data: {
+		packageName: string;
+		appName?: string;
+		activity?: string;
+	};
+}
+
+interface OrientationResponse {
+	status: "ok",
+	data: {
+		orientation: Orientation;
+	};
+}
+
+interface ClipboardResponse {
+	data: {
+		text: string;
+	};
+}
+
+const flattenUIElement = (element: UIElementResponse): ScreenElement[] => {
+	const screenElement: ScreenElement = {
+		type: element.type,
+		label: element.label,
+		text: element.text,
+		name: element.name,
+		value: element.value,
+		identifier: element.identifier,
+		rect: element.rect,
+		ref: element.ref,
+		focused: element.focused,
+		selected: element.selected,
+		checked: element.checked,
+		enabled: element.enabled,
+	};
+
+	if (!element.children) {
+		return [screenElement];
+	}
+
+	return [screenElement, ...element.children.flatMap(child => flattenUIElement(child))];
+};
+
+// mobilecli rejects fractional coordinates ("x and y must be integers")
+const formatGesturePoint = (point: GesturePoint): string => {
+	if ("ref" in point) {
+		return point.ref;
+	}
+
+	return `${Math.round(point.x)},${Math.round(point.y)}`;
+};
+
+export class MobileDevice implements Robot {
+
+	private mobilecli: Mobilecli;
+
+	public constructor(private deviceId: string) {
+		this.mobilecli = new Mobilecli();
+	}
+
+	private runCommand(args: string[]): string {
+		const fullArgs = [...args, "--device", this.deviceId];
+		return this.mobilecli.executeCommand(fullArgs);
+	}
+
+	private runJsonCommand<T>(args: string[]): T {
+		const output = this.runCommand(args);
+		try {
+			return JSON.parse(output) as T;
+		} catch {
+			throw new ActionableError(`Failed to parse JSON response from mobilecli ${args.join(" ")}`);
+		}
+	}
+
+	public async getScreenSize(): Promise<ScreenSize> {
+		const response = this.runJsonCommand<DeviceInfoResponse>(["device", "info"]);
+		if (response.data.device.screenSize) {
+			return response.data.device.screenSize;
+		}
+		return { width: 0, height: 0, scale: 1.0 };
+	}
+
+	public async swipe(direction: SwipeDirection): Promise<void> {
+		const screenSize = await this.getScreenSize();
+		const centerX = Math.floor(screenSize.width / 2);
+		const centerY = Math.floor(screenSize.height / 2);
+		const distance = 400; // Default distance in pixels
+
+		let startX = centerX;
+		let startY = centerY;
+		let endX = centerX;
+		let endY = centerY;
+
+		switch (direction) {
+			case "up":
+				startY = centerY + distance / 2;
+				endY = centerY - distance / 2;
+				break;
+			case "down":
+				startY = centerY - distance / 2;
+				endY = centerY + distance / 2;
+				break;
+			case "left":
+				startX = centerX + distance / 2;
+				endX = centerX - distance / 2;
+				break;
+			case "right":
+				startX = centerX - distance / 2;
+				endX = centerX + distance / 2;
+				break;
+		}
+
+		this.runCommand(["io", "swipe", `${startX},${startY},${endX},${endY}`]);
+	}
+
+	public async swipeFromCoordinate(x: number, y: number, direction: SwipeDirection, distance?: number): Promise<void> {
+		const swipeDistance = distance || 400;
+		let endX = x;
+		let endY = y;
+
+		switch (direction) {
+			case "up":
+				endY = y - swipeDistance;
+				break;
+			case "down":
+				endY = y + swipeDistance;
+				break;
+			case "left":
+				endX = x - swipeDistance;
+				break;
+			case "right":
+				endX = x + swipeDistance;
+				break;
+		}
+
+		this.runCommand(["io", "swipe", `${Math.round(x)},${Math.round(y)},${Math.round(endX)},${Math.round(endY)}`]);
+	}
+
+	public async getScreenshot(options?: ScreenshotOptions): Promise<Buffer> {
+		const format = options?.format || "png";
+		const fullArgs = ["screenshot", "--device", this.deviceId, "--format", format, "--output", "-"];
+		if (format === "jpeg" && options?.quality !== undefined) {
+			fullArgs.push("--quality", `${options.quality}`);
+		}
+
+		if (options?.clip !== undefined) {
+			const { x, y, width, height } = options.clip;
+			fullArgs.push("--clip", `${Math.round(x)},${Math.round(y)},${Math.round(width)},${Math.round(height)}`);
+		}
+
+		if (options?.maxSize !== undefined) {
+			fullArgs.push("--max-size", `${options.maxSize}`);
+		}
+
+		if (options?.scale !== undefined && options.scale !== 1) {
+			fullArgs.push("--scale", `${options.scale}`);
+		}
+
+		return this.mobilecli.executeCommandBuffer(fullArgs);
+	}
+
+	public async listApps(): Promise<InstalledApp[]> {
+		const response = this.runJsonCommand<InstalledAppsResponse>(["apps", "list"]);
+		return response.data.map(app => ({
+			appName: app.appName || app.packageName,
+			packageName: app.packageName,
+		})) as InstalledApp[];
+	}
+
+	public async getForegroundApp(): Promise<ForegroundApp> {
+		const response = this.runJsonCommand<ForegroundAppResponse>(["apps", "foreground"]);
+		const app: ForegroundApp = {
+			appName: response.data.appName || response.data.packageName,
+			packageName: response.data.packageName,
+		};
+
+		if (response.data.activity) {
+			app.activity = response.data.activity;
+		}
+
+		return app;
+	}
+
+	public async launchApp(packageName: string, locale?: string): Promise<void> {
+		const args = ["apps", "launch", packageName];
+		if (locale) {
+			args.push("--locale", locale);
+		}
+
+		this.runCommand(args);
+	}
+
+	public async terminateApp(packageName: string): Promise<void> {
+		this.runCommand(["apps", "terminate", packageName]);
+	}
+
+	public async clearAppData(packageName: string): Promise<void> {
+		this.runCommand(["apps", "clear", packageName]);
+	}
+
+	public async installApp(path: string): Promise<void> {
+		this.runCommand(["apps", "install", path]);
+	}
+
+	public async uninstallApp(bundleId: string): Promise<void> {
+		this.runCommand(["apps", "uninstall", bundleId]);
+	}
+
+	public async openUrl(url: string): Promise<void> {
+		this.runCommand(["url", url]);
+	}
+
+	public async sendKeys(text: string): Promise<void> {
+		this.runCommand(["io", "text", text]);
+	}
+
+	public async pressButton(button: Button): Promise<void> {
+		this.runCommand(["io", "button", button]);
+	}
+
+	public async tap(x: number, y: number): Promise<void> {
+		// mobilecli rejects fractional coordinates ("x and y must be integers")
+		this.runCommand(["io", "tap", `${Math.round(x)},${Math.round(y)}`]);
+	}
+
+	public async tapByRef(ref: string): Promise<void> {
+		this.runCommand(["io", "tap", ref]);
+	}
+
+	public async doubleTap(x: number, y: number): Promise<void> {
+		// parse the response, older mobilecli versions print help and exit 0 on unknown commands
+		this.runJsonCommand<unknown>(["io", "doubletap", `${Math.round(x)},${Math.round(y)}`]);
+	}
+
+	public async doubleTapByRef(ref: string): Promise<void> {
+		this.runJsonCommand<unknown>(["io", "doubletap", ref]);
+	}
+
+	public async drag(from: GesturePoint, to: GesturePoint, hold?: number): Promise<void> {
+		const args = ["io", "drag", `${formatGesturePoint(from)},${formatGesturePoint(to)}`];
+		if (hold) {
+			args.push("--hold", `${Math.round(hold)}`);
+		}
+
+		this.runJsonCommand<unknown>(args);
+	}
+
+	public async longPress(x: number, y: number, duration: number): Promise<void> {
+		// mobilecli rejects fractional coordinates and durations, both are parsed as integers
+		this.runCommand(["io", "longpress", `${Math.round(x)},${Math.round(y)}`, "--duration", `${Math.round(duration)}`]);
+	}
+
+	public async longPressByRef(ref: string, duration: number): Promise<void> {
+		this.runCommand(["io", "longpress", ref, "--duration", `${Math.round(duration)}`]);
+	}
+
+	public async getElementsOnScreen(): Promise<ScreenElement[]> {
+		const response = this.runJsonCommand<DumpUIResponse>(["dump", "ui"]);
+		const elements = response.data?.elements;
+
+		if (!elements) {
+			throw new ActionableError("No UI hierarchy was returned for this device - its screen is most likely off or locked. Wake it up (for example with mobile_press_button using HOME, or POWER when that is supported) and try again");
+		}
+
+		return elements.flatMap(element => flattenUIElement(element));
+	}
+
+	public async getRawUIHierarchy(): Promise<unknown> {
+		const response = this.runJsonCommand<DumpUIResponse>(["dump", "ui", "--format", "raw", "--full"]);
+		const rawData = response.data?.rawData;
+
+		if (rawData === undefined || rawData === null) {
+			throw new ActionableError("No raw UI hierarchy was returned for this device. Its screen may be off or locked, or the installed mobilecli version may not support raw UI dumps");
+		}
+
+		// mobilecli returns android rawData as a json string, ios as an object
+		if (typeof rawData === "string") {
+			return JSON.parse(rawData);
+		}
+
+		return rawData;
+	}
+
+	public async setOrientation(orientation: Orientation): Promise<void> {
+		this.runCommand(["device", "orientation", "set", orientation]);
+	}
+
+	public async getOrientation(): Promise<Orientation> {
+		const response = this.runJsonCommand<OrientationResponse>(["device", "orientation", "get"]);
+		return response.data.orientation;
+	}
+
+	public async fold(posture: FoldPosture | number): Promise<void> {
+		// parse the response, older mobilecli versions print help and exit 0 on unknown commands
+		this.runJsonCommand<unknown>(["device", "fold", `${posture}`]);
+	}
+
+	public async setLocation(latitude: number, longitude: number): Promise<void> {
+		this.runCommand(["device", "location", "set", `${latitude},${longitude}`]);
+	}
+
+	public async clearLocation(): Promise<void> {
+		this.runCommand(["device", "location", "clear"]);
+	}
+
+	public async getClipboard(): Promise<string> {
+		const response = this.runJsonCommand<ClipboardResponse>(["io", "clipboard", "get"]);
+		return response.data.text;
+	}
+
+	public async setClipboard(text: string): Promise<void> {
+		this.runCommand(["io", "clipboard", "set", text]);
+	}
+
+	public getLogs(limit: number, filters: string[], timeoutMs: number): Promise<string> {
+		const args = ["device", "logs", "--limit", String(limit), ...filters.flatMap(filter => ["--filter", filter]), "--device", this.deviceId];
+		const child = this.mobilecli.spawnCommand(args, true);
+
+		return new Promise((resolve, reject) => {
+			const stdout: Buffer[] = [];
+			const stderr: Buffer[] = [];
+			let silenceTimer: NodeJS.Timeout;
+
+			// kill the stream once no log entry arrived for timeoutMs, then return what was captured
+			const restartSilenceTimer = () => {
+				clearTimeout(silenceTimer);
+				silenceTimer = setTimeout(() => child.kill(), timeoutMs);
+			};
+
+			child.stdout?.on("data", (chunk: Buffer) => {
+				stdout.push(chunk);
+				restartSilenceTimer();
+			});
+
+			child.stderr?.on("data", (chunk: Buffer) => stderr.push(chunk));
+
+			child.on("error", err => {
+				clearTimeout(silenceTimer);
+				reject(err);
+			});
+
+			child.on("close", code => {
+				clearTimeout(silenceTimer);
+				if (code !== 0 && !child.killed) {
+					reject(new Error(`mobilecli device logs failed with code ${code}: ${Buffer.concat(stderr).toString().trim()}`));
+					return;
+				}
+
+				resolve(Buffer.concat(stdout).toString().trim());
+			});
+
+			restartSilenceTimer();
+		});
+	}
+}

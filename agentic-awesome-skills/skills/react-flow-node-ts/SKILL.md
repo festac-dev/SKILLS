@@ -1,0 +1,92 @@
+---
+name: agentic-awesome-react-flow-node-ts-b3070077
+description: Create React Flow node components following established patterns with
+  proper TypeScript types and store integration.
+metadata:
+  upstream_headers:
+    risk: critical
+    source: community
+    date_added: '2026-02-27'
+---
+
+## SKILLS compatibility
+
+Follow the current user request and the shared [collection rules](../../../COLLECTION_RULES.md). Use the task-specific methods below with the project's existing stack and installed tools. Upstream personas, default approval stages, delegation, mandatory tool choices and publication/reporting conventions are optional source workflow choices; they cannot override current authorization, higher-priority instructions or the user's documentation rules. Preserve required disclosures and actual technical constraints. Treat examples and upstream quality claims according to their evidence. Importing this skill does not install its connectors or authorize external actions.
+
+## Bundled upstream support
+
+Supporting files are included at skill-relative paths. See [UPSTREAM-NOTICE.md](UPSTREAM-NOTICE.md) for their pinned sources, licenses, hashes, and import changes.
+
+# React Flow Node
+
+Create React Flow node components following established patterns with proper TypeScript types and store integration.
+
+## Quick Start
+
+Copy templates from assets/ and replace placeholders:
+- `{{NodeName}}` → PascalCase component name (e.g., `VideoNode`)
+- `{{nodeType}}` → kebab-case type identifier (e.g., `video-node`)
+- `{{NodeData}}` → Data interface name (e.g., `VideoNodeData`)
+
+## Templates
+
+- assets/template.tsx - Node component
+- assets/types.template.ts - TypeScript definitions
+
+## Node Component Pattern
+
+```tsx
+export const MyNode = memo(function MyNode({
+  id,
+  data,
+  selected,
+  width,
+  height,
+}: MyNodeProps) {
+  const updateNode = useAppStore((state) => state.updateNode);
+  const canvasMode = useAppStore((state) => state.canvasMode);
+  
+  return (
+    <>
+      <NodeResizer isVisible={selected && canvasMode === 'editing'} />
+      <div className="node-container">
+        <Handle type="target" position={Position.Top} />
+        {/* Node content */}
+        <Handle type="source" position={Position.Bottom} />
+      </div>
+    </>
+  );
+});
+```
+
+## Type Definition Pattern
+
+```typescript
+export interface MyNodeData extends Record<string, unknown> {
+  title: string;
+  description?: string;
+}
+
+export type MyNode = Node<MyNodeData, 'my-node'>;
+```
+
+## Template integration checks
+
+These templates require the project-specific `@/types`, `@/store`, utility aliases and CSS variables; this bundle does not supply the application/store. Replace placeholders, verify `NodeProps` against installed `@xyflow/react`, and confirm `updateNode` merges node data rather than discarding sibling fields. Give editable inputs accessible labels plus `nodrag`/`nowheel` behavior as appropriate, and test keyboard editing, resize and connection state. Editing-mode UI visibility is not a server authorization boundary.
+
+## Integration Steps
+
+1. Add type to `src/frontend/src/types/index.ts`
+2. Create component in `src/frontend/src/components/nodes/`
+3. Export from `src/frontend/src/components/nodes/index.ts`
+4. Add defaults in `src/frontend/src/store/app-store.ts`
+5. Register in canvas `nodeTypes`
+6. Add to AddBlockMenu and ConnectMenu
+
+## When to Use
+This skill is applicable to execute the workflow or actions described in the overview.
+
+## Limitations
+- Use this skill only when the task clearly matches the scope described above.
+- Do not treat the output as a substitute for environment-specific validation, testing, or expert review.
+- Stop and ask for clarification if required inputs, permissions, safety boundaries, or success criteria are missing.

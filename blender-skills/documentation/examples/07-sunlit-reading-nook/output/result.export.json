@@ -1,0 +1,27 @@
+{
+  "sourcePath": "documentation/examples/07-sunlit-reading-nook/output/result.blend",
+  "sourceSha256": "82eb0014d4c80b1aec7fdb3f8cf3de82e5d902d373f11259d596b15b636b7ba6",
+  "glbPath": "documentation/examples/07-sunlit-reading-nook/output/result.glb",
+  "glbSha256": "ca28f15aceac55f1efd1eb1310f1c9813c4c28f39b48b076becdc1eafe643f95",
+  "byteSize": 492260,
+  "warnings": [
+    "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+  ],
+  "blenderVersion": "5.2.2 LTS",
+  "seconds": 0.63,
+  "exporterVersion": 3,
+  "view": {
+    "position": [
+      7.0,
+      6.0,
+      9.0
+    ],
+    "target": [
+      -0.3131070137023926,
+      1.0897750854492188,
+      -0.40256214141845703
+    ],
+    "frameHeight": 4.21875,
+    "aspect": 1.7777777777777777
+  }
+}

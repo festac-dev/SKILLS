@@ -1,0 +1,78 @@
+---
+name: agentic-awesome-fastapi-router-py-bf1eb069
+description: Create FastAPI routers following established patterns with proper authentication,
+  response models, and HTTP status codes.
+metadata:
+  upstream_headers:
+    risk: critical
+    source: community
+    date_added: '2026-02-27'
+---
+
+## SKILLS compatibility
+
+Follow the current user request and the shared [collection rules](../../../../../COLLECTION_RULES.md). Use the task-specific methods below with the project's existing stack and installed tools. Upstream personas, default approval stages, delegation, mandatory tool choices and publication/reporting conventions are optional source workflow choices; they cannot override current authorization, higher-priority instructions or the user's documentation rules. Preserve required disclosures and actual technical constraints. Treat examples and upstream quality claims according to their evidence. Importing this skill does not install its connectors or authorize external actions.
+
+## Bundled upstream support
+
+Supporting files are included at skill-relative paths. See [UPSTREAM-NOTICE.md](UPSTREAM-NOTICE.md) for their pinned sources, licenses, hashes, and import changes.
+
+# FastAPI Router
+
+Create FastAPI routers following established patterns with proper authentication, response models, and HTTP status codes.
+
+## Authorization requirements
+
+The template assumes an `author_id` owner field; adapt it to the real model before use. Update/delete checks are required, not optional. For non-public resources require authentication and tenant/owner filtering on list/get too, preferably in atomic service queries; authentication alone is not authorization. Test anonymous access, another owner and another tenant against every CRUD route. The placeholder template is not executable Python until substituted and integrated.
+
+## Quick Start
+
+Copy the template from assets/template.py and replace placeholders:
+- `{{ResourceName}}` → PascalCase name (e.g., `Project`)
+- `{{resource_name}}` → snake_case name (e.g., `project`)
+- `{{resource_plural}}` → plural form (e.g., `projects`)
+
+## Authentication Patterns
+
+```python
+# Optional auth - returns None if not authenticated
+current_user: Optional[User] = Depends(get_current_user)
+
+# Required auth - raises 401 if not authenticated
+current_user: User = Depends(get_current_user_required)
+```
+
+## Response Models
+
+```python
+@router.get("/items/{item_id}", response_model=Item)
+async def get_item(item_id: str) -> Item:
+    ...
+
+@router.get("/items", response_model=list[Item])
+async def list_items() -> list[Item]:
+    ...
+```
+
+## HTTP Status Codes
+
+```python
+@router.post("/items", status_code=status.HTTP_201_CREATED)
+@router.delete("/items/{id}", status_code=status.HTTP_204_NO_CONTENT)
+```
+
+## Integration Steps
+
+1. Create router in `src/backend/app/routers/`
+2. Mount in `src/backend/app/main.py`
+3. Create corresponding Pydantic models
+4. Create service layer if needed
+5. Add frontend API functions
+
+## When to Use
+This skill is applicable to execute the workflow or actions described in the overview.
+
+## Limitations
+- Use this skill only when the task clearly matches the scope described above.
+- Do not treat the output as a substitute for environment-specific validation, testing, or expert review.
+- Stop and ask for clarification if required inputs, permissions, safety boundaries, or success criteria are missing.

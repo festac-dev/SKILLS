@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables / Secrets
+.env
+*.env
+
+# Python packaging & distribution
+*.egg-info/
+*.egg
+build/
+dist/
+
+# Testing / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code local user settings
+.claude/settings.local.json
+
+# OS metadata
+.DS_Store
+Thumbs.db

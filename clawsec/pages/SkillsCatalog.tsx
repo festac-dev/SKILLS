@@ -1,0 +1,294 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search as _Search, Filter as _Filter, Package, Sparkles, FileText, GitFork } from 'lucide-react';
+import { SkillCard } from '../components/SkillCard';
+import { Footer } from '../components/Footer';
+import { FilterTabs, PLATFORM_TABS, type FilterTabOption } from '../components/FilterTabs';
+import type { AdvisoryPlatformFilter, SkillMetadata, SkillsIndex } from '../types';
+import { hasNonCorePlatform, matchesPlatformFilter, readPlatformSlugs } from '../utils/advisoryPlatforms';
+
+const SKILLS_INDEX_PATH = '/skills/index.json';
+
+const isProbablyHtmlDocument = (text: string): boolean => {
+  const start = text.trimStart().slice(0, 200).toLowerCase();
+  return start.startsWith('<!doctype html') || start.startsWith('<html');
+};
+
+const parseSkillsIndex = (raw: string): SkillsIndex | null => {
+  try {
+    const parsed = JSON.parse(raw) as Partial<SkillsIndex> | null;
+    if (!parsed || !Array.isArray(parsed.skills)) return null;
+    return {
+      version: typeof parsed.version === 'string' ? parsed.version : '1.0.0',
+      updated: typeof parsed.updated === 'string' ? parsed.updated : '',
+      skills: parsed.skills as SkillMetadata[],
+    };
+  } catch {
+    return null;
+  }
+};
+
+export const SkillsCatalog: React.FC = () => {
+  const [skills, setSkills] = useState<SkillMetadata[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, _setSearchTerm] = useState('');
+  const [categoryFilter, _setCategoryFilter] = useState<string>('all');
+  const [selectedPlatform, setSelectedPlatform] = useState<AdvisoryPlatformFilter>('all');
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await fetch(SKILLS_INDEX_PATH, {
+          headers: { Accept: 'application/json' },
+        });
+
+        // Missing index file is a valid "empty catalog" state.
+        if (response.status === 404) {
+          setSkills([]);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch skills index');
+        }
+
+        const contentType = response.headers.get('content-type') ?? '';
+        const raw = await response.text();
+
+        // Some SPA setups return index.html with 200 for missing JSON files.
+        if (!raw.trim() || contentType.includes('text/html') || isProbablyHtmlDocument(raw)) {
+          setSkills([]);
+          return;
+        }
+
+        const data = parseSkillsIndex(raw);
+        if (!data) {
+          throw new Error('Invalid skills index format');
+        }
+
+        setSkills(data.skills);
+      } catch (err) {
+        console.error('Failed to load skills index:', err);
+        setError('Failed to load skills catalog');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSkills();
+  }, []);
+
+  const filteredSkills = useMemo(() => {
+    let result = skills;
+
+    // Apply search filter
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(
+        (skill) =>
+          skill.name.toLowerCase().includes(term) ||
+          skill.description.toLowerCase().includes(term)
+      );
+    }
+
+    // Apply category filter
+    if (categoryFilter !== 'all') {
+      result = result.filter((skill) => skill.category === categoryFilter);
+    }
+
+    // Apply harness filter — same predicate the advisory feed uses
+    if (selectedPlatform !== 'all') {
+      result = result.filter((skill) => matchesPlatformFilter(skill.platforms, selectedPlatform));
+    }
+
+    return result;
+  }, [searchTerm, categoryFilter, selectedPlatform, skills]);
+
+  // NemoClaw and OpenShell are advisory feeds without skill packages. Keep the
+  // existing harness tabs, and add an advisory platform only when a skill declares it.
+  const platformTabs = useMemo<ReadonlyArray<FilterTabOption<AdvisoryPlatformFilter>>>(() => {
+    const present = new Set(skills.flatMap((skill) => readPlatformSlugs(skill.platforms)));
+    const hasNonCore = skills.some((skill) => hasNonCorePlatform(skill.platforms));
+    return PLATFORM_TABS.filter((tab) => {
+      if (tab.value === 'all') return true;
+      if (tab.value === 'other') return hasNonCore;
+      if (tab.value === 'nemoclaw' || tab.value === 'openshell') return present.has(tab.value);
+      return true;
+    });
+  }, [skills]);
+
+  // Get unique categories from skills (used in commented filter UI)
+  const _categories = ['all', ...new Set(skills.map((s) => s.category).filter(Boolean))];
+
+  if (loading) {
+    return (
+      <div className="pt-[52px]">
+        <div className="py-16 text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-clawd-accent"></div>
+          <p className="mt-4 text-gray-600">Loading skills...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="pt-[52px]">
+        <div className="py-16 text-center">
+          <Package className="w-16 h-16 mx-auto text-gray-600 mb-4" />
+          <h2 className="text-xl font-bold text-clawd-800 mb-2">No Skills Available</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <p className="text-sm text-gray-500">
+            Skills will appear here after the first skill release.
+          </p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="pt-[52px] space-y-8">
+      {/* Header */}
+      <section className="text-center space-y-4">
+        <h1 className="text-3xl md:text-4xl text-clawd-800">
+          Skills Catalog
+        </h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Browse security skills for your AI agents. Each skill is verified for safety
+          and distributed with checksums for integrity verification.
+        </p>
+      </section>
+
+      {skills.length > 0 && (
+        <section>
+          <FilterTabs
+            tabs={platformTabs}
+            selected={selectedPlatform}
+            onSelect={(value) => setSelectedPlatform(value)}
+            ariaLabel="Filter skills by agent harness"
+            className="mb-0"
+          />
+        </section>
+      )}
+
+      {/* Filters - Hidden for now, uncomment when needed
+      <section className="flex flex-col md:flex-row gap-4 max-w-4xl mx-auto">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+          <input
+            type="text"
+            placeholder="Search skills..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-clawd-800 border border-clawd-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-clawd-accent"
+          />
+        </div>
+
+        <div className="relative">
+          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="pl-10 pr-8 py-2.5 bg-clawd-800 border border-clawd-700 rounded-lg text-white appearance-none focus:outline-none focus:border-clawd-accent"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat === 'all' ? 'All Categories' : cat}
+              </option>
+            ))}
+          </select>
+        </div>
+      </section>
+      */}
+
+      {/* Skills Grid */}
+      {filteredSkills.length > 0 ? (
+        <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredSkills.map((skill) => (
+            <SkillCard key={skill.id} skill={skill} />
+          ))}
+        </section>
+      ) : (
+        <section className="text-center py-12">
+          <Package className="w-12 h-12 mx-auto text-gray-600 mb-4" />
+          <h3 className="text-lg font-medium text-clawd-800 mb-2">No skills found</h3>
+          <p className="text-gray-600">
+            {selectedPlatform !== 'all'
+              ? 'Try another harness to see more skills'
+              : searchTerm || categoryFilter !== 'all'
+                ? 'Try adjusting your filters'
+                : 'No skills have been released yet'}
+          </p>
+        </section>
+      )}
+
+      {/* Stats */}
+      {skills.length > 0 && (
+        <section role="status" className="text-center text-sm text-gray-500">
+          Showing {filteredSkills.length} of {skills.length} skills
+          {selectedPlatform !== 'all' &&
+            ` for ${PLATFORM_TABS.find((tab) => tab.value === selectedPlatform)?.label}`}
+        </section>
+      )}
+
+      {/* Shoutout */}
+      <section className="max-w-4xl mx-auto">
+        <div className="bg-clawd-900 border border-clawd-700 rounded-xl overflow-hidden">
+          <div className="bg-clawd-800 px-6 py-4 border-b border-clawd-700 flex items-center justify-between">
+            <h2 className="font-bold text-white flex items-center gap-2">
+              <Sparkles size={18} className="text-clawd-accent" />
+              Contribute Security Skills
+            </h2>
+            <span className="text-xs font-mono text-gray-500">SKILLS-BASED</span>
+          </div>
+          <div className="p-6 space-y-6">
+            <p className="text-gray-300 text-sm">
+              Humans & agents: submit skills that make bots safer (prompt injection defenses, drift checks, tool hardening, policy enforcement).
+              We’ll package them with checksums so everyone can verify integrity.
+            </p>
+
+            <a
+              href="https://github.com/prompt-security/clawsec/blob/main/CONTRIBUTING.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-4 p-4 rounded-lg bg-clawd-800/50 border border-clawd-700 hover:border-clawd-accent/50 transition-colors group"
+            >
+              <span className="text-2xl">📄</span>
+              <div className="flex-1">
+                <h4 className="text-white font-bold text-sm group-hover:text-clawd-accent transition-colors flex items-center gap-2">
+                  Read CONTRIBUTING.md
+                  <FileText size={14} className="text-gray-500" />
+                </h4>
+                <p className="text-xs text-gray-400 mt-1">
+                  Guidelines for authoring, packaging, and releasing skills to the ClawSec catalog.
+                </p>
+              </div>
+            </a>
+
+            <a
+              href="https://github.com/prompt-security/clawsec/fork"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-4 p-4 rounded-lg bg-clawd-800/50 border border-clawd-700 hover:border-clawd-accent/50 transition-colors group"
+            >
+              <span className="text-2xl">🍴</span>
+              <div className="flex-1">
+                <h4 className="text-white font-bold text-sm group-hover:text-clawd-accent transition-colors flex items-center gap-2">
+                  Fork the repository
+                  <GitFork size={14} className="text-gray-500" />
+                </h4>
+                <p className="text-xs text-gray-400 mt-1">
+                  Start a contribution branch and open a PR with your new security skill.
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};

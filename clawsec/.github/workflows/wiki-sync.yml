@@ -1,0 +1,89 @@
+name: Sync Wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+      - 'scripts/build-github-wiki-export.mjs'
+      - 'scripts/test-wiki-sync-export.mjs'
+      - 'utils/wikiPathHelpers.mjs'
+      - '.github/workflows/wiki-export-verify.yml'
+      - '.github/workflows/wiki-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wiki-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    permissions:
+      # Pushes the generated export to the repository wiki.
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+
+      - name: Test wiki export transform
+        run: node scripts/test-wiki-sync-export.mjs
+
+      - name: Sync wiki folder to repository wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ ! -d wiki ]; then
+            echo "::error::wiki/ directory not found"
+            exit 1
+          fi
+
+          if [ ! -f wiki/INDEX.md ]; then
+            echo "::error::wiki/INDEX.md not found. It is required to generate GitHub Wiki Home.md."
+            exit 1
+          fi
+
+          WIKI_REMOTE="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.wiki.git"
+          if ! git ls-remote "$WIKI_REMOTE" >/dev/null 2>&1; then
+            echo "::warning::Wiki remote unavailable (repository wiki may be disabled). Skipping sync."
+            exit 0
+          fi
+
+          WIKI_TMP="$(mktemp -d)"
+          WIKI_EXPORT="$(mktemp -d)"
+          trap 'rm -rf "$WIKI_TMP" "$WIKI_EXPORT"' EXIT
+
+          node scripts/build-github-wiki-export.mjs --source wiki --output "$WIKI_EXPORT"
+
+          git clone --depth 1 "$WIKI_REMOTE" "$WIKI_TMP"
+          rsync -a --delete --exclude '.git/' "$WIKI_EXPORT/" "$WIKI_TMP/"
+
+          cd "$WIKI_TMP"
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No wiki changes to sync."
+            exit 0
+          fi
+
+          WIKI_HEAD_REF="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || true)"
+          if [ -n "$WIKI_HEAD_REF" ]; then
+            WIKI_BRANCH="${WIKI_HEAD_REF#origin/}"
+          else
+            WIKI_BRANCH="master"
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs(wiki): sync from ${GITHUB_SHA}"
+          # Clone may sanitize credentials from origin URL; push with explicit auth URL.
+          git push "$WIKI_REMOTE" HEAD:"$WIKI_BRANCH"

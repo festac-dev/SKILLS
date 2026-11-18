@@ -1,0 +1,76 @@
+---
+name: cybersecurity-performing-ssl-tls-security-assessment
+description: Assess SSL/TLS server configurations using the sslyze Python scanning
+  library to evaluate supported protocol versions, cipher suite strength, certificate
+  chain validation, HSTS enforcement, OCSP stapling, and known vulnerabilities such
+  as Heartbleed and ROBOT. Use when conducting a security assessment of a server's
+  TLS configuration or verifying remediation of cipher/certificate weaknesses.
+license: Apache-2.0
+metadata:
+  upstream_headers:
+    domain: cybersecurity
+    subdomain: network-security
+    tags:
+    - network-security
+    - ssl
+    - tls
+    - sslyze
+    - certificate
+    - cipher-suites
+    - vulnerability-assessment
+    version: '1.0'
+    author: mahipal
+    nist_csf:
+    - PR.IR-01
+    - DE.CM-01
+    - ID.AM-03
+    - PR.DS-02
+    mitre_attack:
+    - T1046
+    - T1040
+    - T1557
+    - T1071
+    - T1553
+---
+
+## SKILLS compatibility
+
+Follow the current user request and the shared [collection rules](../../../COLLECTION_RULES.md). Use the task-specific methods below with the project's existing stack and installed tools. Upstream personas, default approval stages, delegation, mandatory tool choices and publication/reporting conventions are optional source workflow choices; they cannot override current authorization, higher-priority instructions or the user's documentation rules. Preserve required disclosures and actual technical constraints. Treat examples and upstream quality claims according to their evidence. Importing this skill does not install its connectors or authorize external actions.
+
+# Performing SSL/TLS Security Assessment
+
+## Overview
+
+Assess SSL/TLS server configurations using sslyze, a fast Python-based scanning library. This skill covers evaluating supported protocol versions (SSLv2/3, TLS 1.0-1.3), cipher suite strength, certificate chain validation, HSTS enforcement, OCSP stapling, and scanning for known vulnerabilities including Heartbleed, ROBOT, and session renegotiation weaknesses.
+
+
+## When to Use
+
+- When conducting security assessments that involve performing ssl tls security assessment
+- When following incident response procedures for related security events
+- When performing scheduled security testing or auditing activities
+- When validating security controls through hands-on testing
+
+## Prerequisites
+
+- Python 3.9+ with `sslyze` library (pip install sslyze)
+- Network access to target HTTPS servers on port 443
+- Understanding of TLS protocol versions and cipher suite classifications
+
+## Steps
+
+### Step 1: Configure Server Scan
+Create ServerScanRequest with ServerNetworkLocation specifying target hostname and port.
+
+### Step 2: Execute TLS Scan
+Use sslyze Scanner to queue and execute scans for all TLS check commands concurrently.
+
+### Step 3: Analyze Results
+Evaluate accepted cipher suites, certificate validity, protocol versions, and vulnerability scan results.
+
+### Step 4: Generate Security Report
+Produce a JSON report with compliance findings and remediation recommendations.
+
+## Expected Output
+
+JSON report with supported protocols, accepted cipher suites, certificate details, vulnerability results (Heartbleed, ROBOT), and HSTS status.

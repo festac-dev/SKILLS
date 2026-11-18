@@ -1,0 +1,124 @@
+import pytest
+import yaml
+
+from google.cloud.db_context_enrichment.evaluate.db_generators.spanner import (
+    SpannerConfigGenerator,
+)
+
+
+@pytest.fixture
+def mock_params():
+    return {
+        "project": "test-project",
+        "instance": "test-instance",
+        "database": "test-db",
+    }
+
+
+def test_generate_db_config(mock_params):
+    gen = SpannerConfigGenerator(mock_params)
+    db_config_yaml = gen.generate_db_config()
+
+    assert gen.DIALECT == "spanner_gsql"
+
+    config = yaml.safe_load(db_config_yaml)
+    assert config == {
+        "db_type": "spanner",
+        "dialect": "spanner_gsql",
+        "database_name": "test-db",
+        "database_path": "projects/test-project/instances/test-instance/databases/test-db",
+        "instance_id": "test-instance",
+        "gcp_project_id": "test-project",
+        "max_executions_per_minute": 100,
+    }
+
+
+def test_generate_model_config(mock_params):
+    gen = SpannerConfigGenerator(mock_params)
+    model_config_yaml = gen.generate_model_config(
+        "projects/test-project/locations/us-west1/contextSets/my-context"
+    )
+    m_config = yaml.safe_load(model_config_yaml)
+
+    assert m_config == {
+        "generator": "query_data_api",
+        "project_id": "test-project",
+        "location": "global",
+        "use_rest_api": True,
+        "context": {
+            "datasource_references": {
+                "spanner_reference": {
+                    "database_reference": {
+                        "engine": "GOOGLE_SQL",
+                        "project_id": "test-project",
+                        "instance_id": "test-instance",
+                        "database_id": "test-db",
+                    },
+                    "agent_context_reference": {
+                        "context_set_id": "projects/test-project/locations/us-west1/contextSets/my-context"
+                    },
+                }
+            }
+        },
+    }
+
+
+def test_generate_model_config_with_graph(mock_params):
+    mock_params["graph_ids"] = ["ResearchGraph"]
+    gen = SpannerConfigGenerator(mock_params)
+    model_config_yaml = gen.generate_model_config(
+        "projects/test-project/locations/us-west1/contextSets/my-context"
+    )
+    m_config = yaml.safe_load(model_config_yaml)
+
+    assert m_config == {
+        "generator": "query_data_api",
+        "project_id": "test-project",
+        "location": "global",
+        "use_rest_api": True,
+        "context": {
+            "datasource_references": {
+                "spanner_reference": {
+                    "database_reference": {
+                        "engine": "GOOGLE_SQL",
+                        "project_id": "test-project",
+                        "instance_id": "test-instance",
+                        "database_id": "test-db",
+                        "graph_ids": ["ResearchGraph"],
+                    },
+                    "agent_context_reference": {
+                        "context_set_id": "projects/test-project/locations/us-west1/contextSets/my-context"
+                    },
+                }
+            }
+        },
+    }
+
+
+def test_generate_model_config_with_graph_list(mock_params):
+    mock_params["graph_ids"] = ["ResearchGraph", "LogisticsNet"]
+    gen = SpannerConfigGenerator(mock_params)
+    model_config_yaml = gen.generate_model_config(
+        "projects/test-project/locations/us-west1/contextSets/my-context"
+    )
+    m_config = yaml.safe_load(model_config_yaml)
+
+    assert m_config["context"]["datasource_references"]["spanner_reference"][
+        "database_reference"
+    ]["graph_ids"] == ["ResearchGraph", "LogisticsNet"]
+
+
+def test_generate_model_config_invalid_graph_ids(mock_params):
+    mock_params["graph_ids"] = "not-a-list"
+    gen = SpannerConfigGenerator(mock_params)
+    with pytest.raises(ValueError, match="graph_ids must be a list of strings"):
+        gen.generate_model_config(
+            "projects/test-project/locations/us-west1/contextSets/my-context"
+        )
+
+    mock_params["graph_ids"] = [123]
+    gen = SpannerConfigGenerator(mock_params)
+    with pytest.raises(ValueError, match="graph_ids must be a list of strings"):
+        gen.generate_model_config(
+            "projects/test-project/locations/us-west1/contextSets/my-context"
+        )

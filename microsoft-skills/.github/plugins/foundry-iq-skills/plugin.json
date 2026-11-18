@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "foundry-iq-skills",
+  "description": "Diagnose Foundry IQ and Azure AI Search access and ingestion issues, and configure Azure AI Search and Foundry IQ with source-aware security and verified API guidance. Build and query entity graphs, topic graphs and ontologies over your documents.",
+  "version": "0.3.0",
+  "author": {
+    "name": "Microsoft",
+    "url": "https://www.microsoft.com"
+  },
+  "homepage": "https://github.com/microsoft/github-copilot-for-azure",
+  "repository": "https://github.com/microsoft/GitHub-Copilot-for-Azure",
+  "license": "MIT",
+  "keywords": [
+    "azure",
+    "azure-ai-search",
+    "foundry-iq",
+    "search",
+    "retrieval",
+    "rag",
+    "knowledge-graph",
+    "entity",
+    "grounding",
+    "topic-graph",
+    "ontology",
+    "entity-graph",
+    "graphrag",
+    "owl",
+    "ontology-validation"
+  ]
+}

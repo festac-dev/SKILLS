@@ -1,0 +1,74 @@
+---
+name: cybersecurity-detecting-shadow-it-cloud-usage
+description: Detect unauthorized SaaS and cloud service usage (shadow IT) by parsing
+  proxy access logs, DNS query logs, and firewall/netflow data with Python pandas
+  to aggregate traffic by domain, classify domains against known SaaS categories,
+  and score risk by data volume and user count. Use when auditing an organization
+  for unsanctioned cloud/SaaS usage or generating a shadow IT discovery report with
+  remediation recommendations.
+license: Apache-2.0
+metadata:
+  upstream_headers:
+    domain: cybersecurity
+    subdomain: cloud-security
+    tags:
+    - shadow-IT
+    - SaaS-discovery
+    - proxy-logs
+    - DNS-analysis
+    - netflow
+    - cloud-security
+    - pandas
+    version: '1.0'
+    author: mahipal
+    nist_csf:
+    - PR.IR-01
+    - ID.AM-08
+    - GV.SC-06
+    - DE.CM-01
+    mitre_attack:
+    - T1567.002
+    - T1526
+    - T1078.004
+    - T1213
+---
+
+## SKILLS compatibility
+
+Follow the current user request and the shared [collection rules](../../../COLLECTION_RULES.md). Use the task-specific methods below with the project's existing stack and installed tools. Upstream personas, default approval stages, delegation, mandatory tool choices and publication/reporting conventions are optional source workflow choices; they cannot override current authorization, higher-priority instructions or the user's documentation rules. Preserve required disclosures and actual technical constraints. Treat examples and upstream quality claims according to their evidence. Importing this skill does not install its connectors or authorize external actions.
+
+# Detecting Shadow IT Cloud Usage
+
+## Overview
+
+Shadow IT refers to unauthorized SaaS applications and cloud services used without IT approval. This skill analyzes proxy logs, DNS query logs, and firewall/netflow data to identify unauthorized cloud service usage, classify discovered domains against known SaaS categories, measure data transfer volumes, and flag high-risk services based on security posture and compliance requirements.
+
+
+## When to Use
+
+- When investigating security incidents that require detecting shadow it cloud usage
+- When building detection rules or threat hunting queries for this domain
+- When SOC analysts need structured procedures for this analysis type
+- When validating security monitoring coverage for related attack techniques
+
+## Prerequisites
+
+- Python 3.9+ with `pandas`, `tldextract`
+- Proxy logs (Squid, Zscaler, or Palo Alto format) or DNS query logs
+- SaaS application catalog/blocklist for classification
+- Network firewall logs with FQDN resolution (optional)
+
+## Steps
+
+1. Parse proxy access logs and extract destination domains with traffic volumes
+2. Parse DNS query logs to identify resolved cloud service domains
+3. Aggregate traffic by domain using pandas — total bytes, request counts, unique users
+4. Classify domains against known SaaS categories (storage, email, dev tools, AI)
+5. Flag unauthorized services not on the approved application list
+6. Calculate risk scores based on data volume, user count, and service category
+7. Generate shadow IT discovery report with remediation recommendations
+
+## Expected Output
+
+- JSON report listing discovered cloud services with traffic volumes, user counts, risk scores, and approval status
+- Top unauthorized services ranked by data exfiltration risk

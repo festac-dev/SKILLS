@@ -1,0 +1,54 @@
+---
+name: agentic-awesome-brooks-debt-891ba62c
+description: Tech debt assessment that identifies, classifies, and prioritizes maintainability
+  problems — helping teams build a refactoring roadmap — drawing on twelve classic
+  engineering books.
+license: MIT
+metadata:
+  upstream_headers:
+    risk: safe
+    source: https://github.com/hyhmrright/brooks-lint/tree/main/skills/brooks-debt
+    source_repo: hyhmrright/brooks-lint
+    source_type: community
+    date_added: 2026-07-01
+    license_source: https://github.com/hyhmrright/brooks-lint/blob/main/LICENSE
+---
+
+## SKILLS compatibility
+
+Follow the current user request and the shared [collection rules](../../../COLLECTION_RULES.md). Use the task-specific methods below with the project's existing stack and installed tools. Upstream personas, default approval stages, delegation, mandatory tool choices and publication/reporting conventions are optional source workflow choices; they cannot override current authorization, higher-priority instructions or the user's documentation rules. Preserve required disclosures and actual technical constraints. Treat examples and upstream quality claims according to their evidence. Importing this skill does not install its connectors or authorize external actions.
+
+# Brooks-Lint — Tech Debt Assessment
+## When to Use
+
+Use this skill when you need tech debt assessment that identifies, classifies, and prioritizes maintainability problems — helping teams build a refactoring roadmap — drawing on twelve classic engineering books. Triggers when: user asks about tech debt, refactoring priorities, what to clean up first, or asks "why...
+
+
+## Setup
+
+1. If available in an explicitly supplied upstream installation, read `../_shared/common.md` for the Iron Law, Project Config, Report Template, and Health Score rules
+2. Read `../_shared/source-coverage.md` for book-level coverage, exceptions, and tradeoffs
+3. Read `../_shared/decay-risks.md` for symptom definitions and source attributions
+4. Read `debt-guide.md` in this directory for the debt classification framework
+
+## Process
+
+**If the user has not described the codebase or pointed to specific areas:** apply Auto
+Scope Detection from `../_shared/common.md` to determine the assessment scope before proceeding.
+
+1. Scan for all six decay risks (Step 1 of the guide); list every finding before scoring
+2. Apply the Pain × Spread priority formula and classify debt intent (Steps 2–3 of the guide)
+3. Group findings by decay risk (Step 4 of the guide)
+4. Output using the Report Template from common.md, plus the Debt Summary Table
+
+**Mode line in report:** `Tech Debt Assessment`
+
+## Limitations
+
+- Use this skill only when the task clearly matches its upstream source and local project context.
+- Verify commands, generated code, dependencies, credentials, and external service behavior before applying changes.
+- Do not treat examples as a substitute for environment-specific tests, security review, or user approval for destructive or costly actions.
+
+### Standalone catalog fallback
+
+The `../_shared/*` files referenced above are not bundled in this catalog. Do not claim their score, report or source-coverage rules were followed. The bundled debt guide can be used independently: define the authorized scope, record each symptom with current file/line evidence, its observed consequence and proposed remedy, then label Pain × Spread as a local prioritization heuristic. Unknown team intent stays unknown; missing documentation does not prove a shortcut was accidental. Report reviewed and unreviewed areas explicitly.

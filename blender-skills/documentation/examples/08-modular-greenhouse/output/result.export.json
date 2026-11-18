@@ -1,0 +1,27 @@
+{
+  "sourcePath": "documentation/examples/08-modular-greenhouse/output/result.blend",
+  "sourceSha256": "5f7c19831d53c2f419adcc92300c65281f8de04191795069ccf88e91944d80dc",
+  "glbPath": "documentation/examples/08-modular-greenhouse/output/result.glb",
+  "glbSha256": "f0fc13b5240bd6df6a3a1deeb7152d1ab37a2da6d8ab6c1d566c1a3fba1f72fc",
+  "byteSize": 555976,
+  "warnings": [
+    "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+  ],
+  "blenderVersion": "5.2.2 LTS",
+  "seconds": 0.5,
+  "exporterVersion": 3,
+  "view": {
+    "position": [
+      7.0,
+      6.0,
+      9.0
+    ],
+    "target": [
+      -0.43225717544555664,
+      0.9566807746887207,
+      -0.23723316192626953
+    ],
+    "frameHeight": 5.0625,
+    "aspect": 1.7777777777777777
+  }
+}

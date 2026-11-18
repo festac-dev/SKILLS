@@ -1,0 +1,1469 @@
+{
+  "schemaVersion": 1,
+  "models": [
+    {
+      "id": "documentation/examples/01-school-morning-character/output/result.blend",
+      "title": "School Morning Character",
+      "sourcePath": "documentation/examples/01-school-morning-character/output/result.blend",
+      "glbPath": "documentation/examples/01-school-morning-character/output/result.glb",
+      "byteSize": 1753296,
+      "sourceSha256": "465ecf985f6065fed8263ae35702f29bf79dcef8c247728236c46e4a85f77bd3",
+      "glbSha256": "11903688db682a18b5769adcb6f14c091abd8f2c7d817a295a09fc89f33b3eb1",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Eevee toon ramps approximated with their authored lit palette colors and neutral PBR shading: Backpack_pocket, Backpack_sunflower, Canvas_cream, Ear_and_lip, Eyes_and_socks, Hair_chestnut, Hair_warm_streak, Iris_hazel, Shirt_blue_trim, Shirt_muted_blue, Shorts_indigo, Skin_highlight, Skin_warm_peach"
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "Status: technically verified; **awaiting human approval for milestone 2**.\nRevision: pilot-v1, created 2026-09-29. No human approval has been recorded.",
+          "provenancePath": "documentation/examples/01-school-morning-character/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "PROMPT 1 — Initial creation request\n\n$blender-create-model\n\nCreate a stylized boy getting ready for school, wearing a backpack and\nadjusting one shoulder strap. Give him a friendly, alert expression,\ndeliberate character proportions, and readable hands and shoes.\n\nRender style: comic-book illustration interpreted as editable 3D, with\nsimple graphic shapes, controlled bands of shading, and dark drawn details.\nSetting: a simple cozy bedroom corner with a small bed, books, and a window.\nLighting: warm morning sunlight with enough fill to read the face clearly.\nPalette: muted blue and warm yellow, with restrained warm wood and skin tones.\nCamera: use the default clinical inspection view when no angle is specified:\ncentered, full-body orthographic three-quarter view with comfortable margins.\n\nUse blender-setup, blender-materials, blender-light-camera, blender-render,\nand blender-review-optimize as appropriate alongside blender-create-model.\nWork through the verified official Blender Lab MCP in the open Blender app.\nPreserve unrelated Blender content and create an isolated example scene.\n\nDeliver:\n- result.blend: editable scene with final camera, lighting, and materials.\n- result.png: clean 1280x720 final camera Render Result, without any Blender UI.\n- editor.png: genuine Blender editor screenshot of the completed scene.\n- review.md: actual skills, settings, timings, checks, revisions, and limitations.\n\nUse 640x360 previews and target under 30 seconds per still, as a goal rather\nthan a hard limit. Prefer EEVEE. Inspect the actual renders and reopen the\nsaved scene to check portability before presenting it for human approval.\nThis is a static character illustration; no rig or animation is requested.\nNo external image reference is supplied for this pilot; use the textual style.\n\nSuccess criteria: clear complete silhouette; one hand visibly adjusting the\nbackpack strap; friendly readable face; recognizable bedroom context; warm\nlight without losing facial detail; no clipped head or feet; editable scene.",
+          "provenancePath": "documentation/examples/01-school-morning-character/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 154,
+        "materials": 19,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          4.400000095367432,
+          4.300000190734863,
+          8.0
+        ],
+        "target": [
+          -0.11931943893432617,
+          1.198103904724121,
+          -0.4737234115600586
+        ],
+        "frameHeight": 3.2062498927116394,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/01-school-morning-character/output/result.png"
+    },
+    {
+      "id": "documentation/examples/02-city-corner-firehouse/output/result.blend",
+      "title": "City Corner Firehouse",
+      "sourcePath": "documentation/examples/02-city-corner-firehouse/output/result.blend",
+      "glbPath": "documentation/examples/02-city-corner-firehouse/output/result.glb",
+      "byteSize": 8527948,
+      "sourceSha256": "c98ee8d020d72d4daa068ee2dedb3357e7e4c138f7967cd8dd2ff7e923ffaa67",
+      "glbSha256": "402376f0629292403cb8ca82890911fa0d67a64b0f6cc60dd9f1c105f0e9a807",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Objects",
+          "value": "2611",
+          "provenancePath": "documentation/examples/02-city-corner-firehouse/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "Selected version: attempt 05 with the final blue-sky and color pass. Earlier attempts were compared visually and removed during cleanup. This version has the most complete facade, arched apparatus bays, readable glazing, and coherent city context.",
+          "provenancePath": "documentation/examples/02-city-corner-firehouse/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "PROMPT 1 - Initial creation request\n\n$blender-create-environment\n\nCreate a realistic architectural visualization of a firehouse on a city\ncorner. Make it a detailed two-story red-brick station with two large\nfire-engine bays, a pedestrian entrance, stone trim, metal apparatus doors,\nreflective upper windows, a restrained station sign, and a hose-drying tower.\nInclude sidewalks, curbs, an intersection with crosswalks, streetlights,\na hydrant, and neighboring city buildings to establish the urban setting.\n\nUse realistic proportions and physically based masonry, stone, concrete,\npainted metal, asphalt, and glass. Add subtle surface texture and weathering.\nUse natural daytime lighting, balanced exposure, and believable shadows.\nCamera: clear architectural three-quarter perspective showing the front\nand side of the station and its relationship to the street corner. Keep\nthe complete building visible and avoid excessive wide-angle distortion.\n\nUse blender-setup, blender-procedural-geometry, blender-materials,\nblender-light-camera, blender-render, and blender-review-optimize alongside\nblender-create-environment. Keep repeated facade windows editable with\ndocumented controls and verify those controls within sensible limits.\nPreserve existing Blender content and use an isolated scene.\n\nDeliver all generated files inside output/:\n- result.blend: editable portable scene, camera, materials, lights, controls.\n- result.png: clean final camera Render Result at 1280x720, no UI or HUD.\n- editor.png: genuine Blender editor screenshot of the completed scene.\n- review.md: settings, actual skills, measured timings, verification,\n  corrective actions, assumptions, and remaining quality limitations.\n\nUse 640x360 previews. Target less than 30 seconds per still as a goal,\nnot a hard limit. Benchmark EEVEE or GPU Cycles and use denoising when useful.\nThe result should read as realistic architecture, not a cartoon miniature.\nNo external image reference is required: this is an original fictional\nfirehouse, not a survey or reconstruction of a particular real building.\nVerify the saved file by reopening it and inspect the actual output images.",
+          "provenancePath": "documentation/examples/02-city-corner-firehouse/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 2608,
+        "materials": 17,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          22.0,
+          3.4000000953674316,
+          32.0
+        ],
+        "target": [
+          1.590585708618164,
+          3.400003671646118,
+          -1.2116775512695312
+        ],
+        "frameHeight": 18.344251147043032,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/02-city-corner-firehouse/output/result.png"
+    },
+    {
+      "id": "documentation/examples/03-game-ready-treasure-chest/output/result.blend",
+      "title": "Game Ready Treasure Chest",
+      "sourcePath": "documentation/examples/03-game-ready-treasure-chest/output/result.blend",
+      "glbPath": "documentation/examples/03-game-ready-treasure-chest/output/result.glb",
+      "byteSize": 1676976,
+      "sourceSha256": "f4a38a4d0ff8408ccf774fc22ba48e8b2b14a475261898576ebf70c689d1e1d0",
+      "glbSha256": "a79f9177e73c82db5ff6f9cad76b03943122f5a5298f9c4054a380e7aba83bc3",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_03-game-ready-treasure-chest.006",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "7",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "6.511420700000599",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create a game-ready stylized treasure chest, rich walnut planks, dark iron straps, brass rivets and clasp, domed lid, small brass feet. Detailed source and efficient target under 12000 triangles. Bake 1024 color and normal maps, show UV/checker evidence and source comparison, export a GLB and reimport it. Clinical orthographic three-quarter studio view, warm key and cool fill.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/03-game-ready-treasure-chest/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 1,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          5.0,
+          4.0,
+          7.0
+        ],
+        "target": [
+          -0.17788124084472656,
+          0.7379360198974609,
+          -0.24903297424316406
+        ],
+        "frameHeight": 3.0375000536441803,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/03-game-ready-treasure-chest/output/result.png"
+    },
+    {
+      "id": "documentation/examples/04-robot-greeting/output/result.blend",
+      "title": "Robot Greeting",
+      "sourcePath": "documentation/examples/04-robot-greeting/output/result.blend",
+      "glbPath": "documentation/examples/04-robot-greeting/output/result.glb",
+      "byteSize": 730144,
+      "sourceSha256": "fbb0042792831679898f5d72acf8cb2c9a05585f2f5ee1dc5cd833a946613ebd",
+      "glbSha256": "eb87ae2eba9d358362d3bf7e8adb44c713207b1f71d7a867caa26f2f98317716",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_04-robot-greeting",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "42",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "7.640178499976173",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Clip",
+          "value": "Greeting_Wave",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Duration seconds",
+          "value": "2",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Rig",
+          "value": "Rigid mechanical parts, one bone per part; not soft skin",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/04-robot-greeting/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create a friendly rounded teal and yellow toy robot with screen eyes, antenna, articulated hands and boots. Rig it with editable bones and a named 2-second greeting wave at 12 fps. Deliver animated GLB, 24-frame playable preview and representative pose PNGs. Clinical full-body three-quarter studio view with generous framing for raised arm.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/04-robot-greeting/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 37,
+        "materials": 6,
+        "animations": [
+          "Greeting_Wave"
+        ]
+      },
+      "view": {
+        "position": [
+          5.0,
+          4.5,
+          9.0
+        ],
+        "target": [
+          -0.18914461135864258,
+          1.5877277851104736,
+          -0.5310792922973633
+        ],
+        "frameHeight": 3.9937499463558197,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/04-robot-greeting/output/result.png"
+    },
+    {
+      "id": "documentation/examples/05-fox-sprite-sheet/output/result.blend",
+      "title": "Fox Sprite Sheet",
+      "sourcePath": "documentation/examples/05-fox-sprite-sheet/output/result.blend",
+      "glbPath": "documentation/examples/05-fox-sprite-sheet/output/result.glb",
+      "byteSize": 249112,
+      "sourceSha256": "a9b813fbae2c6e81c947d3423fa40a06b1ca7e461b3d21ac3aa4cfc74a949d47",
+      "glbSha256": "d1d96af7d472b54dd9788495887bd7c51d38084430bfc7a87c40bd94c1806e05",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_05-fox-sprite-sheet",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "30",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "5.134464700007811",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Rig",
+          "value": "Head and tail idle; planted legs",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create a charming low-poly orange fox with ivory chest and tail tip, dark paws and expressive ears. Build full editable 3D with a simple bone-driven 4-frame idle loop. Deliver four directions with four 128x128 transparent frames each, sprite sheet, pivot/direction/timing metadata and a playable preview. Hero view: three-quarter clinical orthographic.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/05-fox-sprite-sheet/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 25,
+        "materials": 6,
+        "animations": [
+          "Fox_Idle"
+        ]
+      },
+      "view": {
+        "position": [
+          4.0,
+          3.299999952316284,
+          6.0
+        ],
+        "target": [
+          -0.12582826614379883,
+          0.9276480674743652,
+          -0.3434605598449707
+        ],
+        "frameHeight": 2.9249998927116394,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/05-fox-sprite-sheet/output/result.png"
+    },
+    {
+      "id": "documentation/examples/06-desk-lamp-from-image/output/result.blend",
+      "title": "Desk Lamp From Image",
+      "sourcePath": "documentation/examples/06-desk-lamp-from-image/output/result.blend",
+      "glbPath": "documentation/examples/06-desk-lamp-from-image/output/result.glb",
+      "byteSize": 285976,
+      "sourceSha256": "78d17101af0199a69e06672614f10e68eec8ea184b2b846a31e03aec040ea5f3",
+      "glbSha256": "9642d1bfe69db648b43bbeaf2e3fad81f8c383ec127dedfcca7c1dd9797932b4",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_06-desk-lamp-from-image",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "21",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "5.928883499989752",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Reconstruct a full editable desk lamp from the supplied identified lamp reference image. Inspect source first, record observed landmarks and inferred hidden geometry. Deliver matching-view comparison and two alternate views, coherent metal and painted surfaces, neutral studio light. Do not use the source as a billboard.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.\n\nSource: input/source.png, copied unchanged from references/renders/render_desk_lamp_v1.png. Reconstruct the top-left Photorealistic panel only; full sheet preserved for provenance.",
+          "provenancePath": "documentation/examples/06-desk-lamp-from-image/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 16,
+        "materials": 6,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          2.0,
+          2.5999999046325684,
+          7.0
+        ],
+        "target": [
+          -0.26775312423706055,
+          1.002266526222229,
+          -0.2155771255493164
+        ],
+        "frameHeight": 2.7000001072883606,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/06-desk-lamp-from-image/output/result.png"
+    },
+    {
+      "id": "documentation/examples/07-sunlit-reading-nook/output/result.blend",
+      "title": "Sunlit Reading Nook",
+      "sourcePath": "documentation/examples/07-sunlit-reading-nook/output/result.blend",
+      "glbPath": "documentation/examples/07-sunlit-reading-nook/output/result.glb",
+      "byteSize": 492260,
+      "sourceSha256": "82eb0014d4c80b1aec7fdb3f8cf3de82e5d902d373f11259d596b15b636b7ba6",
+      "glbSha256": "ca28f15aceac55f1efd1eb1310f1c9813c4c28f39b48b076becdc1eafe643f95",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_07-sunlit-reading-nook.001",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "205",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "10.248705599980894",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create an inviting Scandinavian reading nook: oak floor, cream plaster walls, broad window, rust upholstered armchair, linen cushion, round side table, ceramic mug, books, leafy plant and woven rug. Warm afternoon window light with soft shadows. Architectural three-quarter perspective showing the open room and all key furnishings.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/07-sunlit-reading-nook/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 200,
+        "materials": 15,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.0,
+          6.0,
+          9.0
+        ],
+        "target": [
+          -0.3131070137023926,
+          1.0897750854492188,
+          -0.40256214141845703
+        ],
+        "frameHeight": 4.21875,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/07-sunlit-reading-nook/output/result.png"
+    },
+    {
+      "id": "documentation/examples/08-modular-greenhouse/output/result.blend",
+      "title": "Modular Greenhouse",
+      "sourcePath": "documentation/examples/08-modular-greenhouse/output/result.blend",
+      "glbPath": "documentation/examples/08-modular-greenhouse/output/result.glb",
+      "byteSize": 555976,
+      "sourceSha256": "5f7c19831d53c2f419adcc92300c65281f8de04191795069ccf88e91944d80dc",
+      "glbSha256": "f0fc13b5240bd6df6a3a1deeb7152d1ab37a2da6d8ab6c1d566c1a3fba1f72fc",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_08-modular-greenhouse.003",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "183",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "6.51375869999174",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create an elegant small Victorian-inspired greenhouse with sage painted framing, transparent pitched glass roof, brick plinth, central path and benches of terracotta pots and greenery. Expose editable procedural bay-count and spacing controls. Three-quarter orthographic garden diorama, soft daylight.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/08-modular-greenhouse/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 179,
+        "materials": 10,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.0,
+          6.0,
+          9.0
+        ],
+        "target": [
+          -0.43225717544555664,
+          0.9566807746887207,
+          -0.23723316192626953
+        ],
+        "frameHeight": 5.0625,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/08-modular-greenhouse/output/result.png"
+    },
+    {
+      "id": "documentation/examples/09-ceramic-tea-still-life/output/result.blend",
+      "title": "Ceramic Tea Still Life",
+      "sourcePath": "documentation/examples/09-ceramic-tea-still-life/output/result.blend",
+      "glbPath": "documentation/examples/09-ceramic-tea-still-life/output/result.glb",
+      "byteSize": 404396,
+      "sourceSha256": "044eabcba7dc6400feb1a1e38d9065fb8dfef7b5c8e78723c0cbef5728348193",
+      "glbSha256": "6d19a6eea3e2915d2fdc2d836079ef5185b70e02d24f042048251341d94d83c2",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_09-ceramic-tea-still-life",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "29",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "3.3099992999923415",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create a refined product still life: seafoam glazed ceramic teapot with curved spout and arched handle, two matching cups, honey-colored wood tray, folded linen and a small citrus fruit. Muted warm studio background, broad soft key with attractive glazed reflections. Clinical three-quarter orthographic view.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/09-ceramic-tea-still-life/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 25,
+        "materials": 7,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          5.0,
+          4.0,
+          7.0
+        ],
+        "target": [
+          -0.12809371948242188,
+          0.5128967761993408,
+          -0.17932987213134766
+        ],
+        "frameHeight": 3.65625,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/09-ceramic-tea-still-life/output/result.png"
+    },
+    {
+      "id": "documentation/examples/10-low-poly-island/output/result.blend",
+      "title": "Low Poly Island",
+      "sourcePath": "documentation/examples/10-low-poly-island/output/result.blend",
+      "glbPath": "documentation/examples/10-low-poly-island/output/result.glb",
+      "byteSize": 712316,
+      "sourceSha256": "f70f110231bd3ad8a34bfbe5d8b7e693ddc388b033f325cd2b04a5e20932c8bc",
+      "glbSha256": "d47e78c431416ac38d10989a71a1f042eb5ba999c6a4288414f808f7dd9c5e35",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Scene",
+          "value": "Example_10-low-poly-island",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Blender",
+          "value": "5.2.2 LTS",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Engine",
+          "value": "Cycles",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Objects",
+          "value": "63",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Resolution",
+          "value": "[1280, 720]",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Render seconds",
+          "value": "5.579194600053597",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Samples",
+          "value": "32",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Iteration",
+          "value": "1",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/manifest.json"
+        },
+        {
+          "label": "Review",
+          "value": "One creative iteration, delivered for human artistic review on 2026-09-29. Technical corrections and required diagnostic/animation outputs belong to this same build.",
+          "provenancePath": "documentation/examples/10-low-poly-island/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Create a whimsical low-poly island diorama with turquoise water, layered rocky cliffs, sandy beach, a winding path, pine trees and a small red-roof lighthouse. Distinct faceted forms, rich controlled color, soft sunny shadows. Three-quarter orthographic composition with complete island silhouette.\n\nOne creative iteration only. Use prompt-specific visual target per skills. Deliver input/prompt.txt and output/result.blend, result.png, editor.png, review.md plus specified specialist outputs. Final still 1280x720, soft target under 30 seconds. Preserve exact prompt and report actual limits.",
+          "provenancePath": "documentation/examples/10-low-poly-island/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 59,
+        "materials": 13,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.0,
+          7.0,
+          9.0
+        ],
+        "target": [
+          -0.30816078186035156,
+          0.8924636840820312,
+          -0.3962106704711914
+        ],
+        "frameHeight": 5.287499785423279,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/10-low-poly-island/output/result.png"
+    },
+    {
+      "id": "documentation/examples/11-floating-forest-from-sketch/output/result.blend",
+      "title": "Floating Forest From Sketch",
+      "sourcePath": "documentation/examples/11-floating-forest-from-sketch/output/result.blend",
+      "glbPath": "documentation/examples/11-floating-forest-from-sketch/output/result.glb",
+      "byteSize": 82209960,
+      "sourceSha256": "ad9ea3b7fb6cd00f42c32bd60262ff0f457309b4f88427c7613376ade74555c0",
+      "glbSha256": "3194adc9990c847e0abca5237645adbe682b51b64277156fd76e49d652b3151b",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Dense procedural scene uses per-corner baked colors to preserve foliage palettes without texture-atlas loss. Geometry is retained; sub-vertex color variation and procedural bump microdetail are not represented.",
+        "Lossless EXT_meshopt_compression; decoded vertex attributes and triangle topology verified unchanged. Requires Meshopt decoder."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "The user supplied `../input/sketch.png`. Its visible landmarks are a roughly square island, an open grassy clearing, nine perimeter trees mixing broadleaf and conifer silhouettes, a stream following one edge, fractured sides, and detached rock fragments.",
+          "provenancePath": "documentation/examples/11-floating-forest-from-sketch/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "Turn the supplied sketch into an editable 3D floating forest game island. Preserve its grassy clearing, perimeter trees, winding stream, and elevated three-quarter composition. Use stylized forms, realistic materials, and bright, vivid natural colors. Expose torn soil, fractured rock and roots underneath, with falling dirt and rock fragments. No skybox or ground below. Create a 2D visual target first, then deliver an editable Blender scene and a 1920×1080 PNG render.",
+          "provenancePath": "documentation/examples/11-floating-forest-from-sketch/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 5,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          20.028697967529297,
+          20.815479278564453,
+          28.11855125427246
+        ],
+        "target": [
+          0.05402374267578125,
+          -0.2577972412109375,
+          0.15401077270507812
+        ],
+        "frameHeight": 18.46236562728882,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/11-floating-forest-from-sketch/output/result.png"
+    },
+    {
+      "id": "documentation/examples/12-greybox-house/output/result.blend",
+      "title": "Greybox House",
+      "sourcePath": "documentation/examples/12-greybox-house/output/result.blend",
+      "glbPath": "documentation/examples/12-greybox-house/output/result.glb",
+      "byteSize": 12328,
+      "sourceSha256": "8cdcb3bd48ba71c91bd5ea90d03141f804edaa87eb8304df979943d5dc1e3dd4",
+      "glbSha256": "fa20a123b833a132b8396ae061908573a0c8ecdeb375a59e4c9ce5808bcdac7c",
+      "warnings": [
+        "Blender world and studio lighting are replaced by viewer lighting.",
+        "Checker images are packed; world-axis UVs keep one-metre tiles square on axis-aligned faces, while roof slopes use XY projection.",
+        "Packed-image direct export replaces the standard procedural atlas bake for this scene."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This house greybox asks whether a ground block, block house with a pyramid roof and chimney, and one blocky tree read as three distinct groups. The ground uses PowderBlue, all house parts use SoftSage, and both tree parts use SoftRose. Each category has one shared checker material with a one-scene-unit tile on axis-aligned faces; this example treats one scene unit as one metre.",
+          "provenancePath": "documentation/examples/12-greybox-house/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nReplace the example-12 two-plane demonstration with a small greybox house.\nShow a ground block, a rectangular house block, a four-sided pyramid roof, a\nchimney, and one blocky tree. Use a readable checker texture on the cubes and\nkeep its tiles at one scene unit per square on axis-aligned faces. Treat one\nscene unit as one metre for this example.\n\nUse exactly three shared color categories: ground first (PowderBlue), all\nhouse parts including roof and chimney second (SoftSage), and both parts of\nthe tree third (SoftRose). Keep the forms simple; omit doors, windows, paths,\nfoliage detail, bevels, and realistic materials. Deliver an editable Blender\nscene, clean render, and self-contained GLB for the public Model Viewer.\nPreserve the original two-plane example as a historical source.",
+          "provenancePath": "documentation/examples/12-greybox-house/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 6,
+        "materials": 3,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          8.0,
+          8.0,
+          11.0
+        ],
+        "target": [
+          -0.25,
+          2.0,
+          -0.0
+        ],
+        "frameHeight": 7.875,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/12-greybox-house/output/result.png"
+    },
+    {
+      "id": "documentation/examples/13-greybox-car/output/result.blend",
+      "title": "Greybox Car",
+      "sourcePath": "documentation/examples/13-greybox-car/output/result.blend",
+      "glbPath": "documentation/examples/13-greybox-car/output/result.glb",
+      "byteSize": 13448,
+      "sourceSha256": "170e03607cd887d20b9eafcf45ebf50d4da4358cecbe7dc2d51c77a5b8d041ae",
+      "glbSha256": "96bdf1a2187e86d9613eba58ed49cd4700e5363883aff266457ab7338476b856",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether the vehicle's wheel placement, ground contact, and two main masses read as a car. It uses a chassis block, cabin block, four low-sided wheel cylinders, and a ground plane only.",
+          "provenancePath": "documentation/examples/13-greybox-car/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal car greybox that communicates vehicle silhouette, wheel placement,\nand ground contact. Use editable primitive-like geometry only: a ground plane, a\nrectangular chassis, a smaller cabin mass, and simple wheels. Use neutral greys\nonly to separate functional masses. Do not model doors, windows, lights, seats,\nhandles, trim, bevels, texture maps, or UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State what was intentionally omitted.",
+          "provenancePath": "documentation/examples/13-greybox-car/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 7,
+        "materials": 4,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.5,
+          5.800000190734863,
+          9.0
+        ],
+        "target": [
+          -0.2440199851989746,
+          0.8438291549682617,
+          -0.29282379150390625
+        ],
+        "frameHeight": 3.9375,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/13-greybox-car/output/result.png"
+    },
+    {
+      "id": "documentation/examples/14-greybox-city/output/result.blend",
+      "title": "Greybox City",
+      "sourcePath": "documentation/examples/14-greybox-city/output/result.blend",
+      "glbPath": "documentation/examples/14-greybox-city/output/result.glb",
+      "byteSize": 9772,
+      "sourceSha256": "36ea6d237c9b05442d76252e894674f986429947b1734d1c4e34c11e3c2db3d2",
+      "glbSha256": "ca20599b307200320ef9c58d7e41917cdcde5c58b8351ddb201ce5eeee76d447",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether a primary road crossing, four city blocks, and a varied-height building hierarchy read immediately. It uses one ground plane, two road planes, and six rectangular building masses only.",
+          "provenancePath": "documentation/examples/14-greybox-city/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal city greybox that communicates blocks, varied building height,\nand a primary road crossing. Use an editable ground plane, simple road planes,\nand varied-height rectangular building masses only. Use neutral greys only to\nseparate ground, road, and buildings. Do not add facades, windows, sidewalks,\nvehicles, street furniture, trees, texture maps, bevels, or UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State what was intentionally omitted.",
+          "provenancePath": "documentation/examples/14-greybox-city/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 9,
+        "materials": 5,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          25.0,
+          25.0,
+          28.0
+        ],
+        "target": [
+          -1.0645122528076172,
+          2.584524154663086,
+          -1.1922550201416016
+        ],
+        "frameHeight": 18.0,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/14-greybox-city/output/result.png"
+    },
+    {
+      "id": "documentation/examples/15-greybox-kitchen-interior/output/result.blend",
+      "title": "Greybox Kitchen Interior",
+      "sourcePath": "documentation/examples/15-greybox-kitchen-interior/output/result.blend",
+      "glbPath": "documentation/examples/15-greybox-kitchen-interior/output/result.glb",
+      "byteSize": 7492,
+      "sourceSha256": "b218976192ddeabb033475149c65e1441a487696aca8c967aca40db6d75400c4",
+      "glbSha256": "1e5e6555beffd19c443be9baa8286964959706f30b7bd3bcc8f4b1186b5ed11f",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether an open room shell, an L-shaped kitchen work zone, a refrigerator mass, and a central circulation path read immediately. It uses floor and wall planes plus four rectangular kitchen masses only.",
+          "provenancePath": "documentation/examples/15-greybox-kitchen-interior/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal interior greybox of a house kitchen. Use an open room shell\nwith a floor and two walls, then add simple counter and refrigerator masses to\nshow the kitchen work zone and circulation. Use neutral greys only to separate\nroom boundaries, work surfaces, and appliance mass. Do not add cabinets,\ndoors, windows, handles, sink detail, stools, decoration, texture maps, bevels,\nor UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State what was intentionally omitted.",
+          "provenancePath": "documentation/examples/15-greybox-kitchen-interior/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 7,
+        "materials": 4,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          10.0,
+          8.5,
+          12.0
+        ],
+        "target": [
+          -0.12105560302734375,
+          1.7188940048217773,
+          -0.9549522399902344
+        ],
+        "frameHeight": 7.3125,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/15-greybox-kitchen-interior/output/result.png"
+    },
+    {
+      "id": "documentation/examples/16-greybox-car-textured/output/result.blend",
+      "title": "Greybox Car Textured",
+      "sourcePath": "documentation/examples/16-greybox-car-textured/output/result.blend",
+      "glbPath": "documentation/examples/16-greybox-car-textured/output/result.glb",
+      "byteSize": 198424,
+      "sourceSha256": "3e5b3f06a8c1d77d23fca02c5bc13c2d3c2cef8385798754ca63587704bc964b",
+      "glbSha256": "1c837a398e859556c10ba52289ad96b9f3becd976865371dcbe55bed40f409ba",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether the wheel placement, ground contact, and two main masses read as a car. The selected hue is Slate; every material uses the same editable Object-coordinate checker graph with a mapping scale of 3.0 and restrained value contrast.",
+          "provenancePath": "documentation/examples/16-greybox-car-textured/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal car greybox that communicates vehicle silhouette, wheel placement,\nand ground contact. Use only a ground plane, a chassis block, a cabin block, and\nsimple wheel cylinders. Apply the skill's shared Slate category materials with a\nrestrained procedural checker; use the checker as a scale and role cue, never as\ndecoration. Do not add doors, windows, lights, seats, trim, bevels, image textures,\nor UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State the category-to-material map and omissions.",
+          "provenancePath": "documentation/examples/16-greybox-car-textured/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 3,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.5,
+          5.800000190734863,
+          9.0
+        ],
+        "target": [
+          -0.2440199851989746,
+          0.8438291549682617,
+          -0.29282379150390625
+        ],
+        "frameHeight": 3.9375,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/16-greybox-car-textured/output/result.png"
+    },
+    {
+      "id": "documentation/examples/17-greybox-city-textured/output/result.blend",
+      "title": "Greybox City Textured",
+      "sourcePath": "documentation/examples/17-greybox-city-textured/output/result.blend",
+      "glbPath": "documentation/examples/17-greybox-city-textured/output/result.glb",
+      "byteSize": 156848,
+      "sourceSha256": "078dc5a29cca3d656b3b5ef57dfef296fa3f3347057927d38037775a27bfb9db",
+      "glbSha256": "2c9ca5a2265c361e7cda2df322fcb39c4d25182950f109c92feef01fdc31294d",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether a primary road crossing, four city blocks, and a varied-height building hierarchy read immediately. The selected hue is Slate; every material uses the same editable Object-coordinate checker graph with a mapping scale of 3.0 and restrained value contrast.",
+          "provenancePath": "documentation/examples/17-greybox-city-textured/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal city greybox that communicates blocks, varied building height,\nand a primary road crossing. Use a ground plane, road planes, and varied-height\nrectangular building masses only. Apply the skill's shared Slate category materials\nwith a restrained procedural checker as a scale and grouping cue. Do not add facades,\nwindows, sidewalks, vehicles, street furniture, trees, image textures, bevels, or UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State the category-to-material map and omissions.",
+          "provenancePath": "documentation/examples/17-greybox-city-textured/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 3,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          25.0,
+          25.0,
+          28.0
+        ],
+        "target": [
+          -1.0645122528076172,
+          2.584524154663086,
+          -1.1922550201416016
+        ],
+        "frameHeight": 18.0,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/17-greybox-city-textured/output/result.png"
+    },
+    {
+      "id": "documentation/examples/18-greybox-kitchen-textured/output/result.blend",
+      "title": "Greybox Kitchen Textured",
+      "sourcePath": "documentation/examples/18-greybox-kitchen-textured/output/result.blend",
+      "glbPath": "documentation/examples/18-greybox-kitchen-textured/output/result.glb",
+      "byteSize": 147356,
+      "sourceSha256": "ac9e937592ce5995c68d58b24b835a89840b596f765b08becccf68d7b2bb2f03",
+      "glbSha256": "56cd99004c982c57ff9a53bf19804aa8d6cf4aa41b0acee207c84e998c00ed33",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether an open room shell, an L-shaped kitchen work zone, refrigerator mass, and central circulation path read immediately. The selected hue is Slate; every material uses the same editable Object-coordinate checker graph with a mapping scale of 3.0 and restrained value contrast.",
+          "provenancePath": "documentation/examples/18-greybox-kitchen-textured/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal house-kitchen interior greybox. Use an open room shell with a\nfloor and two walls, then simple counter, refrigerator, and island masses to show\nthe work zone and central circulation. Apply the skill's shared Slate category\nmaterials with a restrained procedural checker as a scale and grouping cue. Do not\nadd cabinet fronts, doors, windows, handles, sink detail, stools, decor, image\ntextures, bevels, or UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State the category-to-material map and omissions.",
+          "provenancePath": "documentation/examples/18-greybox-kitchen-textured/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 4,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          10.0,
+          8.5,
+          12.0
+        ],
+        "target": [
+          -0.12105560302734375,
+          1.7188940048217773,
+          -0.9549522399902344
+        ],
+        "frameHeight": 7.3125,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/18-greybox-kitchen-textured/output/result.png"
+    },
+    {
+      "id": "documentation/examples/19-greybox-car-world-grid/output/result.blend",
+      "title": "Greybox Car World Grid",
+      "sourcePath": "documentation/examples/19-greybox-car-world-grid/output/result.blend",
+      "glbPath": "documentation/examples/19-greybox-car-world-grid/output/result.glb",
+      "byteSize": 167360,
+      "sourceSha256": "2407ed04e5b184076ef4f6f1aed73fb4a30d096d3c80ae9643462e9a529a733d",
+      "glbSha256": "96124a394bb0aaf6d5e9632dd703c1baa1fe31c600fdaec109711c9288dea887",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether the wheel placement, ground contact, and two main masses read as a car. The selected hue is Slate. Major tiles are fixed one-scene-unit squares; this example records the deliberate convention that one scene unit equals one metre.",
+          "provenancePath": "documentation/examples/19-greybox-car-world-grid/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal car greybox that answers whether its primary vehicle masses,\nwheel placement, and ground contact read immediately. Use only a ground plane,\ntwo box masses, and four low-sided wheels. Apply shared Slate semantic materials\nwith a world-aligned procedural grid: every major tile is one scene unit square,\nusing a single shared grid reference so stretching a primitive cannot stretch its\ntiles. Treat one scene unit as one metre for this example. Do not add glazing,\ndoors, lights, interiors, trim, image textures, UVs, or modifiers.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. Report the grid scale, coordinate method, category map,\nand omitted detail.",
+          "provenancePath": "documentation/examples/19-greybox-car-world-grid/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 3,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.5,
+          5.800000190734863,
+          9.0
+        ],
+        "target": [
+          -0.2440199851989746,
+          0.8438291549682617,
+          -0.29282379150390625
+        ],
+        "frameHeight": 3.9375,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/19-greybox-car-world-grid/output/result.png"
+    },
+    {
+      "id": "documentation/examples/20-greybox-city-world-grid/output/result.blend",
+      "title": "Greybox City World Grid",
+      "sourcePath": "documentation/examples/20-greybox-city-world-grid/output/result.blend",
+      "glbPath": "documentation/examples/20-greybox-city-world-grid/output/result.glb",
+      "byteSize": 161772,
+      "sourceSha256": "64c907553c795f23c4fede760b6952abf06578b755379d34241c95634788abe7",
+      "glbSha256": "140056fb4555951f20299ea714d0bcdd68a36d58c88702e8f8517c159521cc06",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether a primary road crossing, varied-height blocks, and their relative one-metre scale read immediately. The selected hue is Slate. Major tiles are fixed one-scene-unit squares; this example records the deliberate convention that one scene unit equals one metre.",
+          "provenancePath": "documentation/examples/20-greybox-city-world-grid/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal city greybox that communicates blocks, varied building height,\nand a primary road crossing. Use a ground plane, road planes, and varied-height\nrectangular building masses only. Apply shared Slate semantic materials with a\nworld-aligned procedural grid: every major tile is one scene unit square, using a\nsingle shared grid reference so stretching a primitive cannot stretch its tiles.\nTreat one scene unit as one metre for this example. Do not add facades, windows,\nroad markings, sidewalks, vehicles, street furniture, trees, image textures,\nbevels, or UVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. Report the grid scale, coordinate method, category map,\nand omitted detail.",
+          "provenancePath": "documentation/examples/20-greybox-city-world-grid/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 3,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          25.0,
+          25.0,
+          28.0
+        ],
+        "target": [
+          -1.0645122528076172,
+          2.584524154663086,
+          -1.1922550201416016
+        ],
+        "frameHeight": 18.0,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/20-greybox-city-world-grid/output/result.png"
+    },
+    {
+      "id": "documentation/examples/21-greybox-kitchen-world-grid/output/result.blend",
+      "title": "Greybox Kitchen World Grid",
+      "sourcePath": "documentation/examples/21-greybox-kitchen-world-grid/output/result.blend",
+      "glbPath": "documentation/examples/21-greybox-kitchen-world-grid/output/result.glb",
+      "byteSize": 142764,
+      "sourceSha256": "a74ac41bef83e35a9a270e4aeda0e4f7842ce61d00eebb952726fa648b853f73",
+      "glbSha256": "80588e496a3d2fd7cf6a5a175f56dd3cd0c70db5e51895306dfbc151489c8d1b",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether an open room shell, L-shaped work zone, refrigerator mass, and central circulation path read immediately at a one-metre grid scale. The selected hue is Slate. Major tiles are fixed one-scene-unit squares; this example records the deliberate convention that one scene unit equals one metre.",
+          "provenancePath": "documentation/examples/21-greybox-kitchen-world-grid/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal house-kitchen interior greybox. Use an open room shell with a\nfloor and two walls, then simple counter, refrigerator, and island masses to show\nthe work zone and central circulation. Apply shared Slate semantic materials with\na world-aligned procedural grid: every major tile is one scene unit square, using\na single shared grid reference so stretching a primitive cannot stretch its tiles.\nTreat one scene unit as one metre for this example. Do not add cabinet fronts,\ndoors, windows, handles, sink detail, stools, decor, image textures, bevels, or\nUVs.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. Report the grid scale, coordinate method, category map,\nand omitted detail.",
+          "provenancePath": "documentation/examples/21-greybox-kitchen-world-grid/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 4,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          10.0,
+          8.5,
+          12.0
+        ],
+        "target": [
+          -0.12105560302734375,
+          1.7188940048217773,
+          -0.9549522399902344
+        ],
+        "frameHeight": 7.3125,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/21-greybox-kitchen-world-grid/output/result.png"
+    },
+    {
+      "id": "documentation/examples/22-greybox-car-palette-grid/output/result.blend",
+      "title": "Greybox Car Palette Grid",
+      "sourcePath": "documentation/examples/22-greybox-car-palette-grid/output/result.blend",
+      "glbPath": "documentation/examples/22-greybox-car-palette-grid/output/result.glb",
+      "byteSize": 180052,
+      "sourceSha256": "ab334c6890d0633229b5768f3a1ef48c9e21a5ee083fb0987779ef409a019580",
+      "glbSha256": "90d95a2b4ca97f57c113a69450c401e2a90f57f0dcd6b5cf5711fc31b798ea36",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether the ground plane and complete vehicle read as two distinct groups while wheel placement and contact remain clear. The one-scene-unit tile convention is deliberately treated as one metre.",
+          "provenancePath": "documentation/examples/22-greybox-car-palette-grid/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal car greybox using a fixed light greybox palette. Use exactly two\ncategories in their introduction order: floor first and car second. The car body\nand all faces of its four wheels share the second material; do not create a wheel\ncategory. Use a shared world-aligned one-metre grid with square tiles. Do not add\nglazing, doors, lights, interiors, trim, image textures, UVs, or modifiers.\n\nDeliver an editable Blender source, render, and self-contained GLB with the\npalette/category map and grid method documented.",
+          "provenancePath": "documentation/examples/22-greybox-car-palette-grid/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 2,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          7.5,
+          5.800000190734863,
+          9.0
+        ],
+        "target": [
+          -0.2440199851989746,
+          0.8438291549682617,
+          -0.29282379150390625
+        ],
+        "frameHeight": 3.9375,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/22-greybox-car-palette-grid/output/result.png"
+    },
+    {
+      "id": "documentation/examples/23-greybox-city-palette-grid/output/result.blend",
+      "title": "Greybox City Palette Grid",
+      "sourcePath": "documentation/examples/23-greybox-city-palette-grid/output/result.blend",
+      "glbPath": "documentation/examples/23-greybox-city-palette-grid/output/result.glb",
+      "byteSize": 158476,
+      "sourceSha256": "049f6fe80444e2da1f11806ab5608f1de20e891aaab97fdce9effad2949dcfdb",
+      "glbSha256": "fb077edbff232a64c98d770d22858f2bb4148d31d70d694016ebd2a679e6d514",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether the road/ground network and the varied-height building set read as two immediately distinct groups. The one-scene-unit tile convention is deliberately treated as one metre.",
+          "provenancePath": "documentation/examples/23-greybox-city-palette-grid/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal city greybox with a primary road crossing and varied-height\nbuilding blocks. Use exactly two palette categories in introduction order: the\nground and road surfaces first, then every building second. Use a shared\nworld-aligned one-metre grid with square tiles. Do not add facades, windows,\nroad markings, sidewalks, vehicles, trees, image textures, bevels, or UVs.\n\nDeliver an editable Blender source, render, and self-contained GLB with the\npalette/category map and grid method documented.",
+          "provenancePath": "documentation/examples/23-greybox-city-palette-grid/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 2,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          25.0,
+          25.0,
+          28.0
+        ],
+        "target": [
+          -1.0645122528076172,
+          2.584524154663086,
+          -1.1922550201416016
+        ],
+        "frameHeight": 18.0,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/23-greybox-city-palette-grid/output/result.png"
+    },
+    {
+      "id": "documentation/examples/24-greybox-kitchen-palette-grid/output/result.blend",
+      "title": "Greybox Kitchen Palette Grid",
+      "sourcePath": "documentation/examples/24-greybox-kitchen-palette-grid/output/result.blend",
+      "glbPath": "documentation/examples/24-greybox-kitchen-palette-grid/output/result.glb",
+      "byteSize": 141316,
+      "sourceSha256": "1ee5a3e18d03400ff512dfdb44c018b02921e9eb5d8d3b3a0691da75e29ef25b",
+      "glbSha256": "2cfaf02b1103c83a6a156ab4d75f2446a0cc998f7ba51865f7568d257803a269",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting.",
+        "Procedural base color and tangent normals baked to 2048px atlas; microdetail is resolution-limited."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This greybox answers whether the floor, enclosing room surfaces, and repeated kitchen fixtures read as three intentional groups. The one-scene-unit tile convention is deliberately treated as one metre.",
+          "provenancePath": "documentation/examples/24-greybox-kitchen-palette-grid/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate a minimal house-kitchen interior greybox. Use exactly three palette\ncategories in introduction order: floor first, both walls second, then all\nkitchen furniture/appliances third. The counters, island, and refrigerator share\nthat third material. Use a shared world-aligned one-metre grid with square tiles.\nDo not add cabinet fronts, doors, windows, handles, sink detail, stools, decor,\nimage textures, bevels, or UVs.\n\nDeliver an editable Blender source, render, and self-contained GLB with the\npalette/category map and grid method documented.",
+          "provenancePath": "documentation/examples/24-greybox-kitchen-palette-grid/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 1,
+        "materials": 3,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          10.0,
+          8.5,
+          12.0
+        ],
+        "target": [
+          -0.12105560302734375,
+          1.7188940048217773,
+          -0.9549522399902344
+        ],
+        "frameHeight": 7.3125,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/24-greybox-kitchen-palette-grid/output/result.png"
+    },
+    {
+      "id": "documentation/examples/25-greybox-2-5d-historical/output/result.blend",
+      "title": "2.5D Greybox (Historical)",
+      "sourcePath": "documentation/examples/25-greybox-2-5d-historical/output/result.blend",
+      "glbPath": "documentation/examples/25-greybox-2-5d-historical/output/result.glb",
+      "byteSize": 1836,
+      "sourceSha256": "dac4e3587e9950d5017a807120dcdb5693592f7fccdd21736ae5a623c06d2293",
+      "glbSha256": "7a62ca90f973db245c45d025e82ee396915bc573bbe46541ff99ced9df879012",
+      "warnings": [
+        "Blender world, compositor, and studio lighting are replaced by viewer lighting."
+      ],
+      "metadata": [
+        {
+          "label": "Review",
+          "value": "This deliberately minimal scene answers one question: can a ground plane and a perpendicular upright plane communicate a 2.5D spatial setup? The answer is evaluated from its orthographic three-quarter camera view. Floor and backdrop use neutral greys only to separate their roles.",
+          "provenancePath": "documentation/examples/25-greybox-2-5d-historical/output/review.md"
+        },
+        {
+          "label": "Example prompt",
+          "value": "$blender-create-greybox\n\nCreate the smallest clear 2.5D greybox demonstration. Use only a floor plane\nand a perpendicular upright backdrop plane, arranged so an orthographic\nthree-quarter view makes the two spatial layers unambiguous. Keep both meshes\neditable and assign neutral grey materials only for separation. Do not add\narchitecture, props, bevels, texture maps, UV work, or decorative details.\n\nDeliver an editable Blender source, a modest clean render, and a self-contained\nGLB for the Model Viewer. State what was intentionally omitted.",
+          "provenancePath": "documentation/examples/25-greybox-2-5d-historical/input/prompt.txt"
+        }
+      ],
+      "exported": {
+        "meshes": 2,
+        "materials": 2,
+        "animations": []
+      },
+      "view": {
+        "position": [
+          9.0,
+          7.5,
+          11.0
+        ],
+        "target": [
+          -0.13834190368652344,
+          1.9154553413391113,
+          -0.9813852310180664
+        ],
+        "frameHeight": 7.03125,
+        "aspect": 1.7777777777777777
+      },
+      "previewPath": "documentation/examples/25-greybox-2-5d-historical/output/result.png"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+name: Archive GitHub Traffic
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: traffic-archive
+  cancel-in-progress: false
+
+env:
+  TRAFFIC_ARCHIVE_BRANCH: traffic-archive
+  TRAFFIC_ARCHIVE_DIR: ../traffic-archive/traffic
+
+jobs:
+  archive:
+    name: Capture traffic snapshot
+    runs-on: ubuntu-latest
+    permissions:
+      # Pushes the traffic snapshot to the traffic-archive branch.
+      contents: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.3'
+          cache: 'npm'
+
+      - name: Prepare archive branch
+        env:
+          ARCHIVE_PUSH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          server="${GITHUB_SERVER_URL#https://}"
+          archive_remote="https://x-access-token:${ARCHIVE_PUSH_TOKEN}@${server}/${GITHUB_REPOSITORY}.git"
+
+          if git ls-remote --exit-code --heads "${archive_remote}" "${TRAFFIC_ARCHIVE_BRANCH}" >/dev/null 2>&1; then
+            git clone --branch "${TRAFFIC_ARCHIVE_BRANCH}" --depth 1 "${archive_remote}" ../traffic-archive
+          else
+            git init -b "${TRAFFIC_ARCHIVE_BRANCH}" ../traffic-archive
+            git -C ../traffic-archive remote add origin "${archive_remote}"
+          fi
+
+          mkdir -p "${TRAFFIC_ARCHIVE_DIR}"
+
+      - name: Collect traffic
+        env:
+          # Traffic endpoints reject the Actions GITHUB_TOKEN ("Resource not
+          # accessible by integration") — a PAT from a user with push access
+          # is required: classic with repo scope, or fine-grained with read
+          # access to Administration on this repository.
+          GH_TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_ARCHIVE_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GH_TRAFFIC_TOKEN}" ]; then
+            echo "::error::No traffic-capable token configured. Set the TRAFFIC_ARCHIVE_TOKEN secret to a PAT with push access (classic: repo scope; fine-grained: Administration read)."
+            exit 1
+          fi
+
+          node scripts/archive-github-traffic.mjs --archive-dir "${TRAFFIC_ARCHIVE_DIR}"
+
+      - name: Commit archive
+        run: |
+          set -euo pipefail
+
+          cd ../traffic-archive
+          git add traffic/archive.json traffic/summary.json
+          git rm --ignore-unmatch traffic/README.md
+
+          if git diff --cached --quiet; then
+            echo "No traffic archive changes."
+            exit 0
+          fi
+
+          git commit -m "chore(traffic): archive repository traffic $(date -u +%F)"
+          git push origin HEAD:${TRAFFIC_ARCHIVE_BRANCH}

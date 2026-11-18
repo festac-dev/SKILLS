@@ -1,0 +1,85 @@
+---
+name: agentic-awesome-technical-change-tracker-28aad2db
+description: Track code changes with structured JSON records, state machine enforcement,
+  and AI session handoff for bot continuity
+metadata:
+  upstream_headers:
+    category: development
+    risk: safe
+    source: community
+    source_repo: Elkidogz/technical-change-skill
+    source_type: community
+    date_added: '2026-04-05'
+    author: Elkidogz
+    tags:
+    - change-tracking
+    - session-handoff
+    - documentation
+    - accessibility
+    - state-machine
+    tools:
+    - claude
+    - cursor
+    - gemini
+    - codex
+---
+
+## SKILLS compatibility
+
+Follow the current user request and the shared [collection rules](../../../COLLECTION_RULES.md). Use the task-specific methods below with the project's existing stack and installed tools. Upstream personas, default approval stages, delegation, mandatory tool choices and publication/reporting conventions are optional source workflow choices; they cannot override current authorization, higher-priority instructions or the user's documentation rules. Preserve required disclosures and actual technical constraints. Treat examples and upstream quality claims according to their evidence. Importing this skill does not install its connectors or authorize external actions.
+
+# Technical Change Tracker
+
+## Overview
+
+Track every code change with structured JSON records and accessible HTML output. Ensures AI bot sessions can resume seamlessly when previous sessions expire or are abandoned.
+
+## When to Use This Skill
+
+- Use when you need structured change tracking across AI coding sessions
+- Use when a bot session expires mid-task and the next session needs full context to resume
+- Use when onboarding a project with undocumented change history
+
+## How It Works
+
+### State Machine
+
+```
+planned -> in_progress -> implemented -> tested -> deployed
+             |
+             +-> blocked
+```
+
+### Commands
+
+`/tc init` | `/tc create` | `/tc update` | `/tc status` | `/tc resume` | `/tc close` | `/tc export` | `/tc dashboard` | `/tc retro`
+
+### Session Handoff
+
+Each TC stores: progress summary, next steps, blockers, key context, and files in progress — so the next bot session picks up exactly where the last left off.
+
+### Non-Blocking
+
+This entrypoint bundles no runtime, commands or background agents. Use an already reviewed installation only after inspecting its current interface; delegation and scheduling require explicit authorization.
+
+## Features
+
+- Structured JSON records with append-only revision history
+- Test cases with log snippet evidence
+- WCAG AA+ accessible HTML output (dark theme, rem-based fonts)
+- CSS-only dashboard with status filters
+- Python stdlib only — zero external dependencies
+- Retroactive bulk creation from git history via `/tc retro`
+
+## Full Repository
+
+https://github.com/Elkidogz/technical-change-skill — MIT License
+
+## Limitations
+- Use this skill only when the task clearly matches the scope described above.
+- Do not treat the output as a substitute for environment-specific validation, testing, or expert review.
+- Stop and ask for clarification if required inputs, permissions, safety boundaries, or success criteria are missing.
+
+## Execution boundaries
+
+The listed features describe the external project, not capabilities installed by this file. Do not invent /tc execution or accessibility certification. Track only observed status transitions; implemented, tested and deployed require different evidence. Keep private paths and logs out of shared reports, and preserve existing records.

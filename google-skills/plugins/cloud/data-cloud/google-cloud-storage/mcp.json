@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "cloud-storage": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@toolbox-sdk/server@1.13.1",
+        "--prebuilt",
+        "cloud-storage",
+        "--stdio",
+        "--user-agent-metadata",
+        "gcs-skills/1.0 (skill:gcs-skills-mcp-traffic)"
+      ]
+    }
+  }
+}

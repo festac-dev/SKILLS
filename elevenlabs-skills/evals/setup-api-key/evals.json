@@ -1,0 +1,48 @@
+{
+  "skill_name": "setup-api-key",
+  "_comment": "Uses the onboarding stand-ins (`bin` below names evals/onboarding/bin, relative to this file); `onboard check` decides from the workspace like the real one, or is scripted per case.",
+  "bin": "../onboarding/bin",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "My admin gave me an ElevenLabs API key. Where do I put it for this project?",
+      "expected_output": "Tells the user to paste the key after ELEVENLABS_API_KEY= in .env.local, never into chat; never signs in for a new key",
+      "files": [],
+      "env": {},
+      "expectations": [
+        "response shows ELEVENLABS_API_KEY=",
+        "response shows .env.local",
+        "elevenlabs-calls.txt never shows elevenlabs onboard connect"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm getting 401 errors from ElevenLabs since this morning. My code was working yesterday.",
+      "expected_output": "Runs onboard check, then follows its reply to replace the rejected key, then checks again, without printing either key",
+      "files": [
+        {
+          "path": ".env.local",
+          "content": "ELEVENLABS_API_KEY=sk_stale\n"
+        },
+        {
+          "path": "package.json",
+          "content": "{\"name\": \"notes\", \"private\": true, \"type\": \"module\", \"scripts\": {\"start\": \"node --env-file=.env.local index.js\"}, \"dependencies\": {\"@elevenlabs/elevenlabs-js\": \"^2.0.0\"}}\n"
+        },
+        {
+          "path": "index.js",
+          "content": "import { ElevenLabsClient } from \"@elevenlabs/elevenlabs-js\";\n\nconst client = new ElevenLabsClient();\nconst audio = await client.textToSpeech.convert(\"JBFqnCBsd6RMkjVDRZzb\", { text: \"Hello\" });\nconsole.log(\"got audio\", Boolean(audio));\n"
+        }
+      ],
+      "env": {
+        "ONBOARD_CHECK_JSON": "[{\"next\": \"run\", \"run\": \"npx -y @elevenlabs/cli@latest onboard connect --replace --env-path .env.local\", \"say\": \"ElevenLabs rejects the key ending in tale, so I'll open the approval page to create a new one.\"}, {\"next\": \"offer_test\", \"run\": \"npx -y @elevenlabs/cli@latest onboard test --env-path .env.local\", \"say\": \"ElevenLabs is set up: a working key ending in 4f2a in .env.local, and the SDK in your code. Want me to send a test request? It makes a short text-to-speech clip with your key and uses a few credits.\", \"details\": {\"key_last4\": \"4f2a\", \"api_key_source\": \"env_file\", \"sdk_declared\": true, \"sdk_imported\": true, \"fixed\": []}}]"
+      },
+      "expectations": [
+        "elevenlabs-calls.txt shows npx -y @elevenlabs/cli@latest onboard check",
+        "elevenlabs-calls.txt shows elevenlabs onboard connect --replace --env-path .env.local after elevenlabs onboard check",
+        "elevenlabs-calls.txt shows elevenlabs onboard check after elevenlabs onboard connect --replace",
+        "(NOT 'sk_000000000000')",
+        "(NOT 'sk_stale')"
+      ]
+    }
+  ]
+}
