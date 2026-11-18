@@ -2,6 +2,44 @@
 
 A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs.
 
+## Install
+
+On Linux or macOS, install the main toolkit with one command:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh
+```
+
+Requires Git and Python 3.10+. The installer detects Codex, Claude Code and OpenCode, keeps one checkout, and creates links in their skill directories. The default installs the main entrypoint; use `--all` to register individual skills. Start a new agent session after installation.
+
+To choose an agent, append its name:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/festac-dev/SKILLS/main/install.sh | sh -s -- opencode
+```
+
+Use `codex`, `claude-code`, `opencode`, or `all`. If you already have this checkout, run `sh /path/to/SKILLS/install.sh opencode`; it reuses that copy. Repeat runs keep working links and stop before overwriting an existing skill. Keep the checkout in place while its skills are installed.
+
+For project installation, selected skills, or a preview, run from a checkout:
+
+```sh
+sh /path/to/SKILLS/install.sh codex --project
+sh /path/to/SKILLS/install.sh opencode --skill motion-studio
+sh /path/to/SKILLS/install.sh all --all --dry-run
+```
+
+`--all` registers the main toolkit, Motion Studio and every imported skill. Find imported names in [COLLECTIONS.md](COLLECTIONS.md) or with `python3 scripts/skill_collections.py search 'topic'`. See [the installer](scripts/install.py) or `sh install.sh --help` for options. To update a managed checkout, run `git -C "${XDG_DATA_HOME:-$HOME/.local/share}/SKILLS" pull --ff-only` and rerun the install command if you selected all skills. To uninstall, remove only the skill links created by the installer.
+
+### Using the standard skills CLI
+
+If you use [skills.sh](https://skills.sh), Node.js 22.20+ and Git, select individual skills with its normal installer:
+
+```sh
+npx skills add festac-dev/SKILLS --full-depth
+```
+
+Choose skills and agents in the prompts. Add `-g` for a user-wide installation or `-y -a opencode --skill motion-studio` for a specific agent and skill. `--full-depth` discovers the nested imported collections. Use the native installer above for the complete toolkit with a shared checkout. The standard CLI manages its own copies with `npx skills update` and `npx skills remove`.
+
 ## Working with the library
 
 For substantial projects, use [the master workflow](orchestrator/MASTER_ORCHESTRATOR_PROMPT.md). For narrow changes, go directly to the owning resource. Preserve the user’s requirements and project conventions; the catalogue is not a feature checklist.
