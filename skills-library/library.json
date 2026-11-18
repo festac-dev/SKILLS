@@ -1,6 +1,6 @@
 {
   "repository": "festac-dev/SKILLS",
-  "ref": "skills-library-v1.3.0",
+  "ref": "skills-library-v1.4.0",
   "sourceVariable": "SKILLS_LIBRARY_SOURCE",
   "checkoutDepth": 1,
   "registry": "COLLECTIONS.json",

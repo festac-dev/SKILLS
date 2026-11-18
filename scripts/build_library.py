@@ -7,7 +7,7 @@ import re
 import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
-RELEASE = 'skills-library-v1.3.0'
+RELEASE = 'skills-library-v1.4.0'
 
 def build(root=ROOT):
     package = root / 'skills-library'
@@ -15,7 +15,8 @@ def build(root=ROOT):
     for script in ('skills.mjs', 'mcp-server.mjs', 'setup-mcp.mjs'):
         shutil.copy2(root / 'scripts' / script, package / 'scripts' / script)
     records = []
-    for record in json.loads((root / 'COLLECTIONS.json').read_text())['skills']:
+    collection_data = json.loads((root / 'COLLECTIONS.json').read_text())
+    for record in collection_data['skills']:
         guide = root / record['path']
         records.append({'id': record['name'], 'name': record['upstream_name'], 'description': str(record['description'])[:600], 'path': record['path'], 'sha256': hashlib.sha256(guide.read_bytes()).hexdigest(), 'aliases': record.get('aliases', [])})
     core = [root / 'SKILL.md', root / 'motion-studio/SKILL.md']
@@ -29,6 +30,16 @@ def build(root=ROOT):
         records.append({'id': name, 'description': ' / '.join(headings[:5])[:600], 'path': relative, 'sha256': hashlib.sha256(guide.read_bytes()).hexdigest()})
     if len({r['id'] for r in records}) != len(records):
         raise ValueError('Duplicate on-demand guide ID')
+    readme = root / 'README.md'
+    if readme.exists():
+        total = len(collection_data['skills']) + 2
+        imported = len(collection_data['skills'])
+        catalogue_added = sum(c.get('skill_count', 0) for c in collection_data['collections'] if c.get('import_source') == 'skills.sh')
+        report_path = root / 'reports/SKILLS_SH_IMPORT.json'
+        report = json.loads(report_path.read_text()) if report_path.exists() else {}
+        latest = f" The latest batch added **{report['added_skills_this_batch']:,} skills**." if report.get('total_library_skills') == total and 'added_skills_this_batch' in report else ''
+        summary = f"SKILLS contains **{total:,} skills**: {imported:,} imported skills and two core skills. Completed skills.sh batches have added **{catalogue_added:,} skills**.{latest} Skills use names such as `skills-azure-deploy`, `skills-playwright-cli`, and `skills-apple-design`."
+        readme.write_text(re.sub(r'^SKILLS contains.*$', lambda match: summary, readme.read_text(), flags=re.M))
     (root / 'runtime').mkdir(exist_ok=True)
     (root / 'runtime/index.json').write_text(json.dumps({'schema_version': 1, 'skills': records}, ensure_ascii=False, separators=(',', ':')) + '\n')
     (package / 'library.json').write_text(json.dumps({'repository': 'festac-dev/SKILLS', 'ref': RELEASE, 'sourceVariable': 'SKILLS_LIBRARY_SOURCE', 'checkoutDepth': 1, 'registry': 'COLLECTIONS.json', 'indexPath': 'runtime/index.json'}, indent=2) + '\n')

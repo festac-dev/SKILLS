@@ -11,7 +11,7 @@
     {
       "path": ".codex-plugin/plugin.json",
       "bytes": 187,
-      "sha256": "efddfab7b079c4df795b00f9d666f2d95884b36d3d8ee8f0acad13702f2c1d84"
+      "sha256": "995de99c1027d4275cfb34a55cf6bd038ba96ea569b1e25c831d783a831cc4a3"
     },
     {
       "path": ".gitattributes",
@@ -40,13 +40,13 @@
     },
     {
       "path": "COLLECTIONS.json",
-      "bytes": 79160057,
-      "sha256": "70958cc8ae8253658f86b59ff7f66355cdb9332bf696f104ae65fc87e075bb07"
+      "bytes": 83055051,
+      "sha256": "dd45c8161055c47da16415413b15a0d96ae0ef6c44c07fc34f70be0a305e4839"
     },
     {
       "path": "COLLECTIONS.md",
-      "bytes": 13960,
-      "sha256": "903c1f6a162a0ef396b3d1c51d880e062144d3ba2494da2982bd2fbd17572617"
+      "bytes": 16275,
+      "sha256": "b89c0ef4fd2b3e8b67e8eb95e8e8bacedd2217616d4fbe22a8e9adc7b80b95fd"
     },
     {
       "path": "COLLECTION_RULES.md",
@@ -60,13 +60,13 @@
     },
     {
       "path": "NOTICE.md",
-      "bytes": 12091,
-      "sha256": "e83fb7d43aa4aa2d91f1165b771addc2367548d1bb02f3ef2a2724281aefd5e9"
+      "bytes": 13831,
+      "sha256": "4015159df0bb9107b43be549e51c8d4e279a3aa25496ea9d05ead836a18798a8"
     },
     {
       "path": "README.md",
-      "bytes": 9753,
-      "sha256": "febf38f7f0ca3e3605bdc5769651d807e35233af9fd98a7329afe1178db811f4"
+      "bytes": 9744,
+      "sha256": "3560edcb76ba4c8d399894ab5be5da736d9af0b5fbd9f26cbb9b14bf8a1e66b3"
     },
     {
       "path": "SKILL.md",
@@ -926,12 +926,12 @@
     {
       "path": "reports/SKILLS_SH_CATALOGUE.json",
       "bytes": 2056428,
-      "sha256": "c4ccbfdc67d9784d2ae109055ab08ab4d0913939c8965921ef5714a89a5809a9"
+      "sha256": "83effd365bcf95a27bda191708fdb253bf419099db68a6bd65e274a52e52bc46"
     },
     {
       "path": "reports/SKILLS_SH_IMPORT.json",
-      "bytes": 121172,
-      "sha256": "7ae0f48fc3b4a5a16eb21b393baa90337ca192369b20bcce2195e2b4cf8be7e8"
+      "bytes": 193398,
+      "sha256": "8c06831a4253c7e42b0b81a9d608967d691916762d4f4f6d0b2de121ed8e03c3"
     },
     {
       "path": "reports/UPGRADE_VERIFICATION.md",
@@ -945,8 +945,8 @@
     },
     {
       "path": "scripts/build_library.py",
-      "bytes": 4163,
-      "sha256": "afca95fa24e876d14559749bd94a6091cc4bddcea32cbeaf31cb9c8fa5d88841"
+      "bytes": 5230,
+      "sha256": "68e2b4dcd6b581f2c5df5ede37a3354fcc73d50378677cc4c452d1f1bc5a7a13"
     },
     {
       "path": "scripts/cache_cleanup.py",
@@ -1001,7 +1001,7 @@
     {
       "path": "scripts/toolkit.py",
       "bytes": 28114,
-      "sha256": "09146168e008dd858490386a8f34de957808a6a01d580b536d801eb35a9888ad"
+      "sha256": "26481f7fed43e23cd9e0400fe1e9924668b5d31e7a594f60f5e0fd08dd71a979"
     },
     {
       "path": "specialists/3d-spatial-and-immersive-experiences.md",
@@ -1930,8 +1930,8 @@
     },
     {
       "path": "tests/test_skills_import.py",
-      "bytes": 3664,
-      "sha256": "0480750007ec104a76d87edb8d147f2f10464be842f8e82dad79225da97a6754"
+      "bytes": 5528,
+      "sha256": "5e91d7317bf4259422892a53a3b0ed5109023adedf793c4319ae659e7d314f2b"
     },
     {
       "path": "tests/test_toolkit.py",

@@ -114,7 +114,7 @@ Project-authored toolkit material and integration changes use [Apache-2.0](LICEN
 
 ## Skills.sh imports
 
-SKILLS contains **18029 skills**: 18027 imported skills and two core skills. The catalogue imports have added **2450 skills** in completed batches, including **2261 in the latest batch. Skills use names such as `skills-azure-deploy`, `skills-playwright-cli`, and `skills-apple-design`.
+SKILLS contains **19,341 skills**: 19,339 imported skills and two core skills. Completed skills.sh batches have added **3,762 skills**. The latest batch added **1,312 skills**. Skills use names such as `skills-azure-deploy`, `skills-playwright-cli`, and `skills-apple-design`.
 
 See [collections](COLLECTIONS.md), [the batch record](reports/SKILLS_SH_IMPORT.json), and [the snapshot inventory](reports/SKILLS_SH_CATALOGUE.json) for source revisions, results and pending listings. Licences and required supporting resources are preserved. Repeated source bytes are skipped instead of counted as additions.
 

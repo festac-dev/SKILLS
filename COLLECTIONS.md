@@ -1,6 +1,6 @@
 # Imported Skill Collections
 
-100 collections contain 18027 imported skills. The dataset stays outside AI skill folders. Use MCP find/read for selected skills and supporting files.
+115 collections contain 19339 imported skills. The dataset stays outside AI skill folders. Use MCP find/read for selected skills and supporting files.
 
 | Collection | Source | Skills |
 |---|---|---|
@@ -104,6 +104,21 @@
 | [nrwl-nx-ai-agents-config](nrwl-nx-ai-agents-config/README.md) | [nrwl/nx-ai-agents-config](https://github.com/nrwl/nx-ai-agents-config) | 10 |
 | [obsidianmd-obsidian-skills](obsidianmd-obsidian-skills/README.md) | [obsidianmd/obsidian-skills](https://github.com/obsidianmd/obsidian-skills) | 7 |
 | [orchestra-research-ai-research-skills](orchestra-research-ai-research-skills/README.md) | [orchestra-research/ai-research-skills](https://github.com/orchestra-research/ai-research-skills) | 98 |
+| [aaron-he-zhu-aaron-marketing-skills](aaron-he-zhu-aaron-marketing-skills/README.md) | [aaron-he-zhu/aaron-marketing-skills](https://github.com/aaron-he-zhu/aaron-marketing-skills) | 120 |
+| [arjun988-blender-skills](arjun988-blender-skills/README.md) | [arjun988/blender-skills](https://github.com/arjun988/blender-skills) | 94 |
+| [claude-office-skills-skills](claude-office-skills-skills/README.md) | [claude-office-skills/skills](https://github.com/claude-office-skills/skills) | 137 |
+| [deanpeters-product-manager-skills](deanpeters-product-manager-skills/README.md) | [deanpeters/product-manager-skills](https://github.com/deanpeters/product-manager-skills) | 95 |
+| [flutter-agent-plugins](flutter-agent-plugins/README.md) | [flutter/agent-plugins](https://github.com/flutter/agent-plugins) | 31 |
+| [mastra-ai-skills](mastra-ai-skills/README.md) | [mastra-ai/skills](https://github.com/mastra-ai/skills) | 2 |
+| [mcollina-skills](mcollina-skills/README.md) | [mcollina/skills](https://github.com/mcollina/skills) | 11 |
+| [mohitmishra786-low-level-dev-skills](mohitmishra786-low-level-dev-skills/README.md) | [mohitmishra786/low-level-dev-skills](https://github.com/mohitmishra786/low-level-dev-skills) | 142 |
+| [nomadamas-k-skill](nomadamas-k-skill/README.md) | [nomadamas/k-skill](https://github.com/nomadamas/k-skill) | 134 |
+| [owl-listener-designer-skills](owl-listener-designer-skills/README.md) | [owl-listener/designer-skills](https://github.com/owl-listener/designer-skills) | 111 |
+| [samber-developer-relations-skills](samber-developer-relations-skills/README.md) | [samber/developer-relations-skills](https://github.com/samber/developer-relations-skills) | 93 |
+| [samuraigpt-generative-media-skills](samuraigpt-generative-media-skills/README.md) | [samuraigpt/generative-media-skills](https://github.com/samuraigpt/generative-media-skills) | 60 |
+| [scenario-labs-skills](scenario-labs-skills/README.md) | [scenario-labs/skills](https://github.com/scenario-labs/skills) | 178 |
+| [solana-foundation-solana-dev-skill](solana-foundation-solana-dev-skill/README.md) | [solana-foundation/solana-dev-skill](https://github.com/solana-foundation/solana-dev-skill) | 1 |
+| [yaklang-hack-skills](yaklang-hack-skills/README.md) | [yaklang/hack-skills](https://github.com/yaklang/hack-skills) | 103 |
 
 ## Find and read
 

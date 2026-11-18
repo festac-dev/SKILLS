@@ -33,6 +33,35 @@ class SkillsImportTests(unittest.TestCase):
         self.assertLessEqual(len(long), 64)
         self.assertFalse(long.startswith('skills-sh-'))
 
+    def test_index_refreshes_counts_from_inventory_and_preserves_readme_text(self):
+        spec = importlib.util.spec_from_file_location('library_builder', ROOT / 'scripts/build_library.py')
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        scripts = self.dataset / 'scripts'
+        scripts.mkdir()
+        for name in ('skills.mjs', 'mcp-server.mjs', 'setup-mcp.mjs'):
+            (scripts / name).write_text('// fixture ' + name + '\n')
+        (self.dataset / 'SKILL.md').write_text('# Core\n')
+        (self.dataset / 'motion-studio').mkdir()
+        (self.dataset / 'motion-studio/SKILL.md').write_text('# Motion\n')
+        rows = []
+        for i in range(3):
+            guide = self.dataset / f'fixture/topic-{i}/SKILL.md'
+            guide.parent.mkdir(parents=True)
+            guide.write_text(f'# Topic {i}\n')
+            rows.append({'name': f'skills-topic-{i}', 'upstream_name': f'topic-{i}', 'description': 'Fixture', 'path': guide.relative_to(self.dataset).as_posix()})
+        (self.dataset / 'COLLECTIONS.json').write_text(json.dumps({'skills': rows, 'collections': [{'skill_count': 3, 'import_source': 'skills.sh'}]}))
+        readme = self.dataset / 'README.md'
+        readme.write_text('# Library\n\nSKILLS contains **99 skills**: stale count.\n\nPreserve these reader notes.\n')
+        (self.dataset / 'reports').mkdir()
+        (self.dataset / 'reports/SKILLS_SH_IMPORT.json').write_text(json.dumps({'total_library_skills': 5, 'added_skills_this_batch': 2}))
+        builder.build(self.dataset)
+        text = readme.read_text()
+        self.assertIn('**5 skills**: 3 imported skills and two core skills', text)
+        self.assertIn('latest batch added **2 skills**', text)
+        self.assertNotIn('99 skills', text)
+        self.assertIn('Preserve these reader notes.', text)
+
     def test_import_skips_existing_source_bytes_and_preserves_resources_and_licence(self):
         source = self.base / 'source'
         source.mkdir()

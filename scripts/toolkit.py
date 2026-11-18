@@ -248,7 +248,7 @@ def index(root):
     plugin_path = root / ".codex-plugin/plugin.json"
     plugin_path.parent.mkdir(parents=True, exist_ok=True)
     plugin = {
-        "name": "complete-skills", "version": "1.3.0",
+        "name": "complete-skills", "version": "1.4.0",
         "description": "Search and read the external SKILLS dataset through bounded MCP tools.",
         "skills": ["./skills-library"],
     }

@@ -1,0 +1,37 @@
+# flutter/agent-plugins skills
+
+Curated from [flutter/agent-plugins](https://github.com/flutter/agent-plugins) at revision `ff6d472ee66dbed566c4500edee460c94fde0a02`. Original source, required supporting files and applicable licence notices are retained.
+
+- [skills-dart-use-ffigen](skills/dart-use-ffigen/SKILL.md)
+- [skills-dart-add-unit-test](skills/dart-add-unit-test/SKILL.md)
+- [skills-dart-build-cli-app](skills/dart-build-cli-app/SKILL.md)
+- [skills-dart-collect-coverage](skills/dart-collect-coverage/SKILL.md)
+- [skills-dart-setup-ffi-assets](skills/dart-setup-ffi-assets/SKILL.md)
+- [skills-dart-use-doc-examples](skills/dart-use-doc-examples/SKILL.md)
+- [skills-dart-use-path-package](skills/dart-use-path-package/SKILL.md)
+- [skills-dart-fix-runtime-errors](skills/dart-fix-runtime-errors/SKILL.md)
+- [skills-flutter-add-widget-test](skills/flutter-add-widget-test/SKILL.md)
+- [skills-dart-generate-test-mocks](skills/dart-generate-test-mocks/SKILL.md)
+- [skills-dart-run-static-analysis](skills/dart-run-static-analysis/SKILL.md)
+- [skills-dart-write-documentation](skills/dart-write-documentation/SKILL.md)
+- [skills-flutter-use-http-package](skills/flutter-use-http-package/SKILL.md)
+- [skills-dart-use-pattern-matching](skills/dart-use-pattern-matching/SKILL.md)
+- [skills-flutter-fix-layout-issues](skills/flutter-fix-layout-issues/SKILL.md)
+- [skills-flutter-add-widget-preview](skills/flutter-add-widget-preview/SKILL.md)
+- [skills-flutter-setup-localization](skills/flutter-setup-localization/SKILL.md)
+- [skills-flutter-add-integration-test](skills/flutter-add-integration-test/SKILL.md)
+- [skills-dart-use-primary-constructors](skills/dart-use-primary-constructors/SKILL.md)
+- [skills-dart-migrate-to-checks-package](skills/dart-migrate-to-checks-package/SKILL.md)
+- [skills-dart-resolve-package-conflicts](skills/dart-resolve-package-conflicts/SKILL.md)
+- [skills-flutter-build-responsive-layout](skills/flutter-build-responsive-layout/SKILL.md)
+- [skills-flutter-setup-declarative-routing](skills/flutter-setup-declarative-routing/SKILL.md)
+- [skills-flutter-implement-json-serialization](skills/flutter-implement-json-serialization/SKILL.md)
+- [skills-api-review](upstream-agents-config/agents/reidbaker-agent/skills/api-review/SKILL.md)
+- [skills-flutter-apply-architecture-best-practices](skills/flutter-apply-architecture-best-practices/SKILL.md)
+- [skills-flutter-code-review](upstream-agents-config/agents/reidbaker-agent/skills/code-review/SKILL.md)
+- [skills-flutter-grill-with-docs](upstream-agents-config/agents/reidbaker-agent/skills/grill-with-docs/SKILL.md)
+- [skills-natural-writing](upstream-agents-config/agents/reidbaker-agent/skills/natural-writing/SKILL.md)
+- [skills-flutter-code-documentation](upstream-agents-config/agents/reidbaker-agent/skills/code-documentation/SKILL.md)
+- [skills-unix-cli-best-practices](upstream-agents-config/agents/reidbaker-agent/skills/unix-cli-best-practices/SKILL.md)
+
+Apply [collection rules](../COLLECTION_RULES.md).
