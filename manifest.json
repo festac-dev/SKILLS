@@ -4,6 +4,11 @@
   "generated_by": "python scripts/toolkit.py index",
   "files": [
     {
+      "path": ".gitattributes",
+      "bytes": 113,
+      "sha256": "ce3b278307b81c0db24f2ed29b0e548bafcdaec3571868cc1c9f51ca5393071e"
+    },
+    {
       "path": ".gitignore",
       "bytes": 94,
       "sha256": "34f9c974a17262e704ddefc9032120fbbaba6e6613837bf5f6e3bdee8f15f688"
@@ -15,8 +20,8 @@
     },
     {
       "path": "CATALOG.md",
-      "bytes": 69469,
-      "sha256": "5a622d08a521ec3f0fff384d3ffcea0f7ccaa3f85c610eef9125adc804f12310"
+      "bytes": 69604,
+      "sha256": "d1f0fcfa234b8dfc40a5f6992b1b993593dd6dd2ca8bdd5902e20e927a91c1bc"
     },
     {
       "path": "CLAUDE.md",
@@ -25,18 +30,18 @@
     },
     {
       "path": "COLLECTIONS.json",
-      "bytes": 12280140,
-      "sha256": "dafbc1a55789c70cdae4307e850f041bcb8fac3e581fab320ab21b125550a169"
+      "bytes": 16388920,
+      "sha256": "e76e755b7a6339194f968c0fcb605580eca792fe40456e6e1df4cfcb78e22c8c"
     },
     {
       "path": "COLLECTIONS.md",
-      "bytes": 2706,
-      "sha256": "60d68964ebf29ce9d13530327f9348a39ddb52b3e959196381e352fb628e9249"
+      "bytes": 4626,
+      "sha256": "52fafd8c8914a1e7e3ff7c64deac700d81b13c63b8a36d9ef18b022cf108f1a8"
     },
     {
       "path": "COLLECTION_RULES.md",
-      "bytes": 3741,
-      "sha256": "098272448263f0ba961bafdb9e6dafe4de48bf56ebdf6734aa6bbc843cd9cf28"
+      "bytes": 3961,
+      "sha256": "9266e8c0865dac3986f6ecf0d966f0fb1e3b2bf46e6d2b1f3bea0cfbd7fc0ca4"
     },
     {
       "path": "LICENSE",
@@ -45,13 +50,13 @@
     },
     {
       "path": "NOTICE.md",
-      "bytes": 2413,
-      "sha256": "1a7a38e9860bc0b2f0e465f5b68a9ffb208f960a3d59dccc820fbfeb43cda929"
+      "bytes": 4108,
+      "sha256": "5de4d43fd7e266d608404212a66b7601884c8c536e3106f206b6b7e18f4b4395"
     },
     {
       "path": "README.md",
-      "bytes": 5862,
-      "sha256": "3ce219df87c797a19c94bae1fb3445c5fcb4b140db4a85a5c91d3a61b74c7a18"
+      "bytes": 5857,
+      "sha256": "516aadb9849a6a9dc884851e41c29c4c17530e590cee640c47879bda7295b782"
     },
     {
       "path": "SKILL.md",
@@ -920,13 +925,13 @@
     },
     {
       "path": "scripts/skill_collections.py",
-      "bytes": 6095,
-      "sha256": "0cac3f6bdd4b039ceabdaff53bf62b5aeef08e13e853625bc31421d0d0901a45"
+      "bytes": 6611,
+      "sha256": "327dddbee51c75ed69a27cb1cb1c5a6cbd7b9edb0768471b376a7236efd09e69"
     },
     {
       "path": "scripts/toolkit.py",
-      "bytes": 26709,
-      "sha256": "e7eee204849924746b8b8c291fb6ed780bc02459062d35b2cac2cf1c4993000f"
+      "bytes": 26756,
+      "sha256": "0434946e54c465213db2e23ec8fb04c12e673eaf1afdb4359f5d216c8e91f7ca"
     },
     {
       "path": "specialists/3d-spatial-and-immersive-experiences.md",
@@ -1835,8 +1840,8 @@
     },
     {
       "path": "tests/test_collections.py",
-      "bytes": 5079,
-      "sha256": "832082d0d2426437c61ddcbae1749714b90481e7d087814162462255f1cdad98"
+      "bytes": 6446,
+      "sha256": "3eb0c6dac3b76c29fea659ed6432a133b0197a0a96aa5d59f278afd0d69be4d5"
     },
     {
       "path": "tests/test_media_audit.py",
@@ -1845,8 +1850,8 @@
     },
     {
       "path": "tests/test_toolkit.py",
-      "bytes": 11062,
-      "sha256": "dab628482b762088d76d658ad7d8462af264b3cd3939b64e59ca00a3da7e53a3"
+      "bytes": 11282,
+      "sha256": "7ce5cfaa4922c3a5b82245478ecbef93d0a005c9d004e94119cf41ad32b2fba2"
     }
   ]
 }

@@ -1,0 +1,359 @@
+{
+  "$schema": "schema/catalog.schema.json",
+  "format": "narova.asset-catalog/1",
+  "updated": "2026-08-23",
+  "entries": [
+    {
+      "kind": "explore",
+      "id": "narova-skill-reel",
+      "title": "Prompt. Voice. Motion.",
+      "summary": "The 30-second first-party reel that explains Narova through its own narrated, cue-driven pipeline.",
+      "video": {
+        "path": "explore/narova-skill-reel/video.mp4",
+        "sha256": "e9223eca17df65f84eacbbe546712eb244735e7fc76f9296a86baae8aacbb027",
+        "bytes": 3301283
+      },
+      "poster": {
+        "path": "explore/narova-skill-reel/poster.jpg",
+        "sha256": "61d462bdaf90515ac9009f0c42f3e7c9939bc5d45488ad193ea17beb3196bc39",
+        "bytes": 48730
+      },
+      "captions": {
+        "path": "explore/narova-skill-reel/captions.vtt",
+        "sha256": "8ae67289b52eb2058539874ae34c2290308dd10bb548b963f5115b0fa6cba011",
+        "bytes": 651
+      },
+      "archive": {
+        "path": "explore/narova-skill-reel/narova-skill-reel.narova",
+        "sha256": "24717f22f5e0eb4dac91f5b6949d7591b3eb4de11e2faf9b6a66c36e3a830b30",
+        "bytes": 21094
+      },
+      "producingVersion": "0.31.14",
+      "archiveIdentity": "24717f22f5e0eb4dac91f5b6949d7591b3eb4de11e2faf9b6a66c36e3a830b30",
+      "rights": {
+        "basis": "First-party Narova project and render with no embedded third-party visual or audio assets.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Narova contributors",
+        "credit": "Narova contributors — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "explore",
+      "id": "narova-one-command-demo",
+      "title": "One command, finished video",
+      "summary": "The built-in two-scene activation demo, synthesized and rendered locally through the ordinary Narova pipeline.",
+      "video": {
+        "path": "explore/narova-one-command-demo/video.mp4",
+        "sha256": "7e955f927568902de76105196da3ea69acdc2b4de2bed79971f5bac144c862b1",
+        "bytes": 489509
+      },
+      "poster": {
+        "path": "explore/narova-one-command-demo/poster.jpg",
+        "sha256": "e168141e5fe3bce0b47bf1e15b0b8aad81247ef5f1e2bad7218222c075e26f43",
+        "bytes": 48058
+      },
+      "captions": {
+        "path": "explore/narova-one-command-demo/captions.vtt",
+        "sha256": "394f977b1365d529454140df5fa9315a7c28d3aacef4357ebcab64d8f69e4329",
+        "bytes": 220
+      },
+      "archive": {
+        "path": "explore/narova-one-command-demo/narova-one-command-demo.narova",
+        "sha256": "25c25fa256a3a1d01b0c7e460bb608854a2eb0cc61c24c954d9bc708aaa4baa9",
+        "bytes": 9434
+      },
+      "producingVersion": "0.31.14",
+      "archiveIdentity": "25c25fa256a3a1d01b0c7e460bb608854a2eb0cc61c24c954d9bc708aaa4baa9",
+      "rights": {
+        "basis": "First-party Narova project and render with no embedded third-party visual or audio assets.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Narova contributors",
+        "credit": "Narova contributors — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "explore",
+      "id": "nature-of-light",
+      "title": "The Nature of Light",
+      "summary": "A cinematic 46-second journey from prisms and wave interference to photons, using the native scene dialogue for natural delivery and lip sync.",
+      "video": {
+        "path": "explore/nature-of-light/video.mp4",
+        "sha256": "5a985e0c3da7c8f949e8a96b4f4122288627d275ddeb2e3fbfe5a326002d43e8",
+        "bytes": 13417609
+      },
+      "poster": {
+        "path": "explore/nature-of-light/poster.jpg",
+        "sha256": "745bb8bf8737e19f011343fdee29739d55e8e3ad67ef5b8974cff1afa149f9db",
+        "bytes": 80508
+      },
+      "captions": {
+        "path": "explore/nature-of-light/captions.vtt",
+        "sha256": "bc2c62d22689b4453d8bd93341bce4ec7487a75a8aea47341d3853a255d0692a",
+        "bytes": 1003
+      },
+      "archive": {
+        "path": "explore/nature-of-light/nature-of-light.narova",
+        "sha256": "68a18b4b70e6c3f137898273ce7817f1ced39956e71f7bf1ee2fd5ae1e542676",
+        "bytes": 27896226
+      },
+      "producingVersion": "0.39.0",
+      "rights": {
+        "basis": "First-party Narova project and rendered media generated for the owner; no third-party stock media.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Ammar Hasan",
+        "credit": "Ammar Hasan — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      },
+      "archiveIdentity": "68a18b4b70e6c3f137898273ce7817f1ced39956e71f7bf1ee2fd5ae1e542676"
+    },
+    {
+      "kind": "explore",
+      "id": "nori-and-the-pocket-moon",
+      "title": "Nori and the Pocket Moon",
+      "summary": "A gentle 30-second felt-storybook adventure about carrying a tiny moon home, with OpenAI narration and generated scenes.",
+      "video": {
+        "path": "explore/nori-and-the-pocket-moon/video.mp4",
+        "sha256": "c8d912f37899c075808a6919e3614ad76fb7dbbfd5e41450fc3a9c7b57669639",
+        "bytes": 8952050
+      },
+      "poster": {
+        "path": "explore/nori-and-the-pocket-moon/poster.jpg",
+        "sha256": "d768c8135fe74d2f2731bc1d94eb6d336221180ffb2e0d2d366d8ca23cdc7d3a",
+        "bytes": 89393
+      },
+      "captions": {
+        "path": "explore/nori-and-the-pocket-moon/captions.vtt",
+        "sha256": "b1e905491f75e0e0e2c86335ef83606485db6f452c24dfbbe50f7ca0bf61657d",
+        "bytes": 734
+      },
+      "archive": {
+        "path": "explore/nori-and-the-pocket-moon/nori-and-the-pocket-moon.narova",
+        "sha256": "8453da0f68b9c80b28f051aa52549b031c1788ba8603fceed4326d92c64477d2",
+        "bytes": 18341008
+      },
+      "producingVersion": "0.39.0",
+      "rights": {
+        "basis": "First-party Narova project and rendered media generated for the owner; no third-party stock media.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Ammar Hasan",
+        "credit": "Ammar Hasan — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      },
+      "archiveIdentity": "8453da0f68b9c80b28f051aa52549b031c1788ba8603fceed4326d92c64477d2"
+    },
+    {
+      "kind": "explore",
+      "id": "product-walkthrough",
+      "title": "A Complete Product Walkthrough",
+      "summary": "An 83-second continuous real-browser take: create, configure, search, assign, automate, and invite, all timed to narration and captions.",
+      "video": {
+        "path": "explore/product-walkthrough/video.mp4",
+        "sha256": "eec6fbc509830852c1a0ffa7e2866a9acf3d52bf3147be62fe55a08e1781d1d0",
+        "bytes": 4732762
+      },
+      "poster": {
+        "path": "explore/product-walkthrough/poster.jpg",
+        "sha256": "625925cbf859075939fad27fd4a41e897e28391677df1499db9d805d54748657",
+        "bytes": 73665
+      },
+      "captions": {
+        "path": "explore/product-walkthrough/captions.vtt",
+        "sha256": "e60f1609958c5e18ef8e953aff9e02233f0f1aff93d8057cab1d78c2208a8bb3",
+        "bytes": 2298
+      },
+      "archive": {
+        "path": "explore/product-walkthrough/product-walkthrough.narova",
+        "sha256": "1c83ac9d1cf589a801f6b69a9b30ae3cc21eaf656b74333f37e8bad27b0ffb8b",
+        "bytes": 3128586
+      },
+      "producingVersion": "0.39.0",
+      "archiveIdentity": "1c83ac9d1cf589a801f6b69a9b30ae3cc21eaf656b74333f37e8bad27b0ffb8b",
+      "rights": {
+        "basis": "First-party Narova product walkthrough and render.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Narova contributors",
+        "credit": "Narova contributors — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "explore",
+      "id": "the-rainmakers-last-drop",
+      "title": "The Rainmaker's Last Drop",
+      "summary": "A cinematic 60-second 3D mechanical fable in which one glass drop wakes a greenhouse machine and opens a flower.",
+      "video": {
+        "path": "explore/the-rainmakers-last-drop/video.mp4",
+        "sha256": "76f9934f1778e97dc5ad4cbee63ac3db783901ddb8f2fe0ef419abd84b4094d5",
+        "bytes": 25828152
+      },
+      "poster": {
+        "path": "explore/the-rainmakers-last-drop/poster.jpg",
+        "sha256": "832cddb87b06ba80a83815b0a1fa54d625e83f4bd6d087924aa54a3143371746",
+        "bytes": 82035
+      },
+      "captions": {
+        "path": "explore/the-rainmakers-last-drop/captions.vtt",
+        "sha256": "891e33701e30a2a5ba035384faa584df5f8642593bfd82d57a802f21065613ba",
+        "bytes": 805
+      },
+      "archive": {
+        "path": "explore/the-rainmakers-last-drop/the-rainmakers-last-drop.narova",
+        "sha256": "d5bdd436c369aad7945d4fd58fba111210962ce52d5b9a38498ca7e87fd1a7cf",
+        "bytes": 19652596
+      },
+      "producingVersion": "0.40.0",
+      "archiveIdentity": "d5bdd436c369aad7945d4fd58fba111210962ce52d5b9a38498ca7e87fd1a7cf",
+      "rights": {
+        "basis": "First-party Narova project, locally generated narration and ambience, authored 3D scene, and rendered media.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Ammar Hasan",
+        "credit": "Ammar Hasan — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "explore",
+      "id": "the-precious-thing",
+      "title": "The Precious Thing",
+      "summary": "A 31-second low-poly 3D fable in which a lost corgi searches a park and finds its human companion again.",
+      "video": {
+        "path": "explore/the-precious-thing/video.mp4",
+        "sha256": "cce0b90733c51aea6eb3b8488b34d3e4086981c9f925e864e2157c578d413236",
+        "bytes": 3355507
+      },
+      "poster": {
+        "path": "explore/the-precious-thing/poster.jpg",
+        "sha256": "22f400a4383a0b4af47f4040d0702ce8da7a59a27e3967791189ccbb0b93fa94",
+        "bytes": 39109
+      },
+      "captions": {
+        "path": "explore/the-precious-thing/captions.vtt",
+        "sha256": "853ca28e26f2de4ebbcfa6c6a923320cdedc55da0a45aea421779208f0034392",
+        "bytes": 514
+      },
+      "archive": {
+        "path": "explore/the-precious-thing/the-precious-thing.narova",
+        "sha256": "ae8b6499cb2f993ff0f11c576c0d126c616292d0d973e1b25be78042547b5698",
+        "bytes": 2039108
+      },
+      "producingVersion": "0.40.0",
+      "archiveIdentity": "ae8b6499cb2f993ff0f11c576c0d126c616292d0d973e1b25be78042547b5698",
+      "rights": {
+        "basis": "First-party Narova project and render with locally generated Piper narration and music, an authored 3D park and human, and a CC0 Gobkit corgi model.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Ammar Hasan",
+        "credit": "Ammar Hasan — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "demo",
+      "id": "click-highlight-proof",
+      "title": "Voiced click-highlight proof",
+      "summary": "The approximately 5.7-second real-browser click-highlight proof linked from the website.",
+      "mediaType": "video",
+      "media": {
+        "path": "demos/click-highlight-proof/video.mp4",
+        "sha256": "e07a839b24b738b57344bc68a8e2bd0461686a2cde7b91d85f1f97d0b83507fc",
+        "bytes": 351903
+      },
+      "rights": {
+        "basis": "First-party Narova walkthrough proof and render.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Narova contributors",
+        "credit": "Narova contributors — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "demo",
+      "id": "readme-preview",
+      "title": "Repository overview preview",
+      "summary": "The retained looping 960×540 GIF preview embedded in the Narova repository overview.",
+      "mediaType": "image",
+      "media": {
+        "path": "demos/readme-preview/preview.gif",
+        "sha256": "a45a8e9b65814b516be0b49248bdf5ce88980679f94bb3382b3e910b5e6e31de",
+        "bytes": 1404007
+      },
+      "rights": {
+        "basis": "First-party Narova repository preview.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Narova contributors",
+        "credit": "Narova contributors — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    },
+    {
+      "kind": "demo",
+      "id": "explore-share",
+      "title": "Explore social image",
+      "summary": "The social-preview image for Narova Explore.",
+      "mediaType": "image",
+      "media": {
+        "path": "demos/explore-share/share.png",
+        "sha256": "648c128c1f68197eaf17d36cf795662535d6bc5323ea9f5fa1e800d2b1d9cba5",
+        "bytes": 1213505
+      },
+      "rights": {
+        "basis": "First-party Narova Explore social image.",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "creator": "Narova contributors",
+        "credit": "Narova contributors — voluntary, not required"
+      },
+      "review": {
+        "release": "pass",
+        "accessibility": "pass",
+        "provenance": "complete"
+      }
+    }
+  ]
+}

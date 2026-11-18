@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "title": "Reference Manifest", "type": "object", "required": ["references"],
+  "properties": {"mode": {"enum": ["image-object", "image-character", "image-scene", "video-scene", "hybrid"]}, "references": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "type", "role", "confidence", "provenance"], "properties": {
+    "id": {"type": "string"}, "type": {"enum": ["image", "video", "extracted-frame"]}, "role": {"enum": ["layout", "camera", "lighting", "motion", "object-fidelity", "character-fidelity", "material", "unclassified"]},
+    "path": {"type": ["string", "null"]}, "url": {"type": ["string", "null"]}, "localPath": {"type": ["string", "null"]}, "sha256": {"type": ["string", "null"]}, "timeRange": {}, "parentVideoId": {"type": ["string", "null"]}, "frameTime": {"type": ["number", "null"]}, "observedRegions": {"type": "array"}, "confidence": {"type": "number", "minimum": 0, "maximum": 1}, "provenance": {"type": "object"}, "semantic": {"enum": ["object", "character", "scene", null]}
+  }}}}, "additionalProperties": true
+}

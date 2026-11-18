@@ -1,0 +1,1485 @@
+diff --git a/components/CustomModal.tsx b/components/CustomModal.tsx
+index 24d0e3b..8ac9276 100644
+--- a/components/CustomModal.tsx
++++ b/components/CustomModal.tsx
+@@ -5,6 +5,7 @@
+ 
+ import React, { useEffect } from 'react';
+ import { motion, AnimatePresence } from 'framer-motion';
++import { X } from 'lucide-react';
+ 
+ interface CustomModalProps {
+   isOpen: boolean;
+@@ -39,9 +40,9 @@ const CustomModal: React.FC<CustomModalProps> = ({
+   }, [isOpen, onClose]);
+ 
+   const confirmColors: Record<string, string> = {
+-    danger: 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700',
+-    primary: 'bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90',
+-    success: 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700',
++    danger: 'bg-red-600 hover:bg-red-700 active:bg-red-800',
++    primary: 'bg-primary hover:bg-indigo-700 active:bg-indigo-800',
++    success: 'bg-green-700 hover:bg-green-800 active:bg-green-900',
+   };
+ 
+   return (
+@@ -53,56 +54,54 @@ const CustomModal: React.FC<CustomModalProps> = ({
+           animate={{ opacity: 1 }}
+           exit={{ opacity: 0 }}
+         >
+-          {/* Backdrop */}
+-          <div
+-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
++          {/* Backdrop (Escape and the Close button are the keyboard routes) */}
++          <div /* unslopovich-ignore clickable-div: backdrop only; Escape and the Close button are the keyboard routes */
++            className="absolute inset-0 bg-black/50"
++            aria-hidden="true"
+             onClick={onClose}
+           />
+ 
+           {/* Modal Box */}
+           <motion.div
+-            className="relative z-10 w-full max-w-md bg-white dark:bg-gray-900/95 border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl p-6"
+-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+-            animate={{ scale: 1, opacity: 1, y: 0 }}
+-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+-            transition={{ type: 'spring', duration: 0.3 }}
++            role={type === 'alert' ? 'alertdialog' : 'dialog'}
++            aria-modal="true"
++            aria-labelledby={title ? 'custom-modal-title' : undefined}
++            aria-describedby="custom-modal-message"
++            className="relative z-10 w-full max-w-md bg-white dark:bg-darkcard border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl p-6"
++            initial={{ opacity: 0, y: 12 }}
++            animate={{ opacity: 1, y: 0 }}
++            exit={{ opacity: 0, y: 12 }}
++            transition={{ duration: 0.15 }}
+             onClick={(e) => e.stopPropagation()}
+           >
+             {/* Top right X close button */}
+             <button
+               onClick={onClose}
+-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10"
++              className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" // unslopovich-ignore icon-tile: icon-only button, no tint at rest
+               aria-label="Close"
+             >
+-              ✕
++              <X size={18} aria-hidden="true" />
+             </button>
+ 
+-            {/* Icon based on confirmStyle */}
+-            <div className="text-center mb-4">
+-              {confirmStyle === 'danger' && <div className="text-4xl mb-2">⚠️</div>}
+-              {confirmStyle === 'success' && <div className="text-4xl mb-2">✅</div>}
+-              {confirmStyle === 'primary' && <div className="text-4xl mb-2">💬</div>}
+-            </div>
+-
+             {/* Title */}
+             {title && (
+-              <h3 className="text-lg font-bold text-gray-900 dark:text-white text-center mb-2">
++              <h3 id="custom-modal-title" className="text-lg font-bold text-gray-900 dark:text-white mb-2 pr-10">
+                 {title}
+               </h3>
+             )}
+ 
+             {/* Message */}
+-            <p className="text-sm text-gray-600 dark:text-gray-300 text-center mb-6 leading-relaxed">
++            <p id="custom-modal-message" className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+               {message}
+             </p>
+ 
+             {/* Buttons */}
+-            <div className="flex gap-3 justify-center">
++            <div className="flex flex-wrap gap-3 justify-end">
+               {/* Cancel / No button */}
+               {type === 'confirm' && (
+                 <button
+                   onClick={onClose}
+-                  className="px-6 py-2.5 rounded-xl text-sm font-medium bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-700 dark:text-white transition-all border border-gray-200 dark:border-white/10"
++                  className="min-h-[44px] px-5 rounded-lg text-sm font-semibold bg-white dark:bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 transition-colors border border-gray-300 dark:border-gray-600"
+                 >
+                   {cancelText}
+                 </button>
+@@ -114,7 +113,8 @@ const CustomModal: React.FC<CustomModalProps> = ({
+                   if (onConfirm) onConfirm();
+                   onClose();
+                 }}
+-                className={`px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all shadow-lg ${confirmColors[confirmStyle]}`}
++                autoFocus
++                className={`min-h-[44px] px-5 rounded-lg text-sm font-semibold text-white transition-colors ${confirmColors[confirmStyle]}`}
+               >
+                 {type === 'alert' ? 'OK' : confirmText}
+               </button>
+diff --git a/components/Footer.tsx b/components/Footer.tsx
+index e4a7da3..0c462e7 100644
+--- a/components/Footer.tsx
++++ b/components/Footer.tsx
+@@ -10,56 +10,47 @@ const Footer: React.FC = () => {
+       name: 'GitHub',
+       url: 'https://github.com/ramkrishnajha5',
+       icon: Github,
+-      color: 'hover:text-gray-900 dark:hover:text-white'
+     },
+     {
+       name: 'Instagram',
+       url: 'https://instagram.com/ramkrishnajha5',
+       icon: Instagram,
+-      color: 'hover:text-pink-500'
+     },
+     {
+       name: 'Email',
+       url: 'mailto:ram03krishna@gmail.com',
+       icon: Mail,
+-      color: 'hover:text-blue-500'
+     },
+   ];
+ 
+   return (
+-    <footer className="relative bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-colors duration-200">
+-      {/* Gradient Top Border */}
+-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500" />
+-
++    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-colors duration-200">
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+         {/* Main Footer Content */}
+         <div className="py-10">
+           {/* LEFT SIDE - Brand, Description & Social */}
+           <div className="text-center md:text-left space-y-4">
+-            <Link to="/" className="inline-flex items-center gap-2">
+-              <div className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+-                <Zap className="w-5 h-5 text-white" />
+-              </div>
+-              <span className="text-2xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+-                QuizHub
+-              </span>
++            {/* Same mark as the header: amber bolt, QuizHub in the primary color */}
++            <Link to="/" className="inline-flex items-center gap-2 text-primary font-bold text-xl tracking-tight">
++              <Zap className="w-6 h-6 text-accent" fill="currentColor" aria-hidden="true" />
++              <span className="dark:text-white">QuizHub</span>
+             </Link>
+             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md mx-auto md:mx-0">
+               Your free learning companion. Test your knowledge with quizzes, explore millions of books, and track your progress.
+             </p>
+ 
+             {/* Social Links */}
+-            <div className="flex items-center gap-3 pt-2 justify-center md:justify-start">
++            <div className="flex items-center gap-1 pt-1 justify-center md:justify-start md:-ml-2.5">
+               {socialLinks.map((social, index) => (
+                 <a
+                   key={index}
+                   href={social.url}
+                   target="_blank"
+                   rel="noopener noreferrer"
+-                  className={`w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-gray-500 transition-all hover:scale-110 ${social.color}`}
++                  className="w-11 h-11 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" // unslopovich-ignore icon-tile: icon-only link, no tint at rest
+                   aria-label={social.name}
+                 >
+-                  <social.icon className="w-5 h-5" />
++                  <social.icon className="w-5 h-5" aria-hidden="true" />
+                 </a>
+               ))}
+             </div>
+@@ -72,11 +63,11 @@ const Footer: React.FC = () => {
+           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+             {/* LEFT - Copyright (centered on mobile) */}
+             <div className="text-center md:text-left order-2 md:order-1">
+-              <p className="text-sm text-gray-500 dark:text-gray-500">
++              <p className="text-sm text-gray-600 dark:text-gray-400">
+                 © {currentYear} QuizHub. All rights reserved.
+               </p>
+               {/* Attribution - Small */}
+-              <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">
++              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                 Powered by Open Library • Open Trivia DB • Google Books
+               </p>
+             </div>
+@@ -84,13 +75,13 @@ const Footer: React.FC = () => {
+             {/* RIGHT - Made with love (centered on mobile) */}
+             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 order-1 md:order-2">
+               <span>Made with</span>
+-              <Heart className="w-4 h-4 text-red-500 fill-current animate-pulse" />
++              <Heart className="w-4 h-4 text-red-500 fill-current" aria-label="love" />
+               <span>by</span>
+               <a
+                 href="https://instagram.com/ramkrishnajha5"
+                 target="_blank"
+                 rel="noopener noreferrer"
+-                className="font-semibold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent hover:underline"
++                className="font-semibold text-primary dark:text-indigo-300 hover:underline"
+               >
+                 Ram Krishna
+               </a>
+diff --git a/components/Header.tsx b/components/Header.tsx
+index 4b3334d..5622da9 100644
+--- a/components/Header.tsx
++++ b/components/Header.tsx
+@@ -41,9 +41,9 @@ const Header: React.FC = () => {
+             <Link to="/about" onClick={(e: React.MouseEvent) => { e.preventDefault(); attemptNavigation(() => navigate('/about')); }} className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition">About Us</Link>
+             <Link to="/contact" onClick={(e: React.MouseEvent) => { e.preventDefault(); attemptNavigation(() => navigate('/contact')); }} className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition">Contact Us</Link>
+ 
+-            <a href="https://github.com/ramkrishnajha5/QuizHub/releases/download/v1.0.0/QuizHub.Version1.0.0.apk" className="lg:hidden inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full text-sm font-bold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+-              <Download size={16} />
+-              <span>App</span>
++            <a href="https://github.com/ramkrishnajha5/QuizHub/releases/download/v1.0.0/QuizHub.Version1.0.0.apk" className="lg:hidden inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm font-semibold hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
++              <Download size={16} aria-hidden="true" />
++              <span>Android app</span>
+             </a>
+           </nav>
+ 
+@@ -53,7 +53,7 @@ const Header: React.FC = () => {
+             <button
+               onClick={toggleTheme}
+               className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+-              aria-label="Toggle Dark Mode"
++              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+             >
+               {isDark ? <Sun size={20} /> : <Moon size={20} />}
+             </button>
+@@ -62,7 +62,9 @@ const Header: React.FC = () => {
+               <div className="relative">
+                 <button
+                   onClick={() => setIsProfileOpen(!isProfileOpen)}
+-                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-primary focus:outline-none"
++                  aria-expanded={isProfileOpen}
++                  aria-haspopup="menu"
++                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-primary rounded-md"
+                 >
+                   {user.photoURL ? (
+                     <img src={user.photoURL} alt="Profile" className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-600" />
+@@ -95,7 +97,7 @@ const Header: React.FC = () => {
+                 </AnimatePresence>
+               </div>
+             ) : (
+-              <Link to="/login" className="bg-primary text-white px-5 py-2 rounded-md font-medium hover:bg-blue-700 transition shadow-sm">
++              <Link to="/login" className="bg-primary text-white px-5 py-2 rounded-md font-medium hover:bg-indigo-700 transition-colors">
+                 Login
+               </Link>
+             )}
+@@ -105,11 +107,17 @@ const Header: React.FC = () => {
+           <div className="flex items-center space-x-4 md:hidden">
+             <button
+               onClick={toggleTheme}
+-              className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
++              className="p-2.5 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
++              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+             >
+               {isDark ? <Sun size={20} /> : <Moon size={20} />}
+             </button>
+-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-700 dark:text-gray-200 hover:text-primary">
++            <button
++              onClick={() => setIsMenuOpen(!isMenuOpen)}
++              className="p-2 -mr-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-primary"
++              aria-label="Menu"
++              aria-expanded={isMenuOpen}
++            >
+               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+             </button>
+           </div>
+@@ -150,13 +158,13 @@ const Header: React.FC = () => {
+                 </div>
+               ) : (
+                 <div className="mt-4">
+-                  <Link to="/login" onClick={() => setIsMenuOpen(false)} className="block text-center bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700">Login</Link>
++                  <Link to="/login" onClick={() => setIsMenuOpen(false)} className="block text-center bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700">Login</Link>
+                 </div>
+               )}
+ 
+               <div className="pt-4 mt-4 border-t border-gray-100 dark:border-gray-700">
+-                <a href="https://github.com/ramkrishnajha5/QuizHub/releases/download/v1.0.0/QuizHub.Version1.0.0.apk" className="flex items-center justify-center gap-3 w-full px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-lg active:scale-95 transition-all">
+-                  <Smartphone size={20} />
++                <a href="https://github.com/ramkrishnajha5/QuizHub/releases/download/v1.0.0/QuizHub.Version1.0.0.apk" className="flex items-center justify-center gap-3 w-full px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-100 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-100 transition-colors">
++                  <Smartphone size={20} aria-hidden="true" />
+                   <span>Download Android App</span>
+                 </a>
+               </div>
+diff --git a/index.css b/index.css
+index 186fc5a..aa60459 100644
+--- a/index.css
++++ b/index.css
+@@ -86,4 +86,21 @@ body {
+   .admin-modal-overlay {
+     left: 0;
+   }
+-}
+\ No newline at end of file
++}
++/* Focus and native controls, in the brand palette (primary #4F46E5) */
++:root {
++  accent-color: #4F46E5;
++}
++
++.dark {
++  color-scheme: dark;
++}
++
++:focus-visible {
++  outline: 2px solid #4F46E5;
++  outline-offset: 2px;
++}
++
++.dark :focus-visible {
++  outline-color: #A5B4FC;
++}
+diff --git a/pages/QuizSetup.tsx b/pages/QuizSetup.tsx
+index ec5a7dd..398f6bb 100644
+--- a/pages/QuizSetup.tsx
++++ b/pages/QuizSetup.tsx
+@@ -1,12 +1,11 @@
+-import React, { useEffect, useState, useMemo } from 'react';
++import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+ import { useNavigate } from 'react-router-dom';
+ import { fetchCategories } from '../utils/api';
+ import { Category } from '../types';
+-import { motion } from 'framer-motion';
++import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
+ import { TIMERS, QUESTION_COUNTS } from '../constants';
+ import { clearQuizState } from '../utils/idb';
+-import { Brain, Clock, ListChecks, Sparkles, Play, Star, ChevronRight, X, Lock, Unlock, CalendarDays, Folder, FolderOpen, ArrowLeft, Search } from 'lucide-react';
+-import { AnimatePresence } from 'framer-motion';
++import { ChevronRight, X, Lock, Folder, ArrowLeft, Search, Check, Clock, CircleSlash, AlertCircle, RotateCw } from 'lucide-react';
+ import { getPublishedAdminQuizzes, AdminQuiz, getAllQuizFolders, QuizFolder } from '../admin/utils/adminFirestore';
+ import { useAuth } from '../contexts/AuthContext';
+ import { doc, getDoc } from 'firebase/firestore';
+@@ -15,6 +14,42 @@ import { auth, db } from '../utils/firebase';
+ import CustomModal from '../components/CustomModal';
+ import { useCustomModal } from '../hooks/useCustomModal';
+ 
++type Availability = {
++  status: 'available' | 'upcoming' | 'ended' | 'live';
++  text: string;
++  locked: boolean;
++};
++
++// Text color per availability state. Each state also has its own icon, so color is never the only signal.
++const AVAILABILITY_STYLE: Record<Availability['status'], string> = {
++  available: 'text-gray-600 dark:text-gray-400',
++  live: 'text-green-700 dark:text-green-400',
++  upcoming: 'text-amber-700 dark:text-amber-400',
++  ended: 'text-gray-500 dark:text-gray-400',
++};
++
++const AvailabilityIcon: React.FC<{ status: Availability['status'] }> = ({ status }) => {
++  if (status === 'upcoming') return <Clock size={14} aria-hidden="true" />;
++  if (status === 'ended') return <CircleSlash size={14} aria-hidden="true" />;
++  if (status === 'live') return <span aria-hidden="true" className="inline-block w-2 h-2 rounded-full bg-current" />; // unslopovich-ignore status-dot
++  return null;
++};
++
++const capitalize = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
++
++// The "paper line": the terms of a test, written the way an exam paper states them.
++const PaperLine: React.FC<{ quiz: AdminQuiz; className?: string }> = ({ quiz, className = '' }) => (
++  <p className={`text-sm text-gray-600 dark:text-gray-400 tabular-nums ${className}`}>
++    {quiz.totalQuestions} questions
++    <span aria-hidden="true"> · </span>
++    {quiz.timeLimitMinutes || 10} min
++    {quiz.difficulty && (<><span aria-hidden="true"> · </span>{capitalize(quiz.difficulty)}</>)}
++    {quiz.negativeMarking && (
++      <><span aria-hidden="true"> · </span><span className="text-red-700 dark:text-red-400">−0.25 per wrong answer</span></>
++    )}
++  </p>
++);
++
+ const QuizSetup: React.FC = () => {
+   const { currentUser } = useAuth();
+   const { modalState, showAlert, showConfirm, closeModal } = useCustomModal();
+@@ -22,18 +57,22 @@ const QuizSetup: React.FC = () => {
+   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+   const [questionCount, setQuestionCount] = useState<number>(15); // Default to 15 questions
+   const [loading, setLoading] = useState(true);
++  const [loadError, setLoadError] = useState(false);
+   const [customQuizzes, setCustomQuizzes] = useState<AdminQuiz[]>([]);
+   const [folders, setFolders] = useState<QuizFolder[]>([]);
+   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
+   const [quizSearch, setQuizSearch] = useState('');
+   const [infoModalQuiz, setInfoModalQuiz] = useState<AdminQuiz | null>(null);
+   const navigate = useNavigate();
++  const dialogActionRef = useRef<HTMLButtonElement>(null);
++  const dialogCloseRef = useRef<HTMLButtonElement>(null);
++  const openerRef = useRef<HTMLElement | null>(null);
+ 
+-  const getAvailabilityStatus = (quiz: AdminQuiz) => {
++  const getAvailabilityStatus = (quiz: AdminQuiz): Availability => {
+     if (!quiz.hasTimeRestriction) {
+-      return { status: 'available', text: 'Available Now', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', locked: false };
++      return { status: 'available', text: 'Available now', locked: false };
+     }
+-    
++
+     const now = new Date();
+     // Support string dates or firestore Timestamps if they come as objects
+     const extractDate = (val: any) => {
+@@ -45,47 +84,73 @@ const QuizSetup: React.FC = () => {
+ 
+     const startTime = extractDate(quiz.availableFrom);
+     const endTime = extractDate(quiz.availableUntil);
+-    
++
+     if (startTime && now < startTime) {
+-      return { 
+-        status: 'upcoming', 
+-        text: `Opens ${startTime.toLocaleDateString()} ${startTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`, 
+-        color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
+-        locked: true
++      return {
++        status: 'upcoming',
++        text: `Opens ${startTime.toLocaleDateString()} ${startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
++        locked: true,
+       };
+     }
+-    
++
+     if (endTime && now > endTime) {
+-      return { 
+-        status: 'ended', 
+-        text: 'Quiz Ended', 
+-        color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+-        locked: true
+-      };
++      return { status: 'ended', text: 'Ended', locked: true };
+     }
+-    
+-    return { status: 'live', text: 'Live Now', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400', locked: false };
++
++    return { status: 'live', text: 'Live now', locked: false };
+   };
+ 
++  const loadData = useCallback(async () => {
++    setLoading(true);
++    setLoadError(false);
++    try {
++      const [cats, quizzes, folderList] = await Promise.all([
++        fetchCategories(),
++        getPublishedAdminQuizzes(),
++        getAllQuizFolders(),
++      ]);
++      setCategories(cats);
++      setCustomQuizzes(quizzes);
++      setFolders(folderList);
++    } catch (err) {
++      console.error('Error loading setup data:', err);
++      setLoadError(true);
++    } finally {
++      setLoading(false);
++    }
++  }, []);
++
+   useEffect(() => {
+-    const loadData = async () => {
+-      try {
+-        const [cats, quizzes, folderList] = await Promise.all([
+-          fetchCategories(),
+-          getPublishedAdminQuizzes(),
+-          getAllQuizFolders(),
+-        ]);
+-        setCategories(cats);
+-        setCustomQuizzes(quizzes);
+-        setFolders(folderList);
+-      } catch (err) {
+-        console.error('Error loading setup data:', err);
+-      } finally {
+-        setLoading(false);
+-      }
+-    };
+     loadData();
+-  }, []);
++  }, [loadData]);
++
++  // Quiz details dialog: focus the main action on open, give focus back to the opening row on close.
++  useEffect(() => {
++    if (!infoModalQuiz) {
++      openerRef.current?.focus();
++      return;
++    }
++    const t = window.setTimeout(() => {
++      const action = dialogActionRef.current;
++      (action && !action.disabled ? action : dialogCloseRef.current)?.focus();
++    }, 0);
++    return () => window.clearTimeout(t);
++  }, [infoModalQuiz]);
++
++  // Escape closes the dialog, unless the confirm dialog is open on top of it.
++  useEffect(() => {
++    if (!infoModalQuiz || modalState.isOpen) return;
++    const onKey = (e: KeyboardEvent) => {
++      if (e.key === 'Escape') setInfoModalQuiz(null);
++    };
++    document.addEventListener('keydown', onKey);
++    return () => document.removeEventListener('keydown', onKey);
++  }, [infoModalQuiz, modalState.isOpen]);
++
++  const openQuiz = (quiz: AdminQuiz, e: React.MouseEvent<HTMLElement>) => {
++    openerRef.current = e.currentTarget;
++    setInfoModalQuiz(quiz);
++  };
+ 
+   // Folder helper calculations
+   const getDescendantFolderIds = (parentId: string): string[] => {
+@@ -117,12 +182,12 @@ const QuizSetup: React.FC = () => {
+   const breadcrumbTrail = useMemo(() => {
+     if (currentFolderId === '__other__') {
+       return [
+-        { id: null, name: 'All Categories' },
+-        { id: '__other__', name: 'Other Quizzes' },
++        { id: null, name: 'All tests' },
++        { id: '__other__', name: 'Other quizzes' },
+       ];
+     }
+     if (!currentFolderId) {
+-      return [{ id: null, name: 'All Categories' }];
++      return [{ id: null, name: 'All tests' }];
+     }
+     const trail: { id: string | null; name: string }[] = [];
+     let curr: QuizFolder | undefined = folders.find(f => f.id === currentFolderId);
+@@ -130,7 +195,7 @@ const QuizSetup: React.FC = () => {
+       trail.unshift({ id: curr.id, name: curr.name });
+       curr = curr.parentId ? folders.find(f => f.id === curr!.parentId) : undefined;
+     }
+-    trail.unshift({ id: null, name: 'All Categories' });
++    trail.unshift({ id: null, name: 'All tests' });
+     return trail;
+   }, [currentFolderId, folders]);
+ 
+@@ -226,587 +291,412 @@ const QuizSetup: React.FC = () => {
+     });
+   };
+ 
++  const surface = 'bg-white dark:bg-darkcard border border-gray-200 dark:border-gray-700 rounded-xl';
++  const rowButton = 'w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700/50 active:bg-gray-100 dark:active:bg-gray-700 transition-colors';
++  const groupHeading = 'text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2';
++
+   if (loading) {
+     return (
+-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20">
+-        <motion.div
+-          initial={{ scale: 0.8, opacity: 0 }}
+-          animate={{ scale: 1, opacity: 1 }}
+-          className="relative"
+-        >
+-          <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+-          <Sparkles className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-primary w-6 h-6" />
+-        </motion.div>
++      <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12" role="status" aria-live="polite">
++        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Start a quiz</h1>
++        <p className="mt-2 text-gray-600 dark:text-gray-400">Loading tests and topics…</p>
++        <div aria-hidden="true" className="mt-8 space-y-6">
++          <div className={`${surface} h-48`} />
++          <div className={`${surface} h-72`} />
++        </div>
+       </div>
+     );
+   }
+ 
++  const hasTeamTests = customQuizzes.length > 0 || folders.length > 0;
++  const minutesFor = (count: number) => TIMERS[count] / 60;
++
++  const renderQuizRow = (quiz: AdminQuiz, subline: string) => {
++    const status = getAvailabilityStatus(quiz);
++    return (
++      <li key={quiz.quizId}>
++        <button type="button" onClick={(e) => openQuiz(quiz, e)} className={`${rowButton} items-start`}>
++          <span className="flex-1 min-w-0">
++            <span className={`block font-semibold ${status.locked ? 'text-gray-600 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
++              {quiz.title}
++            </span>
++            <span className="block text-sm text-gray-500 dark:text-gray-400 truncate">{subline}</span>
++            <PaperLine quiz={quiz} className="mt-1" />
++            {status.status !== 'available' && (
++              <span className={`mt-1 inline-flex items-center gap-1.5 text-sm font-medium ${AVAILABILITY_STYLE[status.status]}`}>
++                <AvailabilityIcon status={status.status} />
++                {status.text}
++              </span>
++            )}
++          </span>
++          {status.locked ? (
++            <Lock size={18} className="mt-1 text-gray-400 shrink-0" aria-label="Locked" />
++          ) : (
++            <ChevronRight size={18} className="mt-1 text-gray-400 shrink-0" aria-hidden="true" />
++          )}
++        </button>
++      </li>
++    );
++  };
++
+   return (
+-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-gray-900 dark:via-blue-900/10 dark:to-purple-900/10 py-12 px-4 transition-colors duration-300">
+-      <div className="max-w-4xl mx-auto">
+-        <motion.div
+-          initial={{ opacity: 0, y: 20 }}
+-          animate={{ opacity: 1, y: 0 }}
+-          className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50"
+-        >
+-          {/* Header Section */}
+-          <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-700 dark:via-purple-700 dark:to-pink-700 px-8 py-10">
+-            <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+-            <div className="relative z-10">
+-              <div className="flex items-center gap-3 mb-3">
+-                <Brain className="w-10 h-10 text-white" />
+-                <h2 className="text-4xl font-extrabold text-white">Configure Your Quiz</h2>
++    <MotionConfig reducedMotion="user">
++      <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12">
++        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Start a quiz</h1>
++
++        {loadError && (
++          <div role="alert" className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/40">
++            <AlertCircle size={20} className="text-red-700 dark:text-red-400 shrink-0" aria-hidden="true" />
++            <p className="flex-1 text-sm text-red-800 dark:text-red-200">
++              Couldn't load the topic list and the team's tests. Check your connection and try again.
++            </p>
++            <button
++              type="button"
++              onClick={loadData}
++              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 rounded-lg bg-white dark:bg-darkcard border border-red-300 dark:border-red-800 text-sm font-semibold text-red-800 dark:text-red-200 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
++            >
++              <RotateCw size={16} aria-hidden="true" /> Try again
++            </button>
++          </div>
++        )}
++
++        {/* Test series from the QuizHub team */}
++        {hasTeamTests && (
++          <section aria-labelledby="team-tests-heading" className="mt-8">
++            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-3">
++              <div>
++                <h2 id="team-tests-heading" className="text-lg font-bold text-gray-900 dark:text-white">Tests by the QuizHub team</h2>
++                <p className="text-sm text-gray-600 dark:text-gray-400">Section-wise test series and set papers</p>
++              </div>
++              <div className="relative w-full sm:w-72">
++                <label htmlFor="quiz-search" className="sr-only">Search team tests</label>
++                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" aria-hidden="true" />
++                <input
++                  id="quiz-search"
++                  type="search"
++                  placeholder="Search tests"
++                  value={quizSearch}
++                  onChange={(e) => setQuizSearch(e.target.value)}
++                  className="w-full h-11 pl-10 pr-10 rounded-lg bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary [&::-webkit-search-cancel-button]:hidden"
++                />
++                {quizSearch && (
++                  <button
++                    type="button"
++                    onClick={() => setQuizSearch('')}
++                    aria-label="Clear search"
++                    className="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700" // unslopovich-ignore icon-tile: icon-only button, no tint at rest
++                  >
++                    <X size={16} aria-hidden="true" />
++                  </button>
++                )}
+               </div>
+-              <p className="text-blue-100 text-lg">Select your topic and number of questions to begin your learning journey</p>
+             </div>
+-          </div>
+ 
+-          {/* Hierarchical Test Series & Quizzes Section */}
+-          {(customQuizzes.length > 0 || folders.length > 0) && (
+-            <motion.div
+-              initial={{ opacity: 0, y: 20 }}
+-              animate={{ opacity: 1, y: 0 }}
+-              transition={{ delay: 0.1 }}
+-              className="border-b-4 border-gray-100 dark:border-gray-800"
+-            >
+-              {/* Section Header */}
+-              <div className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 px-8 py-5">
+-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+-                  <div className="flex items-center gap-3">
+-                    <Star className="w-8 h-8 text-white flex-shrink-0" />
+-                    <div>
+-                      <h3 className="text-2xl font-extrabold text-white">Quizzes by QuizHub Team</h3>
+-                      <p className="text-xs text-orange-100 mt-0.5">Section-wise test series & curated quizzes</p>
++            <div className={surface}>
++              {quizSearch.trim() ? (
++                /* Search results */
++                <div>
++                  <p className="px-4 pt-3 pb-2 text-sm text-gray-600 dark:text-gray-400" aria-live="polite">
++                    {searchResults.length} {searchResults.length === 1 ? 'test matches' : 'tests match'} “{quizSearch.trim()}”
++                  </p>
++                  {searchResults.length === 0 ? (
++                    <div className="px-4 pb-6">
++                      <p className="font-semibold text-gray-900 dark:text-white">No tests match that search</p>
++                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Try a shorter word, or clear the search to browse folders.</p>
+                     </div>
+-                  </div>
+-                  {/* Search Bar */}
+-                  <div className="relative w-full sm:w-64">
+-                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70" />
+-                    <input
+-                      type="text"
+-                      placeholder="Search quizzes..."
+-                      value={quizSearch}
+-                      onChange={(e) => setQuizSearch(e.target.value)}
+-                      className="w-full pl-9 pr-8 py-1.5 rounded-full bg-white/20 text-white placeholder-white/70 text-xs backdrop-blur-md outline-none border border-white/30 focus:bg-white/30 focus:border-white transition"
+-                    />
+-                    {quizSearch && (
+-                      <button
+-                        onClick={() => setQuizSearch('')}
+-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/80 hover:text-white"
+-                      >
+-                        <X size={14} />
+-                      </button>
+-                    )}
+-                  </div>
++                  ) : (
++                    <ul className="divide-y divide-gray-200 dark:divide-gray-700 border-t border-gray-200 dark:border-gray-700">
++                      {searchResults.map((quiz) => renderQuizRow(quiz, quiz.folderPath || 'Other quizzes'))}
++                    </ul>
++                  )}
+                 </div>
+-              </div>
++              ) : (
++                /* Folder navigation */
++                <div>
++                  <div className="flex items-center justify-between gap-2 px-2 py-2 border-b border-gray-200 dark:border-gray-700">
++                    <nav aria-label="Folder" className="min-w-0">
++                      <ol className="flex items-center flex-wrap gap-1 text-sm">
++                        {breadcrumbTrail.map((crumb, idx) => {
++                          const isLast = idx === breadcrumbTrail.length - 1;
++                          return (
++                            <li key={crumb.id ?? 'root'} className="flex items-center gap-1">
++                              {idx > 0 && <ChevronRight size={14} className="text-gray-400" aria-hidden="true" />}
++                              {isLast ? (
++                                <span aria-current="page" className="px-2 py-2 font-semibold text-gray-900 dark:text-white">{crumb.name}</span>
++                              ) : (
++                                <button
++                                  type="button"
++                                  onClick={() => setCurrentFolderId(crumb.id)}
++                                  className="px-2 py-2 rounded-md text-primary dark:text-indigo-300 hover:underline"
++                                >
++                                  {crumb.name}
++                                </button>
++                              )}
++                            </li>
++                          );
++                        })}
++                      </ol>
++                    </nav>
+ 
+-              <div className="p-6 md:p-8 bg-gray-50/50 dark:bg-gray-800/30">
+-                {/* Search Results Mode */}
+-                {quizSearch.trim() ? (
+-                  <div>
+-                    <div className="flex items-center justify-between mb-4">
+-                      <p className="text-sm font-bold text-gray-700 dark:text-gray-300">
+-                        Search results for "<span className="text-purple-600 dark:text-purple-400">{quizSearch}</span>" ({searchResults.length})
+-                      </p>
++                    {currentFolderId && (
+                       <button
+-                        onClick={() => setQuizSearch('')}
+-                        className="text-xs text-purple-600 dark:text-purple-400 hover:underline font-semibold"
++                        type="button"
++                        onClick={() => setCurrentFolderId(parentFolderId)}
++                        className="shrink-0 inline-flex items-center gap-1 min-h-[40px] px-3 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                       >
+-                        Clear Search
++                        <ArrowLeft size={16} aria-hidden="true" /> Back
+                       </button>
+-                    </div>
+-
+-                    {searchResults.length === 0 ? (
+-                      <div className="text-center py-10 text-gray-500 dark:text-gray-400">
+-                        <p className="font-semibold text-sm">No quizzes found matching your search</p>
+-                        <p className="text-xs mt-1">Try another keyword or browse categories below</p>
+-                      </div>
+-                    ) : (
+-                      <div className="grid sm:grid-cols-2 gap-4">
+-                        {searchResults.map((quiz) => {
+-                          const status = getAvailabilityStatus(quiz);
+-                          return (
+-                            <motion.button
+-                              key={quiz.quizId}
+-                              onClick={() => setInfoModalQuiz(quiz)}
+-                              whileHover={{ scale: 1.02, y: -3 }}
+-                              whileTap={{ scale: 0.98 }}
+-                              className="text-left p-5 bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-all shadow-sm hover:shadow-md group relative overflow-hidden"
+-                            >
+-                              {status.locked && <div className="absolute inset-0 bg-gray-100/30 dark:bg-gray-900/30 backdrop-blur-[1px] z-10 pointer-events-none" />}
+-                              <div className="relative z-20">
+-                                <div className="flex flex-wrap items-center justify-between mb-2 gap-2">
+-                                  <div className="flex gap-2">
+-                                    <span className={`px-2 py-0.5 text-xs font-bold rounded-md capitalize ${
+-                                      quiz.difficulty === 'easy' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+-                                        : quiz.difficulty === 'hard' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+-                                        : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+-                                    }`}>
+-                                      {quiz.difficulty}
+-                                    </span>
+-                                    <span className={`px-2 py-0.5 text-xs font-bold rounded-md ${status.color}`}>
+-                                      {status.text}
+-                                    </span>
+-                                  </div>
+-                                  {!status.locked ? (
+-                                    <ChevronRight size={18} className="text-gray-400 group-hover:text-purple-500 group-hover:translate-x-1 transition-all" />
+-                                  ) : (
+-                                    <Lock size={16} className="text-gray-400" />
+-                                  )}
+-                                </div>
+-                                <h4 className="text-base font-bold text-gray-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">{quiz.title}</h4>
+-                                <p className="text-xs text-purple-600 dark:text-purple-400 font-medium mb-2">
+-                                  📂 {quiz.folderPath || 'Other Quizzes'}
+-                                </p>
+-                                <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-300 font-medium">
+-                                  <span>📝 {quiz.totalQuestions} Questions</span>
+-                                  <span>⏱️ {quiz.timeLimitMinutes || 10} Mins</span>
+-                                </div>
+-                              </div>
+-                            </motion.button>
+-                          );
+-                        })}
+-                      </div>
+                     )}
+                   </div>
+-                ) : (
+-                  /* Folder Navigation Mode */
+-                  <div>
+-                    {/* Breadcrumbs & Back Bar */}
+-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-6 p-3 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm">
+-                      <div className="flex items-center gap-1.5 flex-wrap text-sm">
+-                        {breadcrumbTrail.map((crumb, idx) => {
+-                          const isLast = idx === breadcrumbTrail.length - 1;
++
++                  {/* Folders at this level */}
++                  {(displayedFolders.length > 0 || (currentFolderId === null && uncategorizedQuizzes.length > 0)) && (
++                    <div className="pt-3">
++                      {currentFolderId && <h3 className={`${groupHeading} px-4`}>Folders</h3>}
++                      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
++                        {displayedFolders.map((folder) => {
++                          const count = getQuizCountInFolder(folder.id);
++                          const subs = getSubfolderCount(folder.id);
+                           return (
+-                            <React.Fragment key={crumb.id ?? 'root'}>
+-                              {idx > 0 && <span className="text-gray-400 text-xs">/</span>}
+-                              <button
+-                                onClick={() => setCurrentFolderId(crumb.id)}
+-                                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+-                                  isLast
+-                                    ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 pointer-events-none'
+-                                    : 'text-gray-600 dark:text-gray-400 hover:text-purple-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+-                                }`}
+-                              >
+-                                {idx === 0 ? '🏠 All Categories' : crumb.name}
++                            <li key={folder.id}>
++                              <button type="button" onClick={() => setCurrentFolderId(folder.id)} className={rowButton}>
++                                <Folder size={20} className="text-gray-500 dark:text-gray-400 shrink-0" aria-hidden="true" />
++                                <span className="flex-1 min-w-0">
++                                  <span className="block font-semibold text-gray-900 dark:text-white truncate">{folder.name}</span>
++                                  <span className="block text-sm text-gray-600 dark:text-gray-400 tabular-nums">
++                                    {count} {count === 1 ? 'test' : 'tests'}
++                                    {subs > 0 && ` · ${subs} ${subs === 1 ? 'folder' : 'folders'}`}
++                                  </span>
++                                </span>
++                                <ChevronRight size={18} className="text-gray-400 shrink-0" aria-hidden="true" />
+                               </button>
+-                            </React.Fragment>
++                            </li>
+                           );
+                         })}
+-                      </div>
+-
+-                      {currentFolderId && (
+-                        <button
+-                          onClick={() => setCurrentFolderId(parentFolderId)}
+-                          className="flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-600 transition"
+-                        >
+-                          <ArrowLeft size={14} /> Back
+-                        </button>
+-                      )}
+-                    </div>
+ 
+-                    {/* Sub-Folders Section */}
+-                    {(displayedFolders.length > 0 || (currentFolderId === null && uncategorizedQuizzes.length > 0)) && (
+-                      <div className="mb-6">
+-                        {currentFolderId && (
+-                          <h4 className="text-xs font-black uppercase text-gray-400 tracking-wider mb-3">
+-                            Sub-Sections & Categories
+-                          </h4>
++                        {/* Fallback "Other quizzes" folder at root level */}
++                        {currentFolderId === null && uncategorizedQuizzes.length > 0 && (
++                          <li>
++                            <button type="button" onClick={() => setCurrentFolderId('__other__')} className={rowButton}>
++                              <Folder size={20} className="text-gray-500 dark:text-gray-400 shrink-0" aria-hidden="true" />
++                              <span className="flex-1 min-w-0">
++                                <span className="block font-semibold text-gray-900 dark:text-white">Other quizzes</span>
++                                <span className="block text-sm text-gray-600 dark:text-gray-400 tabular-nums">
++                                  {uncategorizedQuizzes.length} {uncategorizedQuizzes.length === 1 ? 'test' : 'tests'}
++                                </span>
++                              </span>
++                              <ChevronRight size={18} className="text-gray-400 shrink-0" aria-hidden="true" />
++                            </button>
++                          </li>
+                         )}
+-                        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+-                          {displayedFolders.map((folder) => {
+-                            const count = getQuizCountInFolder(folder.id);
+-                            const subs = getSubfolderCount(folder.id);
+-                            return (
+-                              <motion.button
+-                                key={folder.id}
+-                                onClick={() => setCurrentFolderId(folder.id)}
+-                                whileHover={{ scale: 1.02, y: -2 }}
+-                                whileTap={{ scale: 0.98 }}
+-                                className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 shadow-sm hover:shadow-md transition text-left group"
+-                              >
+-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-lg shadow flex-shrink-0 group-hover:scale-110 transition-transform">
+-                                  📂
+-                                </div>
+-                                <div className="flex-1 min-w-0">
+-                                  <h5 className="font-bold text-gray-900 dark:text-white text-sm truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">
+-                                    {folder.name}
+-                                  </h5>
+-                                  <p className="text-[11px] text-gray-500 dark:text-gray-400">
+-                                    {count} {count === 1 ? 'quiz' : 'quizzes'}
+-                                    {subs > 0 && ` • ${subs} sub-folder${subs === 1 ? '' : 's'}`}
+-                                  </p>
+-                                </div>
+-                                <ChevronRight size={18} className="text-gray-400 group-hover:text-purple-500 group-hover:translate-x-0.5 transition" />
+-                              </motion.button>
+-                            );
+-                          })}
+-
+-                          {/* Fallback "Other Quizzes" folder at root level */}
+-                          {currentFolderId === null && uncategorizedQuizzes.length > 0 && (
+-                            <motion.button
+-                              key="__other__"
+-                              onClick={() => setCurrentFolderId('__other__')}
+-                              whileHover={{ scale: 1.02, y: -2 }}
+-                              whileTap={{ scale: 0.98 }}
+-                              className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500 shadow-sm hover:shadow-md transition text-left group"
+-                            >
+-                              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white text-lg shadow flex-shrink-0 group-hover:scale-110 transition-transform">
+-                                📁
+-                              </div>
+-                              <div className="flex-1 min-w-0">
+-                                <h5 className="font-bold text-gray-900 dark:text-white text-sm truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">
+-                                  Other Quizzes
+-                                </h5>
+-                                <p className="text-[11px] text-gray-500 dark:text-gray-400">
+-                                  {uncategorizedQuizzes.length} {uncategorizedQuizzes.length === 1 ? 'quiz' : 'quizzes'}
+-                                </p>
+-                              </div>
+-                              <ChevronRight size={18} className="text-gray-400 group-hover:text-purple-500 group-hover:translate-x-0.5 transition" />
+-                            </motion.button>
+-                          )}
+-                        </div>
+-                      </div>
+-                    )}
++                      </ul>
++                    </div>
++                  )}
++
++                  {/* Tests directly in this folder */}
++                  {displayedQuizzes.length > 0 && (
++                    <div className={`pt-3 ${displayedFolders.length > 0 ? 'border-t border-gray-200 dark:border-gray-700' : ''}`}>
++                      {displayedFolders.length > 0 && <h3 className={`${groupHeading} px-4`}>Tests</h3>}
++                      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
++                        {displayedQuizzes.map((quiz) => renderQuizRow(quiz, quiz.category))}
++                      </ul>
++                    </div>
++                  )}
+ 
+-                    {/* Direct Quizzes Section */}
+-                    {displayedQuizzes.length > 0 && (
+-                      <div>
+-                        {displayedFolders.length > 0 && (
+-                          <h4 className="text-xs font-black uppercase text-gray-400 tracking-wider mb-3">
+-                            Tests & Quizzes
+-                          </h4>
+-                        )}
+-                        <div className="grid sm:grid-cols-2 gap-4">
+-                          {displayedQuizzes.map((quiz) => {
+-                            const status = getAvailabilityStatus(quiz);
+-                            return (
+-                              <motion.button
+-                                key={quiz.quizId}
+-                                onClick={() => setInfoModalQuiz(quiz)}
+-                                whileHover={{ scale: 1.02, y: -3 }}
+-                                whileTap={{ scale: 0.98 }}
+-                                className="text-left p-5 bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-all shadow-sm hover:shadow-md group relative overflow-hidden"
+-                              >
+-                                {status.locked && <div className="absolute inset-0 bg-gray-100/30 dark:bg-gray-900/30 backdrop-blur-[1px] z-10 pointer-events-none" />}
+-                                <div className="relative z-20">
+-                                  <div className="flex flex-wrap items-center justify-between mb-3 gap-2">
+-                                    <div className="flex gap-2">
+-                                      <span className={`px-2 py-0.5 text-xs font-bold rounded-md capitalize ${
+-                                        quiz.difficulty === 'easy' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+-                                          : quiz.difficulty === 'hard' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+-                                          : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+-                                      }`}>
+-                                        {quiz.difficulty}
+-                                      </span>
+-                                      <span className={`px-2 py-0.5 text-xs font-bold rounded-md ${status.color}`}>
+-                                        {status.text}
+-                                      </span>
+-                                    </div>
+-                                    {!status.locked ? (
+-                                      <ChevronRight size={18} className="text-gray-400 group-hover:text-purple-500 group-hover:translate-x-1 transition-all" />
+-                                    ) : (
+-                                      <Lock size={16} className="text-gray-400" />
+-                                    )}
+-                                  </div>
+-                                  <h4 className="text-base font-bold text-gray-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">{quiz.title}</h4>
+-                                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{quiz.category}</p>
+-                                  <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-300 font-medium">
+-                                    <span>📝 {quiz.totalQuestions} Questions</span>
+-                                    <span>⏱️ {quiz.timeLimitMinutes || 10} Mins</span>
+-                                    {quiz.negativeMarking && (
+-                                      <span className="text-red-500 font-semibold">⚠ -0.25</span>
+-                                    )}
+-                                  </div>
+-                                </div>
+-                              </motion.button>
+-                            );
+-                          })}
+-                        </div>
+-                      </div>
+-                    )}
++                  {/* Empty folder */}
++                  {displayedFolders.length === 0 && displayedQuizzes.length === 0 && (
++                    <div className="px-4 py-8">
++                      <p className="font-semibold text-gray-900 dark:text-white">No tests in this folder yet</p>
++                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Tests appear here when the QuizHub team publishes them.</p>
++                    </div>
++                  )}
++                </div>
++              )}
++            </div>
++          </section>
++        )}
+ 
+-                    {/* Empty State */}
+-                    {displayedFolders.length === 0 && displayedQuizzes.length === 0 && (
+-                      <div className="text-center py-12 px-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
+-                        <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-2xl">
+-                          📂
+-                        </div>
+-                        <h4 className="text-base font-bold text-gray-800 dark:text-gray-200">No quizzes in this section yet</h4>
+-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Tests will appear here once uploaded by the QuizHub team.</p>
+-                      </div>
+-                    )}
+-                  </div>
+-                )}
+-              </div>
+-            </motion.div>
+-          )}
++        {/* Quick practice from Open Trivia DB */}
++        <section aria-labelledby="practice-heading" className="mt-10">
++          <h2 id="practice-heading" className="text-lg font-bold text-gray-900 dark:text-white">Quick practice</h2>
++          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Random multiple-choice questions on a topic, from Open Trivia DB</p>
+ 
+-          <div className="p-8 md:p-10 space-y-8">
+-            {/* Category Selection */}
++          <div className={`${surface} p-4 sm:p-6 space-y-6`}>
+             <div>
+-              <label className="flex items-center gap-2 text-lg font-bold text-gray-700 dark:text-gray-300 mb-4">
+-                <ListChecks className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+-                Select Category
+-              </label>
++              <label htmlFor="practice-topic" className="block font-semibold text-gray-900 dark:text-white mb-2">Topic</label>
+               <select
+-                className="w-full p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-medium text-lg transition-all"
++                id="practice-topic"
++                className="w-full h-12 px-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-base text-gray-900 dark:text-white focus:border-primary"
+                 value={selectedCategory || ''}
+                 onChange={(e) => setSelectedCategory(Number(e.target.value))}
++                disabled={categories.length === 0}
++                aria-describedby={categories.length === 0 ? 'topic-unavailable' : undefined}
+               >
+-                <option value="" disabled>Choose a topic...</option>
++                <option value="" disabled>{categories.length === 0 ? 'No topics loaded' : 'Choose a topic'}</option>
+                 {categories.map(c => (
+                   <option key={c.id} value={c.id}>{c.name}</option>
+                 ))}
+               </select>
++              {categories.length === 0 && (
++                <p id="topic-unavailable" className="mt-2 text-sm text-red-700 dark:text-red-400">
++                  The topic list didn't load, so quick practice can't start. Use Try again above.
++                </p>
++              )}
+             </div>
+ 
+-            {/* Question Count Selection */}
+-            <div>
+-              <label className="flex items-center gap-2 text-lg font-bold text-gray-700 dark:text-gray-300 mb-4">
+-                <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+-                Number of Questions & Time
+-              </label>
+-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+-                {QUESTION_COUNTS.map((count) => (
+-                  <motion.button
+-                    key={count}
+-                    onClick={() => setQuestionCount(count)}
+-                    whileHover={{ scale: 1.05, y: -4 }}
+-                    whileTap={{ scale: 0.95 }}
+-                    className={`
+-                      relative overflow-hidden py-6 px-4 rounded-2xl border-2 font-bold transition-all duration-300
+-                      ${questionCount === count
+-                        ? 'border-primary bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-primary dark:text-blue-400 shadow-lg'
+-                        : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800'}
+-                    `}
+-                  >
+-                    {/* Selected indicator */}
+-                    {questionCount === count && (
+-                      <motion.div
+-                        layoutId="selectedIndicator"
+-                        className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"
++            <fieldset>
++              <legend className="font-semibold text-gray-900 dark:text-white mb-2">Length</legend>
++              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
++                {QUESTION_COUNTS.map((count) => {
++                  const selected = questionCount === count;
++                  return (
++                    <label key={count} className="relative cursor-pointer">
++                      <input
++                        type="radio"
++                        name="question-count"
++                        value={count}
++                        checked={selected}
++                        onChange={() => setQuestionCount(count)}
++                        className="peer sr-only"
+                       />
+-                    )}
+-
+-                    <div className="relative z-10">
+-                      <div className="text-3xl font-extrabold mb-2">{count}</div>
+-                      <div className="text-sm font-semibold">Questions</div>
+-                      <div className="mt-2 pt-2 border-t border-current/20">
+-                        <Clock className="w-4 h-4 inline mr-1" />
+-                        <span className="text-xs font-medium">
+-                          {(TIMERS[count] / 60)} min
+-                        </span>
+-                      </div>
+-                    </div>
+-
+-                    {/* Checkmark for selected */}
+-                    {questionCount === count && (
+-                      <motion.div
+-                        initial={{ scale: 0 }}
+-                        animate={{ scale: 1 }}
+-                        className="absolute top-2 right-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center"
++                      <span
++                        className={`flex flex-col gap-0.5 p-3 rounded-lg border tabular-nums transition-colors peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary ${
++                          selected
++                            ? 'border-primary bg-indigo-50 dark:bg-indigo-950/50 ring-1 ring-primary'
++                            : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
++                        }`}
+                       >
+-                        <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+-                        </svg>
+-                      </motion.div>
+-                    )}
+-                  </motion.button>
+-                ))}
++                        <span className={`flex items-center justify-between font-semibold ${selected ? 'text-primary dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
++                          {count} questions
++                          {selected && <Check size={16} aria-hidden="true" />}
++                        </span>
++                        <span className="text-sm text-gray-600 dark:text-gray-400">{minutesFor(count)} min</span>
++                      </span>
++                    </label>
++                  );
++                })}
+               </div>
+-              <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+-                <Sparkles className="w-4 h-4" />
+-                Questions are randomly selected and shuffled each time for a unique experience
+-              </p>
++            </fieldset>
++
++            <div>
++              <button
++                type="button"
++                onClick={handleStart}
++                disabled={selectedCategory === null}
++                aria-describedby={selectedCategory === null ? 'start-hint' : undefined}
++                className="w-full sm:w-auto min-h-[48px] px-6 rounded-lg bg-primary text-white font-semibold text-base hover:bg-indigo-700 active:bg-indigo-800 disabled:bg-gray-300 disabled:text-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
++              >
++                Start {questionCount}-question quiz · {minutesFor(questionCount)} min
++              </button>
++              {selectedCategory === null && categories.length > 0 && (
++                <p id="start-hint" className="mt-2 text-sm text-gray-600 dark:text-gray-400">Choose a topic to start.</p>
++              )}
+             </div>
+ 
+-            {/* Summary Box */}
+-            <motion.div
+-              initial={{ opacity: 0, y: 10 }}
+-              animate={{ opacity: 1, y: 0 }}
+-              transition={{ delay: 0.2 }}
+-              className="relative bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 border border-blue-200/50 dark:border-blue-800/50"
+-            >
+-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-400/10 dark:bg-blue-600/5 rounded-full blur-2xl"></div>
+-
+-              <div className="relative">
+-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+-                  <Sparkles className="w-5 h-5 text-yellow-500" />
+-                  Quiz Summary
+-                </h3>
+-                <div className="grid grid-cols-2 gap-4">
+-                  <div className="bg-white/60 dark:bg-gray-800/60 rounded-xl p-4">
+-                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Questions</div>
+-                    <div className="text-2xl font-extrabold text-gray-900 dark:text-white">{questionCount}</div>
+-                  </div>
+-                  <div className="bg-white/60 dark:bg-gray-800/60 rounded-xl p-4">
+-                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Time Limit</div>
+-                    <div className="text-2xl font-extrabold text-gray-900 dark:text-white">
+-                      {(TIMERS[questionCount] / 60)} min
+-                    </div>
+-                  </div>
+-                </div>
+-              </div>
+-            </motion.div>
+-
+-            {/* Start Button */}
+-            <motion.button
+-              onClick={handleStart}
+-              disabled={selectedCategory === null}
+-              whileHover={{ scale: selectedCategory === null ? 1 : 1.02 }}
+-              whileTap={{ scale: selectedCategory === null ? 1 : 0.98 }}
+-              className="w-full py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl font-bold text-xl shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all transform flex items-center justify-center gap-3"
+-            >
+-              <Play className="w-6 h-6" fill="currentColor" />
+-              Start Quiz
+-            </motion.button>
++            <p className="text-sm text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4">
++              Questions are drawn from a larger pool and shuffled, and so are the answer options. Your progress saves every
++              5 seconds, and you can mark questions to come back to.
++            </p>
+           </div>
+-        </motion.div>
+-
+-        {/* Replaced Custom Quizzes Section with Quiz Info Modal */}
+-
+-        {/* Info Card */}
+-        <motion.div
+-          initial={{ opacity: 0, y: 20 }}
+-          animate={{ opacity: 1, y: 0 }}
+-          transition={{ delay: 0.3 }}
+-          className="mt-8 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50"
+-        >
+-          <h3 className="font-bold text-gray-900 dark:text-white mb-3">📝 Quiz Features</h3>
+-          <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+-            <li className="flex items-start gap-2">
+-              <span className="text-green-500 mt-0.5">✓</span>
+-              <span>Questions are randomly shuffled from a larger pool for variety</span>
+-            </li>
+-            <li className="flex items-start gap-2">
+-              <span className="text-green-500 mt-0.5">✓</span>
+-              <span>Answer options are randomized in each quiz</span>
+-            </li>
+-            <li className="flex items-start gap-2">
+-              <span className="text-green-500 mt-0.5">✓</span>
+-              <span>Progress is auto-saved every 5 seconds</span>
+-            </li>
+-            <li className="flex items-start gap-2">
+-              <span className="text-green-500 mt-0.5">✓</span>
+-              <span>Mark questions for review and navigate freely</span>
+-            </li>
+-          </ul>
+-        </motion.div>
++        </section>
+       </div>
+ 
+-      {/* Quiz Info Modal */}
++      {/* Quiz details dialog */}
+       <AnimatePresence>
+-        {infoModalQuiz && (
+-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+-            <motion.div
+-              initial={{ opacity: 0 }}
+-              animate={{ opacity: 1 }}
+-              exit={{ opacity: 0 }}
+-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+-              onClick={() => setInfoModalQuiz(null)}
+-            />
+-            <motion.div
+-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+-              animate={{ scale: 1, opacity: 1, y: 0 }}
+-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+-              className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+-            >
+-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-5 flex items-start justify-between text-white">
+-                <div>
+-                  <h3 className="text-2xl font-black mb-1 leading-tight">{infoModalQuiz.title}</h3>
+-                  <p className="text-white/80 text-sm font-medium">{infoModalQuiz.category}</p>
++        {infoModalQuiz && (() => {
++          const status = getAvailabilityStatus(infoModalQuiz);
++          return (
++            <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4">
++              <motion.div
++                initial={{ opacity: 0 }}
++                animate={{ opacity: 1 }}
++                exit={{ opacity: 0 }}
++                transition={{ duration: 0.15 }}
++                className="absolute inset-0 bg-black/50"
++                aria-hidden="true"
++                onClick={() => setInfoModalQuiz(null)}
++              />
++              <motion.div
++                role="dialog"
++                aria-modal="true"
++                aria-labelledby="quiz-dialog-title"
++                initial={{ opacity: 0, y: 16 }}
++                animate={{ opacity: 1, y: 0 }}
++                exit={{ opacity: 0, y: 16 }}
++                transition={{ duration: 0.15 }}
++                className="relative w-full sm:max-w-md bg-white dark:bg-darkcard rounded-t-2xl sm:rounded-2xl border border-gray-200 dark:border-gray-700 shadow-xl pb-[env(safe-area-inset-bottom)]"
++              >
++                <div className="flex items-start justify-between gap-3 p-5 border-b border-gray-200 dark:border-gray-700">
++                  <div className="min-w-0">
++                    <h2 id="quiz-dialog-title" className="text-xl font-bold text-gray-900 dark:text-white leading-snug">{infoModalQuiz.title}</h2>
++                    <p className="text-sm text-gray-600 dark:text-gray-400">{infoModalQuiz.category}</p>
++                  </div>
++                  <button
++                    ref={dialogCloseRef}
++                    type="button"
++                    onClick={() => setInfoModalQuiz(null)}
++                    aria-label="Close"
++                    className="shrink-0 w-10 h-10 -mr-2 -mt-1 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" // unslopovich-ignore icon-tile: icon-only button, no tint at rest
++                  >
++                    <X size={20} aria-hidden="true" />
++                  </button>
+                 </div>
+-                <button
+-                  onClick={() => setInfoModalQuiz(null)}
+-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition flex-shrink-0"
+-                >
+-                  <X size={20} />
+-                </button>
+-              </div>
+ 
+-              <div className="p-6 md:p-8 space-y-6 flex-1 bg-gray-50 dark:bg-transparent">
+-                {(() => {
+-                  const status = getAvailabilityStatus(infoModalQuiz);
+-                  return (
+-                    <>
+-                      {/* Detailed Stats */}
+-                      <div className="grid grid-cols-2 gap-4">
+-                        <div className="bg-white dark:bg-gray-700/50 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+-                          <ListChecks className="w-6 h-6 text-blue-500 mx-auto mb-2" />
+-                          <p className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase mb-1">Questions</p>
+-                          <p className="text-xl font-black text-gray-900 dark:text-white">{infoModalQuiz.totalQuestions}</p>
+-                        </div>
+-                        <div className="bg-white dark:bg-gray-700/50 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+-                          <Clock className="w-6 h-6 text-purple-500 mx-auto mb-2" />
+-                          <p className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase mb-1">Time Limit</p>
+-                          <p className="text-xl font-black text-gray-900 dark:text-white">{infoModalQuiz.timeLimitMinutes || 10} <span className="text-sm">min</span></p>
+-                        </div>
+-                      </div>
+-
+-                      <div className="space-y-3">
+-                        <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-700/50 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+-                          <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Difficulty</span>
+-                          <span className={`px-3 py-1 text-xs font-black rounded-lg capitalize ${
+-                            infoModalQuiz.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
+-                            infoModalQuiz.difficulty === 'hard' ? 'bg-red-100 text-red-700' :
+-                            'bg-yellow-100 text-yellow-700'
+-                          }`}>{infoModalQuiz.difficulty}</span>
+-                        </div>
+-                        
+-                        <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-700/50 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+-                          <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Negative Marking</span>
+-                          <span className={`px-3 py-1 text-xs font-black rounded-lg ${
+-                            infoModalQuiz.negativeMarking ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-300'
+-                          }`}>{infoModalQuiz.negativeMarking ? 'Yes (-0.25)' : 'No'}</span>
+-                        </div>
+-                        
+-                        {infoModalQuiz.hasTimeRestriction && (
+-                          <div className={`p-4 rounded-2xl shadow-sm border flex items-start gap-3 ${status.locked ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'}`}>
+-                            {status.locked ? <Lock className="w-5 h-5 text-red-500 mt-0.5" /> : <Unlock className="w-5 h-5 text-green-500 mt-0.5" />}
+-                            <div>
+-                              <p className={`text-sm font-bold ${status.locked ? 'text-red-700 dark:text-red-300' : 'text-green-700 dark:text-green-400'} mb-1`}>
+-                                Window Restricted
+-                              </p>
+-                              <p className={`text-xs ${status.locked ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-500'}`}>
+-                                {status.text}
+-                              </p>
+-                            </div>
+-                          </div>
+-                        )}
+-                      </div>
+-
+-                      <div className="pt-2">
+-                        <button
+-                          disabled={status.locked}
+-                          onClick={() => handleStartCustomQuiz(infoModalQuiz)}
+-                          className={`w-full py-5 rounded-2xl font-black text-lg transition-all transform flex items-center justify-center gap-3 ${
+-                            status.locked 
+-                              ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-500 cursor-not-allowed shadow-none'
+-                              : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1'
+-                          }`}
+-                        >
+-                          {status.locked ? (
+-                            <> <Lock className="w-5 h-5" /> Locked </>
+-                          ) : !currentUser ? (
+-                            <> <Lock className="w-5 h-5" /> Log In to Attempt Quiz </>
+-                          ) : (
+-                            <> 🚀 Start Quiz </>
+-                          )}
+-                        </button>
+-                      </div>
+-                    </>
+-                  );
+-                })()}
+-              </div>
+-            </motion.div>
+-          </div>
+-        )}
++                <dl className="px-5 divide-y divide-gray-200 dark:divide-gray-700 text-sm tabular-nums">
++                  <div className="flex justify-between py-3">
++                    <dt className="text-gray-600 dark:text-gray-400">Questions</dt>
++                    <dd className="font-semibold text-gray-900 dark:text-white">{infoModalQuiz.totalQuestions}</dd>
++                  </div>
++                  <div className="flex justify-between py-3">
++                    <dt className="text-gray-600 dark:text-gray-400">Time limit</dt>
++                    <dd className="font-semibold text-gray-900 dark:text-white">{infoModalQuiz.timeLimitMinutes || 10} min</dd>
++                  </div>
++                  <div className="flex justify-between py-3">
++                    <dt className="text-gray-600 dark:text-gray-400">Difficulty</dt>
++                    <dd className="font-semibold text-gray-900 dark:text-white">{capitalize(infoModalQuiz.difficulty)}</dd>
++                  </div>
++                  <div className="flex justify-between py-3">
++                    <dt className="text-gray-600 dark:text-gray-400">Negative marking</dt>
++                    <dd className={`font-semibold ${infoModalQuiz.negativeMarking ? 'text-red-700 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>
++                      {infoModalQuiz.negativeMarking ? '−0.25 per wrong answer' : 'None'}
++                    </dd>
++                  </div>
++                  {infoModalQuiz.hasTimeRestriction && (
++                    <div className="flex justify-between py-3">
++                      <dt className="text-gray-600 dark:text-gray-400">Window</dt>
++                      <dd className={`inline-flex items-center gap-1.5 font-semibold ${AVAILABILITY_STYLE[status.status]}`}>
++                        <AvailabilityIcon status={status.status} />
++                        {status.text}
++                      </dd>
++                    </div>
++                  )}
++                </dl>
++
++                <div className="p-5">
++                  <button
++                    ref={dialogActionRef}
++                    type="button"
++                    disabled={status.locked}
++                    onClick={() => handleStartCustomQuiz(infoModalQuiz)}
++                    className="w-full min-h-[48px] rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-colors bg-primary text-white hover:bg-indigo-700 active:bg-indigo-800 disabled:bg-gray-200 disabled:text-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 disabled:cursor-not-allowed"
++                  >
++                    {status.locked ? (
++                      <><Lock size={18} aria-hidden="true" /> {status.status === 'upcoming' ? 'Not open yet' : 'This test has ended'}</>
++                    ) : !currentUser ? (
++                      'Log in to take this test'
++                    ) : (
++                      'Start test'
++                    )}
++                  </button>
++                </div>
++              </motion.div>
++            </div>
++          );
++        })()}
+       </AnimatePresence>
+       <CustomModal {...modalState} onClose={closeModal} />
+-    </div>
++    </MotionConfig>
+   );
+ };
+ 
+-export default QuizSetup;
+\ No newline at end of file
++export default QuizSetup;

@@ -1,0 +1,231 @@
+{
+  "format": "narova.gallery/1",
+  "updated": "2026-08-23",
+  "entries": [
+    {
+      "id": "the-precious-thing",
+      "title": "The Precious Thing",
+      "summary": "A low-poly 3D fable in which a lost corgi searches a park and finds its human companion again.",
+      "archive": "docs/explore/projects/the-precious-thing.narova",
+      "archiveSha256": "ae8b6499cb2f993ff0f11c576c0d126c616292d0d973e1b25be78042547b5698",
+      "producingVersion": "0.40.0",
+      "video": "docs/explore/assets/the-precious-thing.mp4",
+      "videoSha256": "cce0b90733c51aea6eb3b8488b34d3e4086981c9f925e864e2157c578d413236",
+      "captions": "docs/explore/assets/the-precious-thing.vtt",
+      "poster": "docs/explore/assets/the-precious-thing-poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "The approved 31-second master passed Narova's release check with zero warnings and the encoded motion audit; publication preserves its exact bytes."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, complete English WebVTT captions without an opaque card, a representative poster, text fallback, and script-free collapsed inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party script, narration, music, authored 3D park and human, rendered media, and a CC0 Gobkit corgi model are published under the gallery's CC0-compatible boundary; attribution and proof of use are not required.",
+        "credits": [
+          "The Precious Thing — Ammar Hasan (voluntary credit; CC0-1.0)",
+          "Corgi model — Gobkit / Ariescar (CC0-1.0; voluntary credit)"
+        ]
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "Original first-party lost-and-found fable rendered as one authored deterministic Three.js scene with local Piper narration, word timings, music bed, creative brief, motion evidence, CC0 corgi source record, and portable static authoring source included in the archive.",
+        "lineage": "No recorded remix parent."
+      }
+    },
+    {
+      "id": "the-rainmakers-last-drop",
+      "title": "The Rainmaker's Last Drop",
+      "summary": "A cinematic 3D mechanical fable in which one glass drop wakes a greenhouse machine and opens a flower.",
+      "archive": "docs/explore/projects/the-rainmakers-last-drop.narova",
+      "archiveSha256": "d5bdd436c369aad7945d4fd58fba111210962ce52d5b9a38498ca7e87fd1a7cf",
+      "producingVersion": "0.40.0",
+      "video": "docs/explore/assets/the-rainmakers-last-drop.mp4",
+      "videoSha256": "76f9934f1778e97dc5ad4cbee63ac3db783901ddb8f2fe0ef419abd84b4094d5",
+      "captions": "docs/explore/assets/the-rainmakers-last-drop.vtt",
+      "poster": "docs/explore/assets/the-rainmakers-last-drop-poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "The approved 60-second master passed its Narova 0.40.0 release check with zero warnings and passed the encoded motion audit; the publication archive also passes ordinary validation."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, complete English WebVTT captions, a representative poster, text fallback, and script-free collapsed inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party project, authored 3D scene, locally generated narration and ambience, and rendered media published under CC0-1.0; attribution and proof of use are not required.",
+        "credits": [
+          "The Rainmaker's Last Drop — Ammar Hasan (voluntary credit; CC0-1.0)"
+        ]
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "Original first-party mechanical fable rendered as one deterministic Three.js scene with locally generated Qwen narration, word timings, ambient bed, creative brief, scene-state evidence, and portable static authoring source included in the archive.",
+        "lineage": "No recorded remix parent."
+      }
+    },
+    {
+      "id": "nori-and-the-pocket-moon",
+      "title": "Nori and the Pocket Moon",
+      "summary": "A gentle felt-storybook adventure about carrying a tiny moon home, with OpenAI narration and generated scenes.",
+      "archive": "docs/explore/projects/nori-and-the-pocket-moon.narova",
+      "archiveSha256": "8453da0f68b9c80b28f051aa52549b031c1788ba8603fceed4326d92c64477d2",
+      "producingVersion": "0.39.0",
+      "video": "docs/explore/assets/nori-and-the-pocket-moon.mp4",
+      "videoSha256": "c8d912f37899c075808a6919e3614ad76fb7dbbfd5e41450fc3a9c7b57669639",
+      "captions": "docs/explore/assets/nori-and-the-pocket-moon.vtt",
+      "poster": "docs/explore/assets/nori-and-the-pocket-moon-poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "Ordinary project check passed; the approved encoded video has an audio stream, complete WebVTT captions, and no regeneration was performed."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, English WebVTT captions, poster, text fallback, and script-free collapsed inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party project and rendered media published by the owner under CC0-1.0; no third-party stock media; attribution and proof of use are not required.",
+        "credits": [
+          "Project and render — Ammar Hasan (voluntary credit; CC0-1.0)"
+        ]
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "Original first-party children’s story authored for the OpenAI companion production, with generated scene footage, OpenAI narration, word timings, creative notes, and portable authoring source included in the archive.",
+        "lineage": "No recorded remix parent."
+      }
+    },
+    {
+      "id": "nature-of-light",
+      "title": "The Nature of Light",
+      "summary": "A cinematic journey from prisms and wave interference to photons, with native scene dialogue preserved for natural delivery and lip sync.",
+      "archive": "docs/explore/projects/nature-of-light.narova",
+      "archiveSha256": "68a18b4b70e6c3f137898273ce7817f1ced39956e71f7bf1ee2fd5ae1e542676",
+      "producingVersion": "0.39.0",
+      "video": "docs/explore/assets/nature-of-light.mp4",
+      "videoSha256": "5a985e0c3da7c8f949e8a96b4f4122288627d275ddeb2e3fbfe5a326002d43e8",
+      "captions": "docs/explore/assets/nature-of-light.vtt",
+      "poster": "docs/explore/assets/nature-of-light-poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "Ordinary project check passed; the approved encoded video has an audio stream, complete WebVTT captions, and no regeneration was performed."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, English WebVTT captions, poster, text fallback, and script-free collapsed inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party project and rendered media published by the owner under CC0-1.0; no third-party stock media; attribution and proof of use are not required.",
+        "credits": [
+          "Project and render — Ammar Hasan (voluntary credit; CC0-1.0)"
+        ]
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "First-party science explainer assembled from preserved generated Sora scene clips. The published cut is the approved native-dialogue version; its project archive carries the clips, combined narration, word timings, prompts, and portable authoring source.",
+        "lineage": "No recorded remix parent."
+      }
+    },
+    {
+      "id": "product-walkthrough",
+      "title": "A Complete Product Walkthrough",
+      "summary": "One continuous real-browser take: create, configure, search, assign, automate, and invite—all timed to narration and captions.",
+      "archive": "docs/explore/projects/product-walkthrough.narova",
+      "archiveSha256": "1c83ac9d1cf589a801f6b69a9b30ae3cc21eaf656b74333f37e8bad27b0ffb8b",
+      "producingVersion": "0.39.0",
+      "video": "docs/assets/narova-product-walkthrough-demo.mp4",
+      "videoSha256": "eec6fbc509830852c1a0ffa7e2866a9acf3d52bf3147be62fe55a08e1781d1d0",
+      "captions": "docs/assets/narova-product-walkthrough-demo.vtt",
+      "poster": "docs/assets/narova-product-walkthrough-poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "The shipped 83-second walkthrough passed its original release and continuous-browser capture checks; ordinary portable authoring validation passes under Narova 0.39.0 with documented capture freshness advisories."
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "First-party Narova product walkthrough reconstructed from its checked-in authored project and preserved continuous browser capture at public source commit 47b1606; the published video, poster, and captions remain byte-identical.",
+        "lineage": "No recorded remix parent."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, English WebVTT captions, poster, text fallback, and script-free collapsed inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party Narova project, disposable product fixture capture, narration, and rendered media published under CC0-1.0; attribution and proof of use are not required.",
+        "credits": [
+          "Narova walkthrough project and render — Ammar Hasan (voluntary credit; CC0-1.0)"
+        ]
+      }
+    },
+    {
+      "id": "narova-skill-reel",
+      "title": "Prompt. Voice. Motion.",
+      "summary": "The 30-second first-party reel that explains Narova through its own narrated, cue-driven pipeline.",
+      "archive": "docs/explore/projects/narova-skill-reel.narova",
+      "archiveSha256": "24717f22f5e0eb4dac91f5b6949d7591b3eb4de11e2faf9b6a66c36e3a830b30",
+      "producingVersion": "0.31.14",
+      "video": "docs/assets/narova-skill-reel.mp4",
+      "videoSha256": "e9223eca17df65f84eacbbe546712eb244735e7fc76f9296a86baae8aacbb027",
+      "captions": "docs/assets/narova-skill-reel.vtt",
+      "poster": "docs/assets/poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "Release check passed with three documented performance/compatibility warnings and no errors."
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "First-party Narova project reconstructed from the published reel source, converted losslessly to static JSON authoring, and packed by the unreleased local tree reporting version 0.31.14.",
+        "lineage": "No recorded remix parent."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, English WebVTT captions, poster, text fallback, and script-free inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party Narova source and rendered media dedicated under CC0-1.0; no embedded third-party visual or audio assets; attribution and proof of use are not required.",
+        "credits": [
+          "Narova project and render — Ammar Hasan (voluntary credit; CC0-1.0)"
+        ]
+      }
+    },
+    {
+      "id": "narova-one-command-demo",
+      "title": "One command, finished video",
+      "summary": "The built-in two-scene activation demo, synthesized and rendered locally through the ordinary Narova pipeline.",
+      "archive": "docs/explore/projects/narova-one-command-demo.narova",
+      "archiveSha256": "25c25fa256a3a1d01b0c7e460bb608854a2eb0cc61c24c954d9bc708aaa4baa9",
+      "producingVersion": "0.31.14",
+      "video": "docs/explore/assets/narova-one-command-demo.mp4",
+      "videoSha256": "7e955f927568902de76105196da3ea69acdc2b4de2bed79971f5bac144c862b1",
+      "captions": "docs/explore/assets/narova-one-command-demo.vtt",
+      "poster": "docs/explore/assets/narova-one-command-demo-poster.jpg",
+      "releaseCheck": {
+        "status": "pass",
+        "note": "Release check passed with no warnings."
+      },
+      "provenance": {
+        "status": "complete",
+        "summary": "First-party built-in demo produced by a real local Piper synthesis and Narova No-Browser render on 2026-08-20, then packed from equivalent static JSON authoring by the unreleased local tree reporting version 0.31.14.",
+        "lineage": "No recorded remix parent."
+      },
+      "accessibility": {
+        "status": "pass",
+        "note": "Visible controls, English WebVTT captions, poster, text fallback, and script-free inspection are present."
+      },
+      "rights": {
+        "status": "declared-compatible",
+        "basis": "First-party Narova source and rendered media dedicated under CC0-1.0; no embedded third-party visual or audio assets; attribution and proof of use are not required.",
+        "credits": [
+          "Narova project and render — Ammar Hasan (voluntary credit; CC0-1.0)"
+        ]
+      }
+    }
+  ]
+}

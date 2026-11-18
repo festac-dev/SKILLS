@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "fetchedAt": "2026-08-30",
+  "upstreams": [
+    {"name": "img2threejs", "remote": "git@github.com:img2threejs/img2threejs.git", "canonicalUrl": "https://github.com/img2threejs/img2threejs", "commit": "9fbd0ca5bbcc3b13bebe712745d6784d33db0b85", "license": "Apache-2.0", "auditOnly": true},
+    {"name": "video2threejs", "remote": "git@github.com:cpppppp7/video2threejs.git", "canonicalUrl": "https://github.com/cpppppp7/video2threejs", "commit": "0b2271768df13edd3bd8319e8d60578364ebb2c0", "license": "MIT", "auditOnly": true}
+  ]
+}

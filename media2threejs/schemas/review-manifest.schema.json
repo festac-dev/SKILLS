@@ -1,0 +1,4 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "title": "Review Manifest", "type": "object", "required": ["schemaVersion", "sceneReviews", "assetReviews", "integrationReviews"],
+  "properties": {"schemaVersion": {"type": "string"}, "sceneReviews": {"type": "array"}, "assetReviews": {"type": "array"}, "integrationReviews": {"type": "array"}, "allowedActions": {"type": "array", "items": {"enum": ["continue", "refine-route", "refine-scene-spec", "refine-camera", "refine-lighting", "refine-asset-spec", "refine-asset-code", "refine-motion", "request-input", "stop"]}}}
+}

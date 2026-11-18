@@ -1,0 +1,23 @@
+{
+  "name": "unslopovich-research",
+  "private": true,
+  "type": "module",
+  "description": "Collects and classifies app store reviews to find what users complain about. Not shipped with the skill.",
+  "scripts": {
+    "apps": "node 1-apps.mjs",
+    "collect:apple": "node 2-collect-apple.mjs",
+    "collect:play": "node 3-collect-play.mjs",
+    "sample": "node 4-sample.mjs",
+    "classify": "node 5-classify.mjs",
+    "validate": "node 6-validate.mjs",
+    "analyze": "node 7-analyze.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "google-play-scraper": "^10.1.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

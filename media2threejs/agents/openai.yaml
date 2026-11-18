@@ -1,0 +1,7 @@
+interface:
+  display_name: "Media to Three.js"
+  short_description: "Rebuild objects, characters, and scenes from images or video as editable Three.js code."
+  default_prompt: "Use $media2threejs to reconstruct the supplied reference media as a modular Three.js project."
+
+policy:
+  allow_implicit_invocation: true

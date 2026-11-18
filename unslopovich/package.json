@@ -1,0 +1,46 @@
+{
+  "name": "unslopovich",
+  "version": "3.0.0",
+  "author": "Erkam Yaman (https://github.com/erkamyaman)",
+  "funding": "https://github.com/sponsors/erkamyaman",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erkamyaman/unslopovich.git"
+  },
+  "description": "Your app looks AI-generated. Dr. Unslopovich noticed. An agent skill for Claude Code, Codex, Cursor, and others that finds and fixes AI-looking UI and UX in mobile apps, web apps, and websites.",
+  "bin": {
+    "unslopovich": "bin/install.js"
+  },
+  "files": [
+    "skills",
+    "bin"
+  ],
+  "keywords": [
+    "accessibility",
+    "agent-skill",
+    "agent-skills",
+    "ai-slop",
+    "claude-code",
+    "codex",
+    "cursor",
+    "flutter",
+    "jetpack-compose",
+    "linter",
+    "mobile",
+    "nextjs",
+    "opencode",
+    "react-native",
+    "swiftui",
+    "tailwind",
+    "ui",
+    "ux",
+    "web"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

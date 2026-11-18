@@ -1,0 +1,1 @@
+{"projectId":"smoke-object","references":[{"id":"object","type":"image","role":"object-fidelity","path":"object.png","semantic":"object","confidence":1,"provenance":{"kind":"fixture"}}]}

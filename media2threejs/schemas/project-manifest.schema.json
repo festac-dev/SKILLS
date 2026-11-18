@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://media2threejs.dev/schemas/project-manifest.schema.json",
+  "title": "Media2Threejs Project Manifest",
+  "type": "object",
+  "required": ["schemaVersion", "projectId", "mode", "intent", "fidelityTarget", "assetPolicy", "coordinateSystem", "references", "sceneSpecPath", "assetRegistryPath", "motionSpecPath", "statePath", "outputDirectory"],
+  "properties": {
+    "schemaVersion": {"type": "string"}, "projectId": {"type": "string", "minLength": 1},
+    "mode": {"enum": ["image-object", "image-character", "image-scene", "video-scene", "hybrid"]},
+    "intent": {"type": "string"}, "fidelityTarget": {"type": "string"},
+    "assetPolicy": {"enum": ["procedural-only", "reference-projected", "external-assets-allowed"]},
+    "coordinateSystem": {"type": "object", "required": ["units", "handedness", "up", "assetForward"], "properties": {"units": {"const": "meters"}, "handedness": {"const": "right"}, "up": {"const": "+Y"}, "assetForward": {"const": "+Z"}}},
+    "references": {"type": "array"}, "sceneSpecPath": {"type": "string"}, "assetRegistryPath": {"type": "string"}, "motionSpecPath": {"type": "string"}, "statePath": {"type": "string"}, "outputDirectory": {"type": "string"}
+  }, "additionalProperties": true
+}

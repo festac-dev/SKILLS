@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
+FIXTURE_COLLECTIONS={'fixture-one','fixture-two','fixture-three','fixture-four','fixture-five','fixture-six','fixture-seven','fixture-eight','fixture-nine'}
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location('collections_helper',ROOT/'scripts/skill_collections.py')
 helper=importlib.util.module_from_spec(SPEC)
@@ -17,7 +18,7 @@ class CollectionTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
         self.data={'schema_version':1,'collections':[],'skills':[]}
-        for i,key in enumerate(sorted(helper.COLLECTIONS)):
+        for i,key in enumerate(sorted(FIXTURE_COLLECTIONS)):
             skill=self.root/key/'skills'/'sample'/'SKILL.md'
             skill.parent.mkdir(parents=True)
             name='sample-'+str(i)
@@ -87,12 +88,36 @@ class CollectionTests(unittest.TestCase):
     def test_search_returns_direct_paths(self):
         rows=helper.search('PDF',self.root)
         self.assertTrue(rows)
-        self.assertTrue(all(r['resource'].split('/')[0] in helper.COLLECTIONS for r in rows))
+        self.assertTrue(all(r['resource'].split('/')[0] in FIXTURE_COLLECTIONS for r in rows))
         self.assertTrue(all('owner' not in r for r in rows))
 
+    def test_registry_accepts_a_different_collection_count(self):
+        import shutil
+        kept=self.data['collections'][:2]
+        keys={c['directory'] for c in kept}
+        for c in self.data['collections'][2:]:shutil.rmtree(self.root/c['directory'])
+        self.data['collections']=kept
+        self.data['skills']=[s for s in self.data['skills'] if s['collection'] in keys]
+        self.save()
+        self.assertEqual(helper.validate(self.root),[])
+
+    def test_duplicate_collection_registration_is_rejected(self):
+        self.data['collections'].append(dict(self.data['collections'][0]));self.save()
+        self.assertIn('Duplicate collection records',' '.join(helper.validate(self.root)))
+
+    def test_collection_directory_escape_is_rejected(self):
+        self.data['collections'][0]['directory']='../outside';self.save()
+        self.assertIn('Invalid or reserved collection directory',' '.join(helper.validate(self.root)))
+
+    def test_search_can_select_exact_collection_identifier(self):
+        key=self.data['collections'][0]['directory']
+        rows=helper.search(key,self.root)
+        self.assertTrue(rows)
+        self.assertTrue(all(r['collection']==key for r in rows))
+
     def test_unknown_collection_is_rejected(self):
-        self.data['collections'][0]['directory']='another-library';self.save()
-        self.assertIn('Expected the nine requested',' '.join(helper.validate(self.root)))
+        self.data['collections'][0]['directory']='scripts';self.save()
+        self.assertIn('Invalid or reserved collection directory',' '.join(helper.validate(self.root)))
 
 
 if __name__=='__main__':unittest.main()

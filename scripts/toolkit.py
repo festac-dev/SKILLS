@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORIES = {"orchestrator", "specialists", "references", "templates", "quality-gates", "playbooks", "scripts", "tests", "reports", "evals", "examples", "motion-studio"}
-ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md"}
+ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md", ".gitattributes"}
 SKIP = {".git", "__pycache__", ".pytest_cache", "dist", "node_modules"}
 DRY_RUNS = [
     ("Build a keyboard-driven TUI on Termux with no mouse.", "cli"),
@@ -27,8 +27,9 @@ DRY_RUNS = [
 def source_files(root):
     imported = set()
     if (root / "COLLECTIONS.json").exists():
-        imported = {r["directory"] for r in json.loads((root / "COLLECTIONS.json").read_text())["collections"]}
-        if imported != {"openai-plugins", "anthropic-skills", "vercel-agent-skills", "jeffallan-skills", "alireza-skills", "superpowers", "awesome-copilot", "scientific-agent-skills", "awesome-claude-skills"}:
+        collection_records = json.loads((root / "COLLECTIONS.json").read_text())["collections"]
+        imported = {r["directory"] for r in collection_records}
+        if not imported or len(imported) != len(collection_records) or any(not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name) or name in DIRECTORIES for name in imported):
             raise ValueError("Invalid imported collection directories")
     files = []
     for path in sorted(root.rglob("*")):
@@ -46,7 +47,7 @@ def source_files(root):
             allowed |= {".sh", ".ts", ".tsx", ".css", ".html", ".js", ".yaml"}
         if rel.parts[0] == "examples":
             allowed |= {".html", ".js", ".css", ".svg"}
-        if path.suffix not in allowed and path.name not in {".gitignore", "LICENSE"}:
+        if path.suffix not in allowed and path.name not in {".gitignore", "LICENSE", ".gitattributes"}:
             raise ValueError(f"Unexpected source type: {rel}")
         files.append(rel.as_posix())
     return files

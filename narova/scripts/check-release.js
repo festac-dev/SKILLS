@@ -1,0 +1,288 @@
+'use strict';
+
+const fs = require('node:fs');
+const path = require('node:path');
+const { buildGallery } = require('./build-gallery');
+
+function isStepRunBlock(lines, index, runIndent, directStep) {
+  let stepIndex = index;
+  let stepIndent = runIndent;
+
+  if (!directStep) {
+    for (let cursor = index - 1; cursor >= 0; cursor -= 1) {
+      if (!lines[cursor].trim() || /^\s*#/.test(lines[cursor])) continue;
+      const indent = lines[cursor].match(/^\s*/)[0].length;
+      if (indent >= runIndent) continue;
+      if (!/^\s*-\s+/.test(lines[cursor])) return false;
+      stepIndex = cursor;
+      stepIndent = indent;
+      break;
+    }
+  }
+
+  for (let cursor = stepIndex - 1; cursor >= 0; cursor -= 1) {
+    if (!lines[cursor].trim() || /^\s*#/.test(lines[cursor])) continue;
+    const indent = lines[cursor].match(/^\s*/)[0].length;
+    if (indent >= stepIndent) continue;
+    return /^\s*steps:\s*(?:#.*)?$/.test(lines[cursor]);
+  }
+  return false;
+}
+
+function hasMainAncestryGuard(source) {
+  const lines = source.split(/\r?\n/);
+  const runScripts = [];
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const block = lines[index].match(
+      /^(\s*)(?:-\s+)?([A-Za-z0-9_-]+):\s*[|>](?:[+-]?[1-9]?|[1-9][+-]?)\s*(?:#.*)?$/,
+    );
+    if (!block) continue;
+
+    const blockIndent = block[1].length;
+    const directStep = lines[index].slice(blockIndent).startsWith('- ');
+    const executableRun = block[2] === 'run'
+      && isStepRunBlock(lines, index, blockIndent, directStep);
+    const contents = [];
+    for (index += 1; index < lines.length; index += 1) {
+      const line = lines[index];
+      if (!line.trim()) {
+        contents.push('');
+        continue;
+      }
+      const indent = line.match(/^\s*/)[0].length;
+      if (indent <= blockIndent) {
+        index -= 1;
+        break;
+      }
+      contents.push(line.trim());
+    }
+    if (executableRun) runScripts.push(contents);
+  }
+
+  return runScripts.some(script => script.some(line => (
+    /^if\s+!\s+git\s+merge-base\s+--is-ancestor\s+"\$tag_commit"\s+origin\/main;\s*then$/.test(line)
+  )));
+}
+
+function hasRequiredMediaToolSetup(source) {
+  return [
+    'sudo apt-get install --yes ffmpeg',
+    'ffmpeg -version',
+    'ffprobe -version',
+  ].every(command => source.split(/\r?\n/).some(line => line.trim() === command));
+}
+
+function hasCompleteTestDependencySetup(source) {
+  const runCommands = source.split(/\r?\n/)
+    .map(line => line.match(/^\s*-\s+run:\s+(.+?)\s*$/)?.[1])
+    .filter(Boolean);
+  return [
+    'npm ci --prefix tool',
+    'npm ci --ignore-scripts --prefix skills/narova-3d-production',
+  ].every(command => runCommands.includes(command));
+}
+
+function releaseVersionsFromMarkdown(source) {
+  return [...source.matchAll(/^## \[([^\]]+)\](?: - \d{4}-\d{2}-\d{2})?$/gm)]
+    .map(match => match[1])
+    .filter(value => value !== 'Unreleased');
+}
+
+// Expand only the repository's deliberately simple &&-chained npm scripts.
+// Fail closed if release wiring grows a shell bypass rather than silently
+// declaring two different gates equivalent.
+function releaseChecks(rootPackage, toolPackage, command, scope = 'root', stack = []) {
+  return command.split(/\s*&&\s*/).flatMap(part => {
+    const run = part.match(/^npm (?:run (?:-s )?([^ ]+)|test)(?: --prefix tool)?$/);
+    if (run) {
+      const nextScope = part.endsWith(' --prefix tool') ? 'tool' : scope;
+      const name = run[1] || 'test';
+      const key = `${nextScope}:${name}`;
+      const source = (nextScope === 'root' ? rootPackage : toolPackage).scripts[name];
+      if (!source || stack.includes(key)) throw new Error(`invalid release script: ${key}`);
+      // Independent companion executors are leaf checks.
+      if (nextScope === 'root' && /^test:(3d|elevenlabs|openai|runway|google|mimo|integration)$/.test(name)) {
+        return [key];
+      }
+      return releaseChecks(rootPackage, toolPackage, source, nextScope, [...stack, key]);
+    }
+    const file = part.match(/^node (?:\.\.\/)?scripts\/(check-package|test-packed-package|check-release)\.js$/);
+    if (file) return [file[1]];
+    if (scope === 'tool' && (part === 'node --test test/*.test.js'
+      || part === 'PYTHONPATH=py python3 -m unittest discover -s py/tests')) return [part];
+    throw new Error(`unrecognized release check command: ${part}`);
+  });
+}
+
+function assertReleaseCheckOwnership(rootPackage, toolPackage, workflow) {
+  const commands = workflow.split(/\r?\n/)
+    .map(line => line.match(/^\s+(?:-\s+)?run:\s+(.+?)\s*$/)?.[1]).filter(Boolean);
+  const prepare = commands.indexOf('npm run release:prepublish');
+  const publish = commands.indexOf('npm publish --access public --provenance');
+  if (prepare < 0 || publish <= prepare || commands.includes('npm run release:check')
+    || commands.filter(c => c === commands[prepare]).length !== 1
+    || commands.filter(c => c === commands[publish]).length !== 1) {
+    throw new Error('publish workflow must run release:prepublish once before npm publish');
+  }
+  const expected = releaseChecks(rootPackage, toolPackage, 'npm run release:check').sort();
+  const actual = [
+    ...releaseChecks(rootPackage, toolPackage, 'npm run release:prepublish'),
+    ...releaseChecks(rootPackage, toolPackage, 'npm run prepublishOnly', 'tool'),
+  ].sort();
+  if (new Set(actual).size !== actual.length || JSON.stringify(actual) !== JSON.stringify(expected)) {
+    throw new Error('tagged publication must execute each full release check exactly once');
+  }
+  // Direct maintainer npm publish retains all its existing checks.
+  const direct = releaseChecks(rootPackage, toolPackage, 'npm run prepublishOnly', 'tool');
+  for (const check of [
+    ...releaseChecks(rootPackage, toolPackage, 'npm test', 'tool'),
+    'check-package', 'test-packed-package',
+  ]) {
+    if (!direct.includes(check)) throw new Error(`direct publication is missing ${check}`);
+  }
+}
+
+function releaseVersionsFromWebsite(source) {
+  return [...source.matchAll(/class="rel-version"[^>]*>v?([^<]+)</g)]
+    .map(match => match[1].trim());
+}
+
+function assertReleaseChronology(markdown, website) {
+  const canonical = releaseVersionsFromMarkdown(markdown);
+  const projected = releaseVersionsFromWebsite(website);
+  const duplicates = values => values.filter((value, index) => values.indexOf(value) !== index);
+  if (duplicates(canonical).length) {
+    throw new Error(`CHANGELOG.md has duplicate release headings: ${[...new Set(duplicates(canonical))].join(', ')}`);
+  }
+  if (duplicates(projected).length) {
+    throw new Error(`website changelog has duplicate release entries: ${[...new Set(duplicates(projected))].join(', ')}`);
+  }
+  if (JSON.stringify(projected) !== JSON.stringify(canonical)) {
+    throw new Error('website changelog release versions/order do not match CHANGELOG.md');
+  }
+}
+
+function checkRelease() {
+const root = path.resolve(__dirname, '..');
+const readJson = file => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
+const repositoryPackage = readJson('package.json');
+const toolPackage = readJson('tool/package.json');
+const toolLock = readJson('tool/package-lock.json');
+const version = repositoryPackage.version;
+
+if (toolPackage.version !== version) {
+  throw new Error(`tool/package.json is ${toolPackage.version}; expected ${version}`);
+}
+if (toolPackage.name !== '@narova/narova') {
+  throw new Error(`unexpected npm package name ${JSON.stringify(toolPackage.name)}`);
+}
+if (toolLock.name !== toolPackage.name || toolLock.version !== version
+    || toolLock.packages?.['']?.name !== toolPackage.name
+    || toolLock.packages?.['']?.version !== version) {
+  throw new Error('tool/package-lock.json does not match the scoped package name and release version');
+}
+
+const skill = fs.readFileSync(path.join(root, 'skills/narova/SKILL.md'), 'utf8');
+const skillVersion = skill.match(/^\s{2}version:\s*"([^"]+)"\s*$/m)?.[1];
+if (skillVersion !== version) {
+  throw new Error(`skill metadata is ${skillVersion || 'missing'}; expected ${version}`);
+}
+const skillPins = [...skill.matchAll(/@narova\/narova@(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)/g)]
+  .map(match => match[1]);
+if (skillPins.length !== 1 || skillPins[0] !== version) {
+  throw new Error(`skill must contain exactly one @narova/narova@${version} compatibility pin`);
+}
+for (const required of [
+  `narova_required="@narova/narova@${version}"`,
+  'narova_version="${narova_required##*@}"',
+  'npm install --global "$narova_required"',
+  '"$narova_candidate" --version',
+]) {
+  if (!skill.includes(required)) {
+    throw new Error(`skill bootstrap is missing version reconciliation control: ${required}`);
+  }
+}
+
+// Skill content identity (CHANGE-2026-042 / NAR-020-034): every first-party
+// skill declares a license and a checksum equal to the digest of its canonical
+// content (file minus `checksum:`/`signature:` whole lines). A stale or missing
+// checksum fails the release rather than shipping silently.
+const { verifyAllSkills } = require('./sync-skill-checksums');
+const skillIntegrityFailures = verifyAllSkills(root);
+if (skillIntegrityFailures.length) {
+  throw new Error(`skill content identity verification failed:\n  - ${skillIntegrityFailures.join('\n  - ')}`);
+}
+
+const changelog = fs.readFileSync(path.join(root, 'CHANGELOG.md'), 'utf8');
+if (!new RegExp(`^## \\[${version.replace(/\./g, '\\.')}\\] - \\d{4}-\\d{2}-\\d{2}$`, 'm').test(changelog)) {
+  throw new Error(`CHANGELOG.md has no dated ${version} release entry`);
+}
+const websiteChangelog = fs.readFileSync(path.join(root, 'docs', 'changelog', 'index.html'), 'utf8');
+assertReleaseChronology(changelog, websiteChangelog);
+
+const agentProtocol = fs.readFileSync(path.join(root, 'AGENT_PROTOCOL.md'), 'utf8');
+const packagedAgentProtocol = fs.readFileSync(path.join(root, 'tool', 'AGENT_PROTOCOL.md'), 'utf8');
+if (packagedAgentProtocol !== agentProtocol) {
+  throw new Error('tool/AGENT_PROTOCOL.md must match the repository protocol guide');
+}
+const protocolVersion = agentProtocol.match(/^Narova release: \*\*([0-9.]+)\*\*$/m)?.[1];
+if (protocolVersion !== version) {
+  throw new Error(`AGENT_PROTOCOL.md is ${protocolVersion || 'missing'}; expected ${version}`);
+}
+if (!agentProtocol.includes('Machine schema: **`narova.result/1`**')) {
+  throw new Error('AGENT_PROTOCOL.md is missing the current machine schema identity');
+}
+
+const publishWorkflow = fs.readFileSync(path.join(root, '.github/workflows/publish.yml'), 'utf8');
+const ciWorkflow = fs.readFileSync(path.join(root, '.github/workflows/ci.yml'), 'utf8');
+assertReleaseCheckOwnership(repositoryPackage, toolPackage, publishWorkflow);
+for (const required of [
+  'id-token: write',
+  'fetch-depth: 0',
+  'npm publish --access public --provenance',
+]) {
+  if (!publishWorkflow.includes(required)) {
+    throw new Error(`publish workflow is missing required release control: ${required}`);
+  }
+}
+if (!hasMainAncestryGuard(publishWorkflow)) {
+  throw new Error('publish workflow must require $tag_commit to be an ancestor of origin/main');
+}
+if (/NPM_TOKEN|NODE_AUTH_TOKEN/.test(publishWorkflow)) {
+  throw new Error('publish workflow must use npm Trusted Publishing without a token fallback');
+}
+for (const [name, workflow] of [['CI', ciWorkflow], ['publish', publishWorkflow]]) {
+  if (!hasRequiredMediaToolSetup(workflow)) {
+    throw new Error(`${name} workflow must install and verify the required FFmpeg and FFprobe tools`);
+  }
+  if (!hasCompleteTestDependencySetup(workflow)) {
+    throw new Error(`${name} workflow must clean-install every dependency-bearing release suite`);
+  }
+}
+
+if (process.env.GITHUB_REF_TYPE === 'tag') {
+  const expectedTag = `v${version}`;
+  if (process.env.GITHUB_REF_NAME !== expectedTag) {
+    throw new Error(`release tag ${process.env.GITHUB_REF_NAME} does not match ${expectedTag}`);
+  }
+}
+
+buildGallery({ root, check: true });
+
+process.stdout.write(`release metadata ok: @narova/narova@${version}\n`);
+}
+
+if (require.main === module) checkRelease();
+
+module.exports = {
+  assertReleaseCheckOwnership,
+  releaseChecks,
+  assertReleaseChronology,
+  checkRelease,
+  hasCompleteTestDependencySetup,
+  hasMainAncestryGuard,
+  hasRequiredMediaToolSetup,
+  releaseVersionsFromMarkdown,
+  releaseVersionsFromWebsite,
+};

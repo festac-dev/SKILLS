@@ -1,0 +1,741 @@
+"""narration.json -> per-scene wav/mp3 + timings.json.
+
+This is the Python half of narova: TTS + timing only. Node owns render,
+capture, assemble, serve.
+
+The hard-won fix (LEARNINGS #1): after building each scene's final, post-loudnorm
+wav we MEASURE its real duration and RESCALE that scene's word/turn timestamps by
+`actual / computed`. loudnorm compresses each scene ~2.9%; without the rescale the
+captions drift behind the voice. See `rescale_timings()` and the final assertion.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import os
+import re
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+from typing import Any
+
+from .align import align_scenes
+from .pronunciation import sentence_pairs, expected
+from .backends import BUILTIN_BACKENDS, build_backends, close_backends
+
+RATE = 22050          # output sample rate (Piper-native; XTTS is resampled to it)
+MIX_RATE = 48000      # production audio is independent of canonical speech
+FADE = 0.012          # ~12ms fade at each sentence edge, or you get clicks (LEARNINGS #4)
+
+# Sentence-level synthesis cache (iteration consistency): a processed sentence
+# wav is kept keyed by backend+speaker+text+tempo, so re-running synth after an
+# edit re-synthesizes ONLY the changed sentences. Unchanged scenes come out
+# byte-identical — revisions never surprise the user. Outside the project on
+# purpose (out/ is a build folder; the cache must survive it being deleted).
+CACHE_DIR = Path(
+    os.environ.get("NAROVA_CACHE")
+    or Path(os.environ.get("NAROVA_HOME", Path.home() / ".narova")) / "cache" / "sentences"
+)
+
+# Fallback timing if the config omits a key (seconds). The JS resolver
+# (src/schema.js DEFAULT_TIMING) is authoritative and always sends the gaps, so
+# these only apply when narova_tts is run standalone — keep them mirrored to it.
+# tempo is the exception: JS defaults it to null on purpose so this value wins.
+TIMING_DEFAULTS = {
+    "gapSentence": 0.24,
+    "gapTurn": 0.44,
+    "lead": 0.16,
+    "tail": 0.58,
+    "tempo": 1.18,
+}
+
+
+# ---- ffmpeg / ffprobe helpers -------------------------------------------------
+
+def sh(*args: str) -> None:
+    subprocess.run(list(args), check=True)
+
+
+def probe(path: Path) -> float:
+    """Measured media duration in seconds. Long-form -of flag (LEARNINGS #19)."""
+    out = subprocess.check_output(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", str(path)],
+        text=True,
+    )
+    return float(out.strip())
+
+
+def make_silence(dur: float, out: Path) -> None:
+    sh("ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi",
+       "-i", f"anullsrc=r={RATE}:cl=mono", "-t", f"{dur}",
+       "-c:a", "pcm_s16le", "-sample_fmt", "s16", str(out))
+
+
+def pad_scene_to_min_duration(wav: Path, min_dur: float, tmp: Path,
+                              label: str) -> tuple[float, float]:
+    """Append canonical silence without reprocessing the spoken prefix.
+
+    Returns ``(spoken_duration, final_duration)`` so speech coordinates use
+    the first measurement while the timeline publishes the second.
+    """
+    spoken = probe(wav)
+    if min_dur > 0 and min_dur > spoken + 1e-6:
+        pad = tmp / f"sil_pad_{label}.wav"
+        make_silence(min_dur - spoken, pad)
+        padded = tmp / f"scene_{label}_padded.wav"
+        concat([wav, pad], padded, tmp, norm=False)
+        shutil.move(padded, wav)
+    return spoken, probe(wav)
+
+
+def concat(pieces: list[Path], out: Path, tmp: Path, norm: bool = False) -> None:
+    """Concat wav pieces. With norm=True apply loudnorm for broadcast headroom
+    and consistent loudness across voices (LEARNINGS #5) — this changes duration,
+    which is exactly why the per-scene rescale is required."""
+    lst = tmp / "_list.txt"
+    # concat-demuxer quoting: a ' in the path (e.g. "Ammar's Mac") must be escaped
+    esc = lambda p: str(p).replace("'", "'\\''")
+    lst.write_text("".join(f"file '{esc(p)}'\n" for p in pieces))
+    af = ["-af", "loudnorm=I=-16:TP=-1.5:LRA=11"] if norm else []
+    sh("ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
+       *af, "-ar", str(RATE), "-ac", "1", "-c:a", "pcm_s16le", str(out))
+
+
+def to_mp3(wav: Path, mp3: Path) -> None:
+    sh("ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), "-ac", "1", "-b:a", "72k", str(mp3))
+
+
+# ---- background bed + spot sfx (mixed AFTER loudnorm; never re-loudnorm'd) --------
+
+def scene_starts(scenes, timings) -> dict[str, float]:
+    """Global start time of each scene: cumulative durs in narration order."""
+    starts, clock = {}, 0.0
+    for s in scenes:
+        starts[s["id"]] = round(clock, 3)
+        clock += timings[s["id"]]["dur"]
+    return starts
+
+
+def stereo_source(path: Path) -> str:
+    """Center mono at unity; retain stereo channels before mixing."""
+    channels = subprocess.check_output([
+        "ffprobe", "-v", "error", "-select_streams", "a:0",
+        "-show_entries", "stream=channels", "-of", "csv=p=0", str(path),
+    ], text=True).strip()
+    mapping = "pan=stereo|c0=c0|c1=c0" if channels == "1" else "aformat=channel_layouts=stereo"
+    return f"aresample={MIX_RATE},{mapping}"
+
+
+def mix_audio(scenes, timings, config, audio_dir: Path) -> None:
+    """Overlay the background bed + spot sfx onto full.wav -> audio/mix.wav, in
+    one ffmpeg filter_complex pass. The bed is looped/trimmed to the exact
+    narration length with `volume` gain and afade in/out; each sfx is adelay'd
+    to its global time (scene-anchored = scene start + `at`). loudnorm is NOT
+    re-applied (narration is already loudnorm'd): amix normalize=0 keeps the
+    narration level and an alimiter catches bed+sfx clipping instead.
+    With neither bed nor sfx configured, any stale mix.wav is deleted so
+    compose never picks up an old one."""
+    full = audio_dir / "full.wav"
+    mix = audio_dir / "mix.wav"
+    # Old/partial audio must never be a fallback for the current request.
+    mix.unlink(missing_ok=True)
+    bed = config.get("bed") or config.get("music")  # config.bed, fallback legacy config.music
+    sfx = config.get("sfx") or []
+    if not bed and not sfx:
+        return
+
+    total = probe(full)
+    starts = scene_starts(scenes, timings)
+
+    def check_file(p, what: str) -> None:
+        if not Path(p).is_file():
+            raise ValueError(f"{what}: file not found or unreadable: {p}")
+
+    inputs: list[list[str]] = []        # ffmpeg argv fragments per -i
+    chains: list[str] = [f"[0:a]{stereo_source(full)}[voice]"]
+    labels: list[str] = []              # amix input labels, after [0:a]
+
+    if bed:
+        check_file(bed["file"], "config.bed.file")
+        idx = len(labels) + 1
+        inputs.append(["-stream_loop", "-1", "-i", str(bed["file"])])  # loop to length
+        fin = bed.get("fadeIn", 0.5)
+        fout = bed.get("fadeOut", 1.5)
+        chain = (f"[{idx}:a]{stereo_source(Path(bed['file']))},"
+                 f"atrim=0:{total:.3f},asetpts=PTS-STARTPTS,volume={bed.get('volume', 0.14)}")
+        if fin > 0:
+            chain += f",afade=t=in:st=0:d={fin}"
+        if fout > 0:
+            chain += f",afade=t=out:st={max(0.0, total - fout):.3f}:d={fout}"
+        chains.append(chain + "[mus]")
+        labels.append("mus")
+
+    for i, e in enumerate(sfx):
+        check_file(e["file"], f"config.sfx[{i}].file")
+        idx = len(labels) + 1
+        inputs.append(["-i", str(e["file"])])
+        at = e.get("at", 0)
+        sc = e.get("scene")
+        if isinstance(at, dict):
+            words = [w for w in timings.get(sc, {}).get("words", []) if w.get("si") == at["sentence"]]
+            from .word_selector import select_word_index
+            wi = select_word_index([w.get("w", "") for w in words], at.get("word", 0), f"config.sfx[{i}]")
+            if wi >= len(words):
+                raise ValueError(f"config.sfx[{i}] cue unavailable: scene {sc!r}, sentence {at['sentence']}, word {wi}")
+            at = words[wi]["t0"] + at.get("offset", 0)
+        if sc is not None:
+            if sc not in starts:
+                raise ValueError(f"config.sfx[{i}].scene: {sc!r} is not a scene id")
+            at = starts[sc] + at
+        if not math.isfinite(at) or at < 0:
+            raise ValueError(f"config.sfx[{i}] anchor must resolve to non-negative finite seconds")
+        source_start = e.get("start", 0)
+        duration = min(e.get("duration", float("inf")), probe(Path(e["file"])) - source_start)
+        if duration <= 0:
+            raise ValueError(f"config.sfx[{i}].start: at or beyond source end")
+        chain = (f"[{idx}:a]{stereo_source(Path(e['file']))},"
+                 f"atrim=start={source_start}:duration={duration},asetpts=PTS-STARTPTS,volume={e.get('volume', 0.8)}")
+        fin, fout = min(e.get("fadeIn", 0), duration), min(e.get("fadeOut", 0), duration)
+        if fin > 0:
+            chain += f",afade=t=in:st=0:d={fin}"
+        if fout > 0:
+            chain += f",afade=t=out:st={max(0.0, duration-fout)}:d={fout}"
+        chains.append(chain + f",adelay={round(at * 1000)}:all=1[fx{i}]")
+        labels.append(f"fx{i}")
+
+    n = 1 + len(labels)
+    fc = ";".join(chains + [
+        f"[voice]{''.join(f'[{l}]' for l in labels)}"
+        f"amix=inputs={n}:duration=first:normalize=0:dropout_transition=0,"
+        f"alimiter=limit=0.891[mix]"
+    ])
+    args = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(full)]
+    for frag in inputs:
+        args += frag
+    pending = audio_dir / "mix.pending.wav"
+    try:
+        sh(*args, "-filter_complex", fc, "-map", "[mix]",
+           "-ar", str(MIX_RATE), "-ac", "2", "-c:a", "pcm_s16le", str(pending))
+        achieved = probe(pending)
+        drift = abs(achieved - total)
+        assert drift < 0.05, f"mix duration {achieved:.3f}s drifts {drift*1000:.0f}ms from narration {total:.3f}s"
+        pending.replace(mix)
+    finally:
+        pending.unlink(missing_ok=True)
+    what = ([f"bed={Path(bed['file']).name}@{bed.get('volume', 0.14)}"] if bed else []) \
+        + ([f"sfx={len(sfx)}"] if sfx else [])
+    print(f"mix   {total:5.1f}s  {' '.join(what)} -> audio/mix.wav", flush=True)
+
+
+_SENTENCE_RE = re.compile(r"(?<=[.!?۔؟])\s+")
+
+
+def sentences(text: str) -> list[str]:
+    return [p for p in _SENTENCE_RE.split(text.strip()) if p]
+
+
+# ---- timing rescale (LEARNINGS #1) -------------------------------------------
+
+def rescale_timings(t: dict[str, Any], actual: float) -> dict[str, Any]:
+    """Scale a scene's word/turn timings to the MEASURED audio duration. loudnorm
+    compresses each scene uniformly, so a single linear factor is exact."""
+    cur = t.get("dur", 0)
+    if cur > 0 and actual > 0:
+        f = actual / cur
+        for w in t["words"]:
+            w["t0"] = round(w["t0"] * f, 3)
+            w["t1"] = round(w["t1"] * f, 3)
+        t["turns"] = [round(x * f, 3) for x in t["turns"]]
+        t["dur"] = round(actual, 3)
+    return t
+
+
+# ---- sentence synthesis (raw voice -> tempo + fades + resample) --------------
+
+def sentence_cache_key(kind: str, speaker: str, text: str, tempo: float,
+                       lang: str | None = None, nonce: int | None = None, context: dict | None = None) -> str:
+    """Stable identity of one synthesized sentence. Bump v1 when the processing
+    chain (rate/fades/atempo) changes so old entries are naturally abandoned.
+    An explicit take nonce (NAR-018-071) participates in identity, so take 2
+    of the same sentence is a different cache entry AND a different derived
+    seed — a reproducible alternative take, not a random re-roll."""
+    h = hashlib.sha1()
+    parts = f"{'v2-unit-tempo' if tempo == 1.0 else 'v1'}|{kind}|{speaker}|{tempo}|{RATE}|{FADE}|{text}"
+    if lang:
+        parts += f"|lang={lang}"
+    if nonce is not None:
+        parts += f"|take={nonce}"
+    if context is not None:
+        parts += "|context=" + json.dumps(context, sort_keys=True, ensure_ascii=False)
+    h.update(parts.encode("utf-8"))
+    return h.hexdigest()
+
+
+def derived_seed(cache_key: str) -> int:
+    """Deterministic take seed derived solely from sentence identity
+    (NAR-018-071). Identity changes (text/voice/direction/nonce) naturally
+    change the seed; identical identity reproduces the same take."""
+    return int(hashlib.sha1(f"seed|{cache_key}".encode("utf-8")).hexdigest()[:8], 16)
+
+
+def _clone_sample_cache_identity(kind: str | None, speaker: str) -> str:
+    """Include clone recording contents in the cache identity. A path alone is
+    insufficient: users commonly replace a take in place, and serving sentences
+    cloned from the previous file would be both stale and surprising."""
+    if kind not in {"xtts", "chatterbox"}:
+        return speaker
+    sample = Path(speaker)
+    if sample.suffix.lower() not in {".wav", ".mp3", ".flac", ".m4a"}:
+        return speaker
+    if not sample.is_absolute():
+        return f"{speaker}|sample=invalid-relative"
+    digest = hashlib.sha1()
+    try:
+        with sample.open("rb") as f:
+            for chunk in iter(lambda: f.read(1024 * 1024), b""):
+                digest.update(chunk)
+    except OSError as e:
+        # Force a miss so the backend reports the actual missing/unreadable-file
+        # error instead of silently using a cache entry from an earlier run.
+        return f"{speaker}|sample-error={type(e).__name__}"
+    return f"{speaker}|sample-sha1={digest.hexdigest()}"
+
+
+def voice_cache_speaker(v: dict, who: str, effective_backend: str | None = None) -> str:
+    """The speaker fragment of a voice's cache identity: its speaker plus any
+    delivery direction — qwen's `instruct`, or chatterbox's `exaggeration` /
+    `cfg_weight` / `lang` — so a changed direction re-synthesizes instead of
+    serving stale audio."""
+    kind = effective_backend or v.get("backend")
+    spk = _clone_sample_cache_identity(kind, v.get("speaker", who))
+    parts = [spk]
+    if v.get("instruct"):
+        parts.append(v["instruct"])
+    if v.get("vary"):
+        parts.append("vary")  # authored variation (NAR-018-071): distinct reproducible take
+    if kind == "chatterbox" and (
+            v.get("exaggeration") is not None or v.get("cfg_weight") is not None):
+        parts.append(f"exg={v.get('exaggeration')}|cfg={v.get('cfg_weight')}")
+    if kind == "chatterbox" and v.get("lang"):
+        parts.append(f"lang={v['lang']}")
+    # External providers are identified by their registered protocol and
+    # implementation version. providerOptions is opaque to Narova, but sorted
+    # JSON makes semantically identical objects hash identically.
+    if kind == "pockettts" or (kind is not None and kind not in BUILTIN_BACKENDS):
+        parts.append(f"protocol={v.get('providerProtocol', '')}")
+        parts.append(f"providerVersion={v.get('providerVersion', '')}")
+        parts.append("providerOptions=" + json.dumps(
+            v.get("providerOptions", {}), sort_keys=True,
+            separators=(",", ":"), ensure_ascii=False))
+        if v.get("providerFileInputs"):
+            parts.append("providerFileInputs=" + json.dumps(
+                v["providerFileInputs"], sort_keys=True, separators=(",", ":")))
+        if v.get("providerDependencyInputs"):
+            parts.append("providerDependencyInputs=" + json.dumps(
+                v["providerDependencyInputs"], sort_keys=True, separators=(",", ":")))
+    if v.get("gainDb") is not None:
+        parts.append(f"gainDb={v['gainDb']}")
+    return "|".join(parts)
+
+
+def synth_sentence(backend, who: str, text: str, tmp: Path, out: Path, tempo: float,
+                   cache_key: str | None = None, lang: str | None = None,
+                   gain_db: float = 0.0, seed: int | None = None, context: dict | None = None) -> tuple[float, bool]:
+    """Synthesize one sentence, speed via atempo (pitch-preserving; NEVER the XTTS
+    speed param, LEARNINGS #9), then fade the edges. Returns the MEASURED duration
+    of the processed clip and whether a cache hit served it — word timing is
+    distributed across the real value. With cache_key, a hit skips TTS +
+    processing entirely (byte-identical copy)."""
+    cached = CACHE_DIR / f"{cache_key}.wav" if cache_key else None
+    if cached is not None and cached.exists():
+        shutil.copyfile(cached, out)
+        return probe(out), True
+    raw = tmp / "_raw.wav"
+    extra = {"context": context} if context is not None else {}
+    backend.synthesize(who, text, raw, lang=lang, seed=seed, **extra)
+    d = probe(raw) / tempo                 # duration on the post-tempo timeline
+    fo = max(0.0, d - FADE)
+    gain = f"volume={gain_db}dB," if gain_db != 0.0 else ""
+    stretch = f"atempo={tempo}," if tempo != 1.0 else ""
+    sh("ffmpeg", "-y", "-loglevel", "error", "-i", str(raw),
+       "-af", f"{stretch}{gain}"
+              f"afade=t=in:st=0:d={FADE},afade=t=out:st={fo}:d={FADE}",
+       "-ar", str(RATE), "-ac", "1", "-c:a", "pcm_s16le", str(out))
+    dur = probe(out)
+    if cached is not None:
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(out, cached)
+    return dur, False
+
+
+# ---- main pipeline ------------------------------------------------------------
+
+def validate_provider_dependencies(config: dict) -> None:
+    for who, voice in config.get("voices", {}).items():
+        inputs = voice.get("providerDependencyInputs", {})
+        if not isinstance(inputs, dict):
+            raise ValueError(f"voice {who!r}: invalid provider dependency identity")
+        if not inputs:
+            continue
+        root = Path(config.get("projectDir", "."))
+        if root.is_symlink() or not root.is_dir():
+            raise ValueError(f"voice {who!r}: provider dependency project is unavailable")
+        for option, files in inputs.items():
+            if option not in voice.get("providerFileInputs", {}) or not isinstance(files, dict):
+                raise ValueError(f"voice {who!r}: invalid provider dependency {option!r}")
+            for file, expected in files.items():
+                parts = file.split("/") if isinstance(file, str) else []
+                if (not parts or any(part in {"", ".", ".."} for part in parts)
+                        or "\\" in file or ":" in file
+                        or not isinstance(expected, str) or len(expected) != 64
+                        or any(c not in "0123456789abcdef" for c in expected)):
+                    raise ValueError(f"voice {who!r}: invalid provider dependency path/digest")
+                current = root
+                for part in parts:
+                    current = current / part
+                    if current.is_symlink():
+                        raise ValueError(f"voice {who!r}: symlink provider dependency {file!r}")
+                if not current.is_file():
+                    raise ValueError(f"voice {who!r}: missing provider dependency {file!r}")
+                h = hashlib.sha256()
+                with current.open("rb") as source:
+                    while chunk := source.read(65536):
+                        h.update(chunk)
+                if h.hexdigest() != expected:
+                    raise ValueError(f"voice {who!r}: provider dependency {file!r} changed since resolution")
+
+
+def run(narration_path: Path, config_path: Path, out_dir: Path,
+        default_backend: str = "piper", reuse: bool = False) -> dict[str, Any]:
+    scenes = json.loads(narration_path.read_text())
+    config = json.loads(config_path.read_text())
+    validate_provider_dependencies(config)
+    # The JS resolver serializes unset keys as null (e.g. tempo) — a plain merge
+    # would let None clobber the defaults and crash float() below.
+    timing = {**TIMING_DEFAULTS,
+              **{k: v for k, v in config.get("timing", {}).items() if v is not None}}
+
+    audio_dir = out_dir / "audio"
+    tmp = out_dir / ".tmp"
+    audio_dir.mkdir(parents=True, exist_ok=True)
+    tmp.mkdir(parents=True, exist_ok=True)
+    timings_path = out_dir / "timings.json"
+
+    if reuse and timings_path.exists():
+        # Skip synth, but STILL rescale each scene to its existing (post-loudnorm) wav.
+        print("reuse — skipping synth, rescaling timings to existing audio", flush=True)
+        # Binding failures become unavailable speech evidence before a missing
+        # or corrupt scene can fail the ordinary timing probe.
+        if (config.get('speech') or {}).get('check'):
+            from .speech_check import review, write_report, enforce
+            checked = review(scenes, config, out_dir)
+            write_report(out_dir, checked['turns'], complete=True)
+            enforce(checked['turns'], config)
+        timings = json.loads(timings_path.read_text())
+        for s in scenes:
+            wav = audio_dir / f"{s['n']:02d}.wav"
+            rescale_timings(timings[s["id"]], probe(wav))
+    else:
+        timings = _synthesize(scenes, config, timing, audio_dir, tmp, default_backend)
+
+    # Forced alignment replaces estimated word times with measured ones. Runs on
+    # the reuse path too (config.align may change without the text changing).
+    if config.get("align"):
+        # Native dialogue timings are supplied evidence from the source
+        # performance. Never replace them with a speech aligner run intended
+        # for synthesized scene WAVs.
+        alignable = [s for s in scenes
+                     if (s.get("clipAudio") or {}).get("authority") != "native"]
+        if alignable:
+            align_scenes(alignable, timings, audio_dir,
+                         config["align"].get("engine", "auto"),
+                         model=config["align"].get("model"), partial=config["align"].get("partial"))
+
+    timings_path.write_text(json.dumps(timings))
+
+    total = _verify_total(scenes, timings, audio_dir, tmp)
+    # Bed/sfx also run on the reuse path: the mix config may change without
+    # the spoken text changing.
+    mix_audio(scenes, timings, config, audio_dir)
+    return {"totalDuration": round(total, 3), "scenes": len(scenes), "out": str(out_dir)}
+
+
+def _synthesize(scenes, config, timing, audio_dir, tmp, default_backend) -> dict[str, Any]:
+    voices = config.get("voices", {})
+    router = build_backends(voices, default_backend)
+    try:
+        return _synthesize_with_router(
+            scenes, config, timing, audio_dir, tmp, default_backend, voices, router)
+    finally:
+        close_backends(router)
+
+
+def effective_take(value):
+    """Mirror the existing cache nonce boundary; never label an ignored value."""
+    return value if isinstance(value, int) and value > 0 else None
+
+
+def _turn_candidate(sent_pairs, turn, who, backend, backend_kind, speaker_identity,
+                    voice_lang, gain_db, tempo, nonce, deterministic_takes, stage):
+    result = []
+    for k, (synth_sent, clean_sent) in enumerate(sent_pairs):
+        w = stage/f'sentence_{k}.wav'
+        turn_lang = turn.get("lang") or voice_lang
+        context = None
+        if getattr(backend, "context_capable", False):
+            context = {"previousText": " ".join(p[0] for p in sent_pairs[:k]),
+                       "nextText": " ".join(p[0] for p in sent_pairs[k + 1:])}
+        key = sentence_cache_key(
+            backend_kind,
+            speaker_identity,
+            synth_sent,
+            tempo,
+            lang=turn_lang,
+            nonce=effective_take(nonce),
+            context=context,
+        )
+        seed_capable = bool(getattr(backend, "seed_capable", False))
+        pin = deterministic_takes and seed_capable
+        seed = derived_seed(key) if pin else None
+        mode = ("pinned" if not isinstance(nonce, int)
+                else "pinned+nonce") if pin else "provider-default"
+        d, cache_hit = synth_sentence(
+            backend, who, synth_sent, stage, w, tempo,
+            cache_key=key, lang=turn_lang,
+            gain_db=gain_db,
+            seed=seed, context=context,
+        )
+        result.append({'audio': w, 'duration': d, 'clean': clean_sent, 'text': synth_sent,
+                       'lang': turn_lang, 'nonce': effective_take(nonce), 'seed': seed, 'mode': mode,
+                       'cacheHit': cache_hit, 'cacheKey': key, 'context': context})
+    return result
+
+
+def _synthesize_with_router(
+        scenes, config, timing, audio_dir, tmp, default_backend, voices, router
+) -> dict[str, Any]:
+    gap_sentence = timing["gapSentence"]
+    gap_turn = timing["gapTurn"]
+    lead = timing["lead"]
+    tail = timing["tail"]
+    tempo = float(timing["tempo"])
+
+    # Cache identity per voice: backend kind + speaker name + (below) sentence text.
+    voice_kind = {who: v.get("backend", default_backend) for who, v in voices.items()}
+    voice_speaker = {
+        who: voice_cache_speaker(v, who, voice_kind[who])
+        for who, v in voices.items()
+    }
+    # Per-voice default lang for chatterbox/qwen/xtts (may be overridden per-turn).
+    voice_lang = {who: v.get("lang") for who, v in voices.items() if v.get("lang")}
+    voice_gain_db = {who: float(v.get("gainDb", 0.0)) for who, v in voices.items()}
+    # NAR-018-071: deterministic takes. Default ON for new synthesis; cached
+    # takes are served unchanged either way. Projects can disable pinning
+    # (speech.deterministicTakes: false) — an ordinary authoring surface.
+    deterministic_takes = bool(
+        (config.get("speech") or {}).get("deterministicTakes", True))
+    # Take-identity records (NAR-018-070) + durable per-sentence takes.
+    # A failed generation must not expose old keys alongside replaced clips.
+    (audio_dir / "takes.json").unlink(missing_ok=True)
+    take_records: list[dict[str, Any]] = []
+    speech_rows = []
+    sentences_dir = audio_dir / "sentences"
+
+    sil = {}
+    for name, d in (("s", gap_sentence), ("t", gap_turn), ("lead", lead), ("tail", tail)):
+        sil[name] = tmp / f"sil_{name}.wav"
+        make_silence(d, sil[name])
+
+    timings: dict[str, Any] = {}
+    for s in scenes:
+        nn = f"{s['n']:02d}"
+        clip_audio = s.get("clipAudio") or {}
+        if clip_audio.get("authority") == "native":
+            if (config.get('speech') or {}).get('check'):
+                from .speech_check import write_report, enforce
+                unavailable = [{'scene':s['n'], 'sceneId':s['id'], 'turn':ti, 'who':t['who'], 'expectedText':t['text'], 'status':'unavailable', 'transcript':None, 'differences':[], 'reason':'speech check requires synthesized sentence takes; native audio is not retaken'} for ti,t in enumerate(s['segments'])]
+                speech_rows.extend(unavailable); write_report(audio_dir.parent, speech_rows); enforce(unavailable, config)
+            dur = float(s["dur"])
+            wav = audio_dir / f"{nn}.wav"
+            source = clip_audio.get("file")
+            try:
+                sh("ffmpeg", "-y", "-loglevel", "error", "-i", str(source),
+                   "-vn", "-t", str(dur), "-ar", str(RATE), "-ac", "1",
+                   "-c:a", "pcm_s16le", str(wav))
+            except Exception as exc:
+                raise RuntimeError(
+                    f"scene {nn} [{s['id']}]: native clip audio could not be decoded; "
+                    "choose synthesis or provide a clip with an audio stream"
+                ) from exc
+            if not wav.exists() or probe(wav) <= 0:
+                raise RuntimeError(
+                    f"scene {nn} [{s['id']}]: native clip has no decodable audio stream")
+            _, final_duration = pad_scene_to_min_duration(wav, dur, tmp, str(nn))
+            cues = clip_audio.get("wordTimings") or []
+            turns = [round(float(cue["start"]), 3) for cue in cues]
+            words = []
+            for ti, cue in enumerate(cues):
+                who = s["segments"][ti]["who"]
+                for word in cue.get("words", []):
+                    words.append({
+                        "w": word.get("text", word.get("w")),
+                        "t0": round(float(word["start"]), 3),
+                        "t1": round(float(word["end"]), 3),
+                        "who": who, "si": ti, "ti": ti,
+                    })
+            timings[s["id"]] = {
+                "dur": round(final_duration, 3), "turns": turns, "words": words,
+                "audioAuthority": "native",
+            }
+            to_mp3(wav, audio_dir / f"{nn}.mp3")
+            print(f"scene {nn} [{s['id']:>9}] {final_duration:5.1f}s  "
+                  "audio=native", flush=True)
+            continue
+        # Silent scene: no narration, just a fixed-duration silence block.
+        if not s["segments"]:
+            dur = float(s.get("dur", 2.0))
+            wav = audio_dir / f"{nn}.wav"
+            make_silence(dur, wav)
+            timings[s["id"]] = {"dur": round(probe(wav), 3), "turns": [], "words": []}
+            print(f"scene {nn} [{s['id']:>9}] {timings[s['id']]['dur']:5.1f}s  turns=(silent)", flush=True)
+            continue
+        pieces = [sil["lead"]]
+        clock = lead
+        words, turns = [], []
+        si = 0
+        for ti, turn in enumerate(s["segments"]):
+            who = turn["who"]
+            if who not in router:
+                raise ValueError(f"scene {nn}: no voice configured for who={who!r}")
+            if ti > 0:
+                pieces.append(sil["t"])
+                clock += gap_turn
+            turns.append(round(clock, 3))
+
+            backend_kind = voice_kind.get(who, default_backend)
+            sent_pairs = sentence_pairs(turn, backend_kind, config.get('pronounce'),
+                warn=lambda message: print(f"[narova] scene {nn} turn {ti}: {message} for {who!r}", flush=True))
+            spoken_text, pronunciation_pairs = expected(turn, config.get('pronounce'), backend_kind)
+
+            with tempfile.TemporaryDirectory(prefix='speech-turn-', dir=tmp) as work:
+                stage = Path(work)
+                policy = (config.get('speech') or {}).get('check')
+                budget = (config.get('speech') or {}).get('retakes', 0) if policy else 0
+                base_nonce = turn.get('take')
+                if budget and base_nonce is not None and (type(base_nonce) is not int or base_nonce <= 0 or base_nonce > 9007199254740991-budget): raise ValueError('speech retakes require a safely incrementable authored integer nonce')
+                attempts = []
+                for attempt in range(budget + 1):
+                    nonce = base_nonce if attempt == 0 else (base_nonce or 0) + attempt
+                    candidate = _turn_candidate(sent_pairs, turn, who, router[who], backend_kind,
+                                                voice_speaker.get(who, who), voice_lang.get(who),
+                                                voice_gain_db.get(who, 0.0), tempo, nonce,
+                                                deterministic_takes, stage)
+                    if not policy: break
+                    checked_pieces = []
+                    for item in candidate:
+                        if checked_pieces: checked_pieces.append(sil['s'])
+                        checked_pieces.append(item['audio'])
+                    turn_audio = stage/'turn.wav'; concat(checked_pieces, turn_audio, stage)
+                    from . import speech_check
+                    row = speech_check.assess(turn_audio, turn['text'], config, candidate[0]['lang'], spoken_text, pronunciation_pairs)
+                    row.update(scene=s['n'], sceneId=s['id'], turn=ti, who=who, selectedTake=candidate[0]['nonce'] or 0)
+                    attempts.append({'take': row['selectedTake'], **row})
+                    speech_check.write_report(audio_dir.parent, speech_rows + [{**row, 'attempts': list(attempts)}])
+                    print(speech_check.summary(row), flush=True)
+                    if row['status'] != 'mismatch': break
+                    if attempt < budget: print(f"speech: retake scene {s['id']} turn {ti}, nonce {(base_nonce or 0)+attempt+1}", flush=True)
+                if policy:
+                    row['attempts'] = attempts
+                    speech_rows.append(row)
+                    speech_check.write_report(audio_dir.parent, speech_rows)
+                    speech_check.enforce([row], config)
+                for k, item in enumerate(candidate):
+                    if k > 0:
+                        pieces.append(sil['s']); clock += gap_sentence
+                    w = tmp/f'{nn}_{si:03d}.wav'; shutil.copyfile(item['audio'], w)
+                    d, clean_sent, nonce = item['duration'], item['clean'], item['nonce']
+                    sentences_dir.mkdir(parents=True, exist_ok=True)
+                    sentence_file = f'{nn}_{si:03d}.wav'; shutil.copyfile(w, sentences_dir/sentence_file)
+                    vcfg = voices.get(who, {})
+                    take_records.append({
+                        'scene': s['n'], 'sceneId': s['id'], 'si': si, 'ti': ti, 'who': who,
+                        'backend': backend_kind, 'speaker': vcfg.get('speaker', who),
+                        'model': (vcfg.get('providerOptions') or {}).get('model'), 'lang': item['lang'],
+                        'mode': item['mode'], **({'seed': item['seed']} if item['seed'] is not None else {}),
+                        **({'take': nonce} if isinstance(nonce, int) and nonce > 0 else {}),
+                        'cacheHit': item['cacheHit'], 'cacheKey': item['cacheKey'],
+                        'context': item['context'],
+                        **({'speechAttempts': attempts} if policy else {}),
+                        'sha256': hashlib.sha256(w.read_bytes()).hexdigest(),
+                        'file': f'audio/sentences/{sentence_file}', 'text': item['text'],
+                    })
+                    pieces.append(w)
+                    toks = clean_sent.split(); weights = [len(tok)+1 for tok in toks]; total = sum(weights); wt = clock
+                    for tok, weight in zip(toks, weights):
+                        wd = d*(weight/total)
+                        words.append({'w': tok, 't0': round(wt,3), 't1': round(wt+wd,3), 'who':who, 'si':si, 'ti':ti});wt += wd
+                    clock += d; si += 1
+            pause = float(turn.get("pauseAfter") or 0)
+            if pause > 0:
+                silence = tmp / f"pause_{nn}_{ti}.wav"
+                make_silence(pause, silence)
+                pieces.append(silence)
+                clock += pause
+        pieces.append(sil["tail"])
+        clock += tail
+
+        raw = tmp / f"scene_{nn}.wav"
+        wav = audio_dir / f"{nn}.wav"
+        concat(pieces, raw, tmp)                       # pre-loudnorm splice
+        concat([raw], wav, tmp, norm=True)             # loudnorm -> final wav
+        # minDur floor: extend the normalized scene with canonical silence so
+        # spoken content is byte-identical to an unpadded build (NAR-003-008).
+        scene_min_dur = float(s.get("minDur") or 0)
+        measured_spoken, final_duration = pad_scene_to_min_duration(
+            wav, scene_min_dur, tmp, str(nn))
+        timings[s["id"]] = {"dur": round(clock, 3), "turns": turns, "words": words}
+        # Reconcile speech coordinates against the normalized spoken span
+        # before padding. Padding is presentation time, never speech time.
+        rescale_timings(timings[s["id"]], measured_spoken)
+        to_mp3(wav, audio_dir / f"{nn}.mp3")
+
+        # The final media measurement is canonical. Do not rescale word/turn
+        # coordinates across the appended silence.
+        timings[s["id"]]["dur"] = round(final_duration, 3)
+        scene_digest = hashlib.sha256(wav.read_bytes()).hexdigest()
+        for record in take_records:
+            if record['sceneId'] == s['id']: record['sceneAudioSha256'] = scene_digest
+        for row in speech_rows:
+            if row['sceneId'] == s['id']:
+                row['sceneAudioSha256'] = scene_digest
+                row['sources'] = [{k:r[k] for k in ('file','sha256','cacheKey')} for r in take_records if r['sceneId']==s['id'] and r['ti']==row['turn']]
+        print(f"scene {nn} [{s['id']:>9}] {timings[s['id']]['dur']:5.1f}s  "
+              f"turns={''.join(t['who'] for t in s['segments'])}", flush=True)
+    # NAR-018-070: ordinary take evidence is advisory and regenerable.
+    # Explicit speech checks require current records to bind selected audio.
+    (audio_dir / "takes.json").write_text(
+        json.dumps(take_records, ensure_ascii=False, indent=1) + "\n")
+    if (config.get('speech') or {}).get('check'):
+        from .speech_check import write_report
+        write_report(audio_dir.parent, speech_rows, complete=True)
+    return timings
+
+
+def _verify_total(scenes, timings, audio_dir, tmp) -> float:
+    """Assert sum(scene.dur) == duration(concatenated audio) within a few ms
+    (the caption-sync guarantee, LEARNINGS #1 / #14). The concatenated track is
+    kept as audio/full.wav — it is the narration track of the composition."""
+    sum_dur = sum(timings[s["id"]]["dur"] for s in scenes)
+    full = audio_dir / "full.wav"
+    concat([audio_dir / f"{s['n']:02d}.wav" for s in scenes], full, tmp)
+    measured = probe(full)
+    drift = abs(measured - sum_dur)
+    tol = 0.005 * len(scenes) + 0.01     # rounding accumulates ~0.5ms/scene
+    assert drift < tol, (
+        f"timing drift {drift*1000:.1f}ms exceeds {tol*1000:.1f}ms: "
+        f"sum(dur)={sum_dur:.3f} vs concat audio={measured:.3f}"
+    )
+    return measured

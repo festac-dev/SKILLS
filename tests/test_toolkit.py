@@ -19,14 +19,20 @@ class ToolkitTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(dir=ROOT.parent)
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / "toolkit"
+        collection_dirs = {c["directory"] for c in json.loads((ROOT / "COLLECTIONS.json").read_text())["collections"]}
         def copy_fixture(source, destination):
             # Imported snapshots are read-only in these core tests; copy mutated core files.
             rel = Path(source).relative_to(ROOT)
-            if rel.parts[0] in {"openai-plugins", "anthropic-skills", "vercel-agent-skills", "jeffallan-skills", "alireza-skills", "superpowers", "awesome-copilot", "scientific-agent-skills", "awesome-claude-skills"}:
+            if rel.parts[0] in collection_dirs:
                 os.link(source, destination)
                 return destination
             return shutil.copy2(source, destination)
-        shutil.copytree(ROOT, self.root, copy_function=copy_fixture, ignore=shutil.ignore_patterns("__pycache__", ".git", "dist"))
+        def ignore_fixture(directory, names):
+            rel = Path(directory).relative_to(ROOT)
+            if rel.parts and rel.parts[0] in collection_dirs:
+                return set(names) & {"__pycache__", ".pytest_cache"}
+            return set(names) & {"__pycache__", ".pytest_cache", ".git", "dist"}
+        shutil.copytree(ROOT, self.root, copy_function=copy_fixture, ignore=ignore_fixture)
 
     def test_real_toolkit_passes(self):
         self.assertEqual(toolkit.validate(self.root), [])

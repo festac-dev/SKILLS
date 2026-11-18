@@ -1,0 +1,1 @@
+{"projectId":"smoke-hybrid","references":[{"id":"video","type":"video","role":"layout","path":"fixture.mp4","confidence":1,"provenance":{"kind":"fixture"}},{"id":"hero","type":"image","role":"object-fidelity","path":"hero.png","semantic":"object","confidence":1,"provenance":{"kind":"fixture"}}]}

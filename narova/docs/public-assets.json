@@ -1,0 +1,58 @@
+{
+  "format": "narova.public-assets/1",
+  "repository": "https://github.com/ammar-hasan/narova-assets",
+  "commit": "74c9f225512b22140b92ff7fbfd615031ec8306e",
+  "catalogSha256": "e67d4ec6eb09db89164663993810018e53acf759536a8bc42bdbd538c3e6aaff",
+  "explore": {
+    "the-precious-thing": {
+      "archive": "explore/the-precious-thing/the-precious-thing.narova",
+      "video": "explore/the-precious-thing/video.mp4",
+      "poster": "explore/the-precious-thing/poster.jpg",
+      "captions": "explore/the-precious-thing/captions.vtt"
+    },
+    "the-rainmakers-last-drop": {
+      "archive": "explore/the-rainmakers-last-drop/the-rainmakers-last-drop.narova",
+      "video": "explore/the-rainmakers-last-drop/video.mp4",
+      "poster": "explore/the-rainmakers-last-drop/poster.jpg",
+      "captions": "explore/the-rainmakers-last-drop/captions.vtt"
+    },
+    "narova-skill-reel": {
+      "archive": "explore/narova-skill-reel/narova-skill-reel.narova",
+      "video": "explore/narova-skill-reel/video.mp4",
+      "poster": "explore/narova-skill-reel/poster.jpg",
+      "captions": "explore/narova-skill-reel/captions.vtt"
+    },
+    "narova-one-command-demo": {
+      "archive": "explore/narova-one-command-demo/narova-one-command-demo.narova",
+      "video": "explore/narova-one-command-demo/video.mp4",
+      "poster": "explore/narova-one-command-demo/poster.jpg",
+      "captions": "explore/narova-one-command-demo/captions.vtt"
+    },
+    "nature-of-light": {
+      "archive": "explore/nature-of-light/nature-of-light.narova",
+      "video": "explore/nature-of-light/video.mp4",
+      "poster": "explore/nature-of-light/poster.jpg",
+      "captions": "explore/nature-of-light/captions.vtt"
+    },
+    "nori-and-the-pocket-moon": {
+      "archive": "explore/nori-and-the-pocket-moon/nori-and-the-pocket-moon.narova",
+      "video": "explore/nori-and-the-pocket-moon/video.mp4",
+      "poster": "explore/nori-and-the-pocket-moon/poster.jpg",
+      "captions": "explore/nori-and-the-pocket-moon/captions.vtt"
+    },
+    "product-walkthrough": {
+      "archive": "explore/product-walkthrough/product-walkthrough.narova",
+      "video": "explore/product-walkthrough/video.mp4",
+      "poster": "explore/product-walkthrough/poster.jpg",
+      "captions": "explore/product-walkthrough/captions.vtt"
+    }
+  },
+  "demos": {
+    "productWalkthroughVideo": "explore/product-walkthrough/video.mp4",
+    "productWalkthroughPoster": "explore/product-walkthrough/poster.jpg",
+    "productWalkthroughCaptions": "explore/product-walkthrough/captions.vtt",
+    "clickHighlightProof": "demos/click-highlight-proof/video.mp4",
+    "readmePreview": "demos/readme-preview/preview.gif",
+    "exploreShare": "demos/explore-share/share.png"
+  }
+}

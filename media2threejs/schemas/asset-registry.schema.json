@@ -1,0 +1,4 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "title": "Asset Registry", "type": "object", "required": ["schemaVersion", "assets"],
+  "properties": {"schemaVersion": {"type": "string"}, "assets": {"type": "array", "items": {"type": "object", "required": ["assetId", "kind", "tier", "factoryId", "forward", "baseY", "pivot", "nodeIds", "status"], "properties": {"assetId": {"type": "string"}, "kind": {"enum": ["object", "character", "environment"]}, "tier": {"enum": ["proxy", "standard", "hero"]}, "factoryId": {"type": "string"}, "forward": {"const": "+Z"}, "baseY": {"const": 0}, "pivot": {"type": "string"}, "nodeIds": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}, "socketIds": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}, "status": {"enum": ["proxy", "building", "review", "final", "failed"]}, "specPath": {"type": ["string", "null"]}}}}}
+}

@@ -1,0 +1,2 @@
+import * as THREE from 'three';import { createLighting } from './createLighting';
+export function createScene(): THREE.Scene { const scene=new THREE.Scene();scene.background=new THREE.Color(0x20242b);scene.add(createLighting());const floor=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:0x77746d,roughness:0.9}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;floor.name='ground';scene.add(floor);return scene; }

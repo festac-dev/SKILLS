@@ -23,3 +23,25 @@ The [collection inventory](COLLECTIONS.json) records the upstream repositories, 
 The proprietary document-skill terms and other custom or unclear terms are not converted to Apache-2.0 by including the material here. Private storage does not expand the rights granted by upstream. Users must follow the applicable terms before using or redistributing those portions.
 
 No upstream license is declared invalid, removed or superseded by the repository's general Apache-2.0 license. This compilation and its inventory do not represent a blanket redistribution grant for every third-party component.
+
+## Additional creative collections
+
+| Collection | Root license declaration |
+|---|---|
+| [Tejashmakwana/motionmaxxing](https://github.com/Tejashmakwana/motionmaxxing) | Apache-2.0 |
+| [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Apache-2.0 |
+| [full-stack-skills/threejs-skills](https://github.com/full-stack-skills/threejs-skills) | Apache-2.0 |
+| [google-labs-code/stitch-skills](https://github.com/google-labs-code/stitch-skills) | Apache-2.0 |
+| [Vincentwei1021/video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft) | Apache-2.0 |
+| [promptwhisper/media2threejs](https://github.com/promptwhisper/media2threejs) | Apache-2.0 |
+| [gamedev-skills/awesome-gamedev-agent-skills](https://github.com/gamedev-skills/awesome-gamedev-agent-skills) | Apache-2.0 |
+| [heydamir/unslop](https://github.com/heydamir/unslop) | CC-BY-4.0 |
+| [erkamyaman/unslopovich](https://github.com/erkamyaman/unslopovich) | MIT |
+| [surajshetty3416/demo-video-skill](https://github.com/surajshetty3416/demo-video-skill) | MIT |
+| [ajanaku1/demo-video-skill](https://github.com/ajanaku1/demo-video-skill) | MIT |
+| [ammar-hasan/narova](https://github.com/ammar-hasan/narova) | Apache-2.0 |
+| [Cripacx/mediagen](https://github.com/Cripacx/mediagen) | MIT |
+| [Kiterlin/anti-defensive-writing](https://github.com/Kiterlin/anti-defensive-writing) | MIT |
+| [lejrimostfa/Origami-3Dfolder-ai](https://github.com/lejrimostfa/Origami-3Dfolder-ai) | Apache-2.0 |
+
+Additional skill identifiers, headers and host configuration were adapted for this compilation. Original license and notice files remain in each collection, including required attribution and any separate asset or dependency terms.

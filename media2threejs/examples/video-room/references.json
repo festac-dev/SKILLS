@@ -1,0 +1,1 @@
+{"projectId":"example-video-room","references":[{"id":"room-video","type":"video","role":"layout","path":"synthetic-room.mp4","confidence":1,"provenance":{"kind":"synthetic-smoke-placeholder","generation":"forge/tests/fixtures/video-scene/generate_fixture.sh"}}]}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Find and validate the nine skill collections stored directly under SKILLS."""
+"""Find and validate the registered skill collections stored directly under SKILLS."""
 import argparse
 from collections import Counter
 import hashlib
@@ -8,15 +8,21 @@ from pathlib import Path, PurePosixPath
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-COLLECTIONS = {'openai-plugins','anthropic-skills','vercel-agent-skills','jeffallan-skills',
-               'alireza-skills','superpowers','awesome-copilot','scientific-agent-skills','awesome-claude-skills'}
+RESERVED_DIRECTORIES = {'orchestrator','specialists','references','templates','quality-gates',
+ 'playbooks','scripts','tests','reports','evals','examples','motion-studio',
+ 'node_modules','dist','data','secrets','private-notes'}
 COMPATIBILITY = '## SKILLS compatibility'
 
 
 def registry(root=ROOT):
     data = json.loads((root/'COLLECTIONS.json').read_text())
-    if data.get('schema_version')!=1 or {r['directory'] for r in data['collections']}!=COLLECTIONS:
-        raise ValueError('Expected the nine requested direct skill collections')
+    if data.get('schema_version')!=1 or not isinstance(data.get('collections'),list) or not data['collections']:
+        raise ValueError('Invalid collection registry')
+    directories=[r['directory'] for r in data['collections']]
+    if len(directories)!=len(set(directories)):
+        raise ValueError('Duplicate collection records')
+    if any(not isinstance(d,str) or not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',d) or d in RESERVED_DIRECTORIES for d in directories):
+        raise ValueError('Invalid or reserved collection directory')
     return data
 
 
@@ -24,7 +30,9 @@ def search(query, root=ROOT, limit=12):
     words=set(re.findall(r'[\w-]+',query.casefold()))
     results=[]
     for row in registry(root)['skills']:
-        title=set(re.findall(r'[\w-]+',(row['name']+' '+row['path'].replace('-',' ')).casefold()))
+        title_text=(row['name']+' '+row['path']+' '+row['collection']+' '+row.get('upstream_name','')).casefold()
+        title=set(re.findall(r'[\w-]+',title_text))
+        title.update(re.findall(r'[\w-]+',title_text.replace('-',' ')))
         body=set(re.findall(r'[\w-]+',row['description'].casefold()))
         score=6*len(words&title)+len(words&body)
         if score:results.append({'resource':row['path'],'name':row['name'],'description':row['description'],
@@ -36,13 +44,12 @@ def validate(root=ROOT, deep=True):
     errors=[]
     try:
         data=registry(root)
-        if len(data['collections'])!=9:
-            raise ValueError('Duplicate collection records')
+        directories={c['directory'] for c in data['collections']}
         names=set()
         expected=set()
         for row in data['skills']:
             rel=PurePosixPath(row['path'])
-            if rel.parts[0] not in COLLECTIONS or '..' in rel.parts or rel.is_absolute():
+            if rel.parts[0] not in directories or '..' in rel.parts or rel.is_absolute():
                 raise ValueError('Skill is not directly within its collection')
             if row['name'] in names or not re.fullmatch(r'[a-z0-9-]{1,64}',row['name']):
                 raise ValueError('Invalid or colliding skill name: '+row['name'])
@@ -105,7 +112,7 @@ def main():
             errors=validate(args.root)
             if errors:raise ValueError('; '.join(errors))
             data=registry(args.root)
-            print(f"PASS: 9 direct collections; {len(data['skills'])} uniquely named skills; supporting files, compatibility and source digests")
+            print(f"PASS: {len(data['collections'])} direct collections; {len(data['skills'])} uniquely named skills; supporting files, compatibility and source digests")
         return 0
     except (OSError,ValueError,KeyError,TypeError) as exc:
         print('ERROR: '+str(exc));return 1

@@ -29,3 +29,5 @@ Write for the document's actual audience, with runnable instructions, expected o
 Collections are local source packages. Their scripts, manifests and hooks have not been installed or run by importing them. Inspect code and dependencies before execution within the user's authorized task. Upstream host instructions are renamed to prevent them becoming automatic parent instructions. Preserve the applicable source license/notice files when reusing or redistributing material.
 
 Host-specific skill header controls are preserved as upstream metadata. They do not activate agent forking, model overrides, tool permissions or command hooks. The active headers use common Agent Skills fields; substantive prerequisites remain documented in each skill.
+
+Upstream Git attribute files are retained as UPSTREAM_GITATTRIBUTES. The compilation preserves source bytes across checkouts; upstream line-ending and filter rules are reference settings for the projects that use them.

@@ -1,0 +1,1 @@
+{"projectId":"example-object","references":[{"id":"robot-front","type":"image","role":"object-fidelity","path":"robot.svg","semantic":"object","confidence":1,"provenance":{"kind":"synthetic-fixture"}}]}

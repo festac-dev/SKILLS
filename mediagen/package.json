@@ -1,0 +1,83 @@
+{
+  "name": "mediagen",
+  "version": "0.3.0",
+  "description": "An image and video generation skill for coding agents, across Gemini, OpenAI and Kie AI. Also usable as a CLI and an MCP server.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "bin": {
+    "mediagen": "dist/bin.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "README.md",
+    "server.json"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "cycles": "dpdm --no-warning --no-tree --exit-code circular:1 \"src/**/*.ts\"",
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run cycles && npm test",
+    "pretest": "npm run build",
+    "sync:kie-models": "node scripts/sync-kie-models.mjs",
+    "check:kie-models": "node scripts/sync-kie-models.mjs --check",
+    "prepublishOnly": "npm run verify"
+  },
+  "dependencies": {
+    "@google/genai": "^2.18.0",
+    "@inquirer/prompts": "^8.6.0",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "commander": "^15.0.0",
+    "openai": "^7.5.0",
+    "sharp": "^0.34.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.15.0",
+    "dpdm": "^3.14.0",
+    "eslint": "^9.26.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.0",
+    "vitest": "^3.1.3",
+    "yaml": "^2.7.1"
+  },
+  "keywords": [
+    "agent-skill",
+    "claude",
+    "claude-code",
+    "mcp",
+    "modelcontextprotocol",
+    "image-generation",
+    "video-generation",
+    "ai",
+    "gemini",
+    "openai",
+    "kie",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "Christopher Leson",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cripacx/mediagen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Cripacx/mediagen/issues"
+  },
+  "homepage": "https://github.com/Cripacx/mediagen#readme",
+  "mcpName": "io.github.Cripacx/mediagen"
+}
