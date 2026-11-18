@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORIES = {"orchestrator", "specialists", "references", "templates", "quality-gates", "playbooks", "scripts", "tests", "reports", "evals", "examples", "motion-studio"}
-ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md", ".gitattributes"}
+ROOT_FILES = {"README.md", "SKILL.md", "AGENTS.md", "CLAUDE.md", "CATALOG.md", "manifest.json", ".gitignore", "COLLECTIONS.md", "COLLECTION_RULES.md", "COLLECTIONS.json", "LICENSE", "NOTICE.md", ".gitattributes", "install.sh"}
 SKIP = {".git", "__pycache__", ".pytest_cache", "dist", "node_modules"}
 DRY_RUNS = [
     ("Build a keyboard-driven TUI on Termux with no mouse.", "cli"),
@@ -47,7 +47,7 @@ def source_files(root):
             allowed |= {".sh", ".ts", ".tsx", ".css", ".html", ".js", ".yaml"}
         if rel.parts[0] == "examples":
             allowed |= {".html", ".js", ".css", ".svg"}
-        if path.suffix not in allowed and path.name not in {".gitignore", "LICENSE", ".gitattributes"}:
+        if path.suffix not in allowed and path.name not in {".gitignore", "LICENSE", ".gitattributes"} and rel.as_posix() != "install.sh":
             raise ValueError(f"Unexpected source type: {rel}")
         files.append(rel.as_posix())
     return files

@@ -20,8 +20,8 @@
     },
     {
       "path": "CATALOG.md",
-      "bytes": 69604,
-      "sha256": "d1f0fcfa234b8dfc40a5f6992b1b993593dd6dd2ca8bdd5902e20e927a91c1bc"
+      "bytes": 69974,
+      "sha256": "dfa779f829fb099b9de1f8f5e1d28a47ee3ab67c12839a2d08a7a4026fac4bcc"
     },
     {
       "path": "CLAUDE.md",
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5857,
-      "sha256": "516aadb9849a6a9dc884851e41c29c4c17530e590cee640c47879bda7295b782"
+      "bytes": 8095,
+      "sha256": "8bed688fb96e3db4ac75cd7954947c4894d3960b5b0e952b9ea338d36e169d20"
     },
     {
       "path": "SKILL.md",
@@ -142,6 +142,11 @@
       "path": "examples/backend-reference/test/app.test.js",
       "bytes": 6329,
       "sha256": "a19be5d2133cce9fdb066b7ac3417cb6449647b2aed0a31358a81a847f272a37"
+    },
+    {
+      "path": "install.sh",
+      "bytes": 2276,
+      "sha256": "02e947f83bbf2a56bd8bb40f026ccbd2d31b5fd30edc1899dfdfb7675c4cb14f"
     },
     {
       "path": "motion-studio/SKILL.md",
@@ -919,6 +924,11 @@
       "sha256": "7d53e057b42087020739808d6d9c5454a611b6e2e21db5bf166b76f68c589483"
     },
     {
+      "path": "scripts/install.py",
+      "bytes": 5712,
+      "sha256": "7ad5042a097bd5c3d1681e9870fed19b4bfe7b8a3f835f5267a49b629f986a6c"
+    },
+    {
       "path": "scripts/media_audit.py",
       "bytes": 9246,
       "sha256": "67326205d24500865c9f4f8022b5054cf1afe0b107c9b6be5f43f9b6ac0d450e"
@@ -930,8 +940,8 @@
     },
     {
       "path": "scripts/toolkit.py",
-      "bytes": 26756,
-      "sha256": "0434946e54c465213db2e23ec8fb04c12e673eaf1afdb4359f5d216c8e91f7ca"
+      "bytes": 26805,
+      "sha256": "d265723b1becb02bbac7075f860c50c3ae34a97d56ce26fbc0c00d81e452e02b"
     },
     {
       "path": "specialists/3d-spatial-and-immersive-experiences.md",
@@ -1842,6 +1852,11 @@
       "path": "tests/test_collections.py",
       "bytes": 6446,
       "sha256": "3eb0c6dac3b76c29fea659ed6432a133b0197a0a96aa5d59f278afd0d69be4d5"
+    },
+    {
+      "path": "tests/test_install.py",
+      "bytes": 6431,
+      "sha256": "b81130302439c4e3c4fec9d338c9643c3b83c1a35a36d01e69987e4f5eef6749"
     },
     {
       "path": "tests/test_media_audit.py",
