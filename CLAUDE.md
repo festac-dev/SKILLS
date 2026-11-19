@@ -13,5 +13,5 @@ python3 scripts/search.py "<topic>"
 # Preview a skill's instructions without reading the full file
 python3 scripts/search.py --info <skill-id>
 ```
-For the complete index guide, consult `SKILLS_INDEX.md` at the repository root.
+For the complete navigation guide, consult `SKILLS_GUIDE.md` at the repository root.
 

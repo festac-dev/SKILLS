@@ -1,6 +1,6 @@
 # Professional Product Creation Toolkit
 
-A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs. For instant search across all 19,573 imported and core skills without reading entire directories, run `python scripts/search.py "<topic>"` or consult `SKILLS_INDEX.md` at the workspace root.
+A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs. For instant search across all 19,573 imported and core skills without reading entire directories, run `python scripts/search.py "<topic>"` or consult `SKILLS_GUIDE.md` at the workspace root.
 
 ## Install for your AI app
 
@@ -53,6 +53,76 @@ node scripts/setup-mcp.mjs --all
 The setup script finds the checkout on the current machine. `SKILLS_LIBRARY_SOURCE` can also select a complete local dataset. Supporting scripts may require neighbouring resources before execution.
 
 The shell installer also installs one entrypoint from a complete checkout. Maintainers use [the index builder](scripts/build_library.py), [MCP server](scripts/mcp-server.mjs), [reader](scripts/skills.mjs), and [setup helper](scripts/setup-mcp.mjs). The Codex plugin exposes the same single entrypoint.
+
+## Fast skill search and AI model discovery
+
+With **19,573 skills** across 115 collections, reading or scanning whole directories will exhaust an AI model's context window. The repository provides a lightweight search CLI, an indexed SQLite FTS5 database, a single-line TSV quickref, and 20 domain-specific index files to find and preview skills in under 50ms without context bloat.
+
+### Instant CLI search
+
+Run `scripts/search.py` (zero external dependencies) to search all skills with BM25 relevance ranking:
+
+```sh
+# General topic search across all 19,573 skills
+python3 scripts/search.py "docker deployment"
+
+# Filter by domain category or collection
+python3 scripts/search.py --category cloud-devops "terraform"
+python3 scripts/search.py --collection aws-agent-toolkit-for-aws "lambda"
+
+# Preview a skill's instructions in-terminal without loading the full file
+python3 scripts/search.py --info <skill-id>
+
+# Machine-readable JSON output for automated agents
+python3 scripts/search.py --json --limit 5 "react tailwind"
+
+# List all 20 categories and skill counts
+python3 scripts/search.py --categories
+```
+
+### Full-text search and quickref data
+
+- **SQLite Database (`runtime/indexes/skills.db`)**: 17 MB standalone SQLite database with an FTS5 full-text search table across all skills, categories, collections, and descriptions.
+- **Single-Line TSV Quickref (`runtime/indexes/skills_quickref.tsv`)**: Grep-friendly plain-text file (`id`, `name`, `category`, `collection`, `path`, `summary`) for shell pipelines:
+  ```sh
+  grep -i "fastapi" runtime/indexes/skills_quickref.tsv | head -n 10
+  ```
+- **Master Navigation Guide**: `runtime/indexes/SKILLS_GUIDE.md` provides complete usage instructions, querying tips, and skill execution protocols for AI agents.
+
+### Domain categories
+
+Skills are categorized into 20 bounded Markdown files under `runtime/indexes/categories/`:
+
+| Domain Category | Skills | Focus Areas |
+|---|---|---|
+| `ai-agents` | 2,056 | Multi-agent swarms, autonomous workflows, tool calling, memory |
+| `ai-prompts-llms` | 3,365 | Prompt engineering, system prompts, OpenAI/Anthropic APIs, RAG |
+| `cloud-devops` | 1,401 | AWS, GCP, Azure, Terraform, CloudFormation, CI/CD pipelines |
+| `containers-kubernetes` | 232 | Dockerfiles, container builds, Kubernetes pods, Helm, Ingress |
+| `security-appsec` | 1,165 | AppSec, CVE vulnerability research, exploits, payloads, fuzzing |
+| `security-auditing` | 588 | RedHat ProdSec, SlowMist, Trail of Bits, IAM, compliance, hardening |
+| `web-frontend` | 447 | React, Vue, Svelte, Next.js, Nuxt, DOM manipulation, state |
+| `web-styling-ui` | 285 | Tailwind CSS, Shadcn UI, design systems, responsive UI, motion |
+| `backend-apis` | 285 | FastAPI, Express, Django, Flask, REST APIs, GraphQL, microservices |
+| `databases-storage` | 472 | PostgreSQL, Supabase, Neon, Prisma, MySQL, SQLite, Redis caching |
+| `testing-qa` | 235 | Playwright, Cypress, Jest, pytest, end-to-end testing, visual QA |
+| `graphics-3d-motion` | 500 | Three.js, Blender, WebGL shaders, 3D meshes, spatial rendering |
+| `media-video-audio` | 451 | Video editing, Remotion, FFmpeg, TTS, audio ducking, ElevenLabs |
+| `mobile-apps` | 230 | React Native, Expo, Flutter, iOS (Swift), Android (Kotlin) |
+| `product-management` | 322 | PRDs, user stories, feature specifications, roadmaps, OKRs |
+| `marketing-growth` | 1,084 | SEO, copywriting, content marketing, growth campaigns, analytics |
+| `blockchain-web3` | 220 | Solana, Ethereum, Solidity smart contracts, DeFi, Web3 protocols |
+| `data-science-scientific` | 270 | Bioinformatics, NCBI datasets, genomics, chemistry, scientific computing |
+| `software-architecture` | 345 | Clean code, architectural patterns, refactoring, Git, monorepos |
+| `programming-languages` | 5,620 | Python, TypeScript, Go, Rust, C++, CLI utilities, algorithms |
+
+### Regenerating the AI search index
+
+Whenever new skill collections are imported, rebuild the SQLite database, TSV quickref, and category indexes:
+
+```sh
+python3 scripts/build_ai_index.py
+```
 
 ## Working with the library
 

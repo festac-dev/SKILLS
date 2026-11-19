@@ -35,8 +35,8 @@
     },
     {
       "path": "CLAUDE.md",
-      "bytes": 665,
-      "sha256": "0b44d32314f956c8ca0041c3418f31639e2ee80a0f4c224b50a3b4aa32b8a11e"
+      "bytes": 670,
+      "sha256": "a637fc05cf4cfd4897e88bb8527b4f785c01b606050ca8de44c0cee2d9b531bf"
     },
     {
       "path": "COLLECTIONS.json",
@@ -65,8 +65,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 9935,
-      "sha256": "e258b3fb9542543bb6fab596d4bd4999b7e38322de5208f6c08050a113a7bf3a"
+      "bytes": 13965,
+      "sha256": "15ef237d20ca1aa483a2e4f7ab261e9f1b381b0c80a09f446171871f4e6e83b7"
     },
     {
       "path": "SKILL.md",
@@ -946,7 +946,7 @@
     {
       "path": "scripts/build_ai_index.py",
       "bytes": 20731,
-      "sha256": "40c8dd8b860e56915e5c2d249ad1b675d0cf63678bd84ddb33a9b65381055b73"
+      "sha256": "991b00b2f3220fe26d757420ddce42060aa64cebf6be7c3bf90a7264fc556dcb"
     },
     {
       "path": "scripts/build_library.py",
@@ -991,7 +991,7 @@
     {
       "path": "scripts/search.py",
       "bytes": 9589,
-      "sha256": "e46265c8ec6de6361dea664c005605fdf2de0510305b701be84f13908cc3dc94"
+      "sha256": "1e3c509e91179417b49c51c89d31e4f07af12213966919999d0496866215e741"
     },
     {
       "path": "scripts/setup-mcp.mjs",

@@ -274,7 +274,7 @@ def main():
 
     if not results:
         print(f"No skills found matching '{args.query}'.")
-        print(f"Tip: Try broader search terms or browse {ROOT}/runtime/indexes/SKILLS_INDEX.md.")
+        print(f"Tip: Try broader search terms or browse {ROOT}/runtime/indexes/SKILLS_GUIDE.md.")
         return
 
     print(f"\nFound {len(results)} matching skill(s) for query '{args.query}':\n")

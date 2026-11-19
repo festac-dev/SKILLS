@@ -7,7 +7,7 @@ Generates:
 2. runtime/indexes/skills_quickref.tsv (Grep-friendly single-line TSV)
 3. runtime/indexes/categories/*.md (20 domain-specific markdown indexes)
 4. runtime/indexes/collections.md (Directory of all collections)
-5. runtime/indexes/SKILLS_INDEX.md (Master navigation guide for AI agents)
+5. runtime/indexes/SKILLS_GUIDE.md (Master navigation guide for AI agents)
 """
 
 import json
@@ -328,9 +328,9 @@ def build_all():
             if len(items) > 600:
                 f.write(f"\n*...and {len(items) - 600} more skills in this category. Use `python3 /data/home/SKILLS/scripts/search.py --category {cat_slug} '<query>'` or `skills.db` for full access.*\n")
 
-    # 5. Build SKILLS_INDEX.md
-    print("Generating master AI navigation guide SKILLS_INDEX.md...")
-    master_index_path = INDEXES_DIR / "SKILLS_INDEX.md"
+    # 5. Build SKILLS_GUIDE.md
+    print("Generating master AI navigation guide SKILLS_GUIDE.md...")
+    master_index_path = INDEXES_DIR / "SKILLS_GUIDE.md"
     with open(master_index_path, "w", encoding="utf-8") as f:
         f.write("# SKILLS Index & Fast Lookup Guide for AI Models\n\n")
         f.write("> **IMPORTANT NOTICE FOR AI MODELS**:\n")
