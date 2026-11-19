@@ -1,6 +1,6 @@
 # Professional Product Creation Toolkit
 
-A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs.
+A local library for product design, application engineering, verification and operations. Start with [SKILL.md](SKILL.md), select [relevant routes](orchestrator/PROJECT_ROUTING.md), and consult [the catalogue](CATALOG.md) for specialist topics. Load only what the actual work needs. For instant search across all 19,573 imported and core skills without reading entire directories, run `python scripts/search.py "<topic>"` or consult `SKILLS_INDEX.md` at the workspace root.
 
 ## Install for your AI app
 

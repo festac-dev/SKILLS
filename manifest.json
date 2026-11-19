@@ -25,18 +25,18 @@
     },
     {
       "path": "AGENTS.md",
-      "bytes": 1249,
-      "sha256": "cb4a8490599079f7e9b0764c4f787ee0ada6277fd787bdde022251f76c45033f"
+      "bytes": 1398,
+      "sha256": "a58b21ba91e24ddca42fd64e88ba4d2aaeb1faefb4369e29f5b8f478f2d28ccd"
     },
     {
       "path": "CATALOG.md",
-      "bytes": 72108,
-      "sha256": "4a56fae3a2d08433f6a43516ecf63a14bf440b99a538003474aea793cbe89919"
+      "bytes": 72360,
+      "sha256": "1fd7cc130b79ce30ae2903ebf23ff475cb33d95ff224f059cd8535845fbfefb9"
     },
     {
       "path": "CLAUDE.md",
-      "bytes": 207,
-      "sha256": "ff8ea3a606c6310c38dd0f2ebfadcf5b13946f958c21bee523944860b106a1a4"
+      "bytes": 665,
+      "sha256": "0b44d32314f956c8ca0041c3418f31639e2ee80a0f4c224b50a3b4aa32b8a11e"
     },
     {
       "path": "COLLECTIONS.json",
@@ -65,8 +65,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 9744,
-      "sha256": "3560edcb76ba4c8d399894ab5be5da736d9af0b5fbd9f26cbb9b14bf8a1e66b3"
+      "bytes": 9935,
+      "sha256": "e258b3fb9542543bb6fab596d4bd4999b7e38322de5208f6c08050a113a7bf3a"
     },
     {
       "path": "SKILL.md",
@@ -944,6 +944,11 @@
       "sha256": "373a4f52c6fc17aa38473012401da9c983ffc54bd0905341ecb0b98ec8a71744"
     },
     {
+      "path": "scripts/build_ai_index.py",
+      "bytes": 20731,
+      "sha256": "40c8dd8b860e56915e5c2d249ad1b675d0cf63678bd84ddb33a9b65381055b73"
+    },
+    {
       "path": "scripts/build_library.py",
       "bytes": 5230,
       "sha256": "68e2b4dcd6b581f2c5df5ede37a3354fcc73d50378677cc4c452d1f1bc5a7a13"
@@ -982,6 +987,11 @@
       "path": "scripts/media_audit.py",
       "bytes": 9246,
       "sha256": "67326205d24500865c9f4f8022b5054cf1afe0b107c9b6be5f43f9b6ac0d450e"
+    },
+    {
+      "path": "scripts/search.py",
+      "bytes": 9589,
+      "sha256": "e46265c8ec6de6361dea664c005605fdf2de0510305b701be84f13908cc3dc94"
     },
     {
       "path": "scripts/setup-mcp.mjs",
