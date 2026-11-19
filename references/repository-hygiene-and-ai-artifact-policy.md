@@ -32,6 +32,13 @@ For a hackathon application's publication, inventory internal reports and submis
 - Never put secrets in Git; use environment variables and an appropriate secret manager.
 - Review staged files before every commit. `.gitignore` does not untrack files already committed.
 
+## Authenticated GitHub pushes
+
+- When a user requests a push, use the GitHub account already authenticated for that user. Check `gh auth status` in the shell that will perform the GitHub operation; authentication on the local machine does not automatically exist on a separate SSH host.
+- Keep account authentication distinct from commit author metadata. Preserve the user's configured name and email (or their GitHub noreply identity); do not set the user-authored commit to a Copilot or other tool identity.
+- Never copy, print, or commit authentication tokens to bridge hosts. If the SSH host lacks GitHub authentication, push from the already-authenticated local shell or use an approved credential helper without exposing the token.
+- Before creating a repository, check its owner and visibility; create it with the requested visibility and verify the resulting remote before pushing.
+
 ## Development prompts and publication scope
 
 Keep development prompt dumps, copied design prompts, chat transcripts, temporary recording scripts and unrelated downloaded toolkits outside the application repository, or under specific ignored paths when they remain useful locally. A request to prepare a repository for Git includes checking for this residue; it does not authorize publishing or committing.
